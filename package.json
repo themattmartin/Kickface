@@ -20,12 +20,27 @@
     "firebase-token-generator":"*",
     "permcomb": "*",
     "async": "*",
+    "aws-sdk": "*",
+    "elastic.js": "~1.1.1",
     "colors": "~0.6.2",
+    "JQDeferred": "~1.9.1",
+    "promised-io": "*",
+    "fuzzyset.js": "0.0.1",
+    "elasticsearch": "2.1.6",
     "swig": "",
     "deferred": "0.7.1",
+    "nodemailer": "1.1.1",
+    "email-templates": "1.1.0",
+    "node-geocoder": "2.9.1",
+    "lodash": "^2.4.1",
+    "winston": "^0.8.3",
+    "xml2js": "^0.4.4",
     "util": "*",
 	"cheerio": "*",
-	"url": "*"
+	"url": "*",
+	"moment": "*",
+	"moment-timezone":"*",
+    "MD5": "1.2.1"
   },
   "scripts": {
     "start": "node server.js"
