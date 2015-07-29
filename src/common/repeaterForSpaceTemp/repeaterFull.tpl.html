@@ -1,0 +1,61 @@
+<div ng-if="dataLoaded && !dataLoadedError"  ng-class="{'panel': config.showPanel ,'panel-default': config.showPanel, 'widgetPrimary': config.bgColor == 'blue' &&  config.showPanel, 'widgetSuccess': config.bgColor == 'green' &&  config.showPanel, 'widgetInfo': config.bgColor == 'lightBlue' &&  config.showPanel, 'widgetWarning': config.bgColor == 'yellow' &&  config.showPanel, 'widgetDanger': config.bgColor == 'red' &&  config.showPanel,'widgetGray': config.bgColor == 'gray' &&  config.showPanel,'darkGray': config.bgColor == 'darkGray' &&  config.showPanel}" ng-style="{'margin-top': config.marginTop, 'margin-bottom' : config.marginBottom, 'margin-right' : config.marginRight, 'margin-left' : config.marginLeft}" ng-click="pointPopupDialog()" >
+	<div ng-if="dataLoaded && !dataLoadedError" ng-class="{'panel-body': config.showPanel}">
+		
+			<div  style="width:100%;" >
+				<div class="pull-right btn-group" style="margin-bottom:5px;">
+	  				<button   type="button" ng-click="showTable = false" class="btn btn-xs btn-primary"><i class="fa fa-columns"></i></button>
+	 			    <button type="button" ng-click="showTable = true" class="btn btn-xs btn-primary"><i class="fa fa-table"></i></button>
+	 			</div>
+ 			</div>
+ 			<div style="clear:both"></div>
+ 		<div   class="row" ng-hide="showTable">
+			<div  ng-repeat="(id,data) in mainData track by id">
+				<div ng-if="data.data._source.Value" class=" panel panel-default darkGray pull-left"  style="width:45%; margin-left:3.3%; color:#888;">
+					
+					
+						
+					
+					<div class="panel-body">
+
+							<span class="lead text-info">{{data.data._source.Value}}</span></br>
+							<span class="slick text-muted">
+							{{data.data._source.Name}}
+						    </span>
+							<p class="text-warning" >{{data.device}}</p>
+					</div>
+				</div>
+			</div>
+			<div style="clear:both"></div>
+
+		</div>
+		<div ng-show="showTable">
+			<table class="table ">
+				<tr class="bg-primary">
+					<th>Device</th>
+					<th>Space</th>
+					<th>Value</th>
+				</tr>
+
+				<tr ng-repeat="(id,data) in mainData track by id">
+					<td ng-if="data.data._source.Value">{{data.device}}</td>
+					<td ng-if="data.data._source.Value">{{data.data._source.Name}}</td>
+					<td ng-if="data.data._source.Value">{{data.data._source.Value}}&deg;</td>
+				</tr>	
+  			</table>
+		</div> 
+	</div>
+
+	<!--<div ng-if="!dataLoaded">
+		<h3>
+			<i class="fa fa-spinner fa-spin text-info"></i>
+		</h3>
+		<strong>Data Loading ...</strong>		
+	</div>
+	<div ng-if="dataLoadedError">
+		<h3>
+			<i class="fa fa-exclamation-triangle text-danger"></i> 
+		</h3>
+		<strong>Error Loading Data</strong>
+	</div>-->
+
+</div>

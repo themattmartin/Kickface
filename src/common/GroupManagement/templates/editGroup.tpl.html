@@ -1,0 +1,160 @@
+<div class="row">
+  <div  class="dashboardNotifier bg-primary">
+  	<omni-nav-history></omni-nav-history> 
+  	<local-time ng-cloak class="pull-right hidden-xs"></local-time>
+  </div>
+  <div  class="dashboardOptions darkGray" style="height:42px; top:90px;">
+  </div>
+</div>
+
+<div class='row' style="margin-left:20px; margin-top:10px; padding-left: 38px;">
+    <div class="col-lg-12">
+        <h2><strong>{{groups.Name}} Group</strong>
+        </h2>
+    </div>
+</div>
+<hr style="margin-top:10px;"/>
+<div class='row' style="margin-left:20px;padding-left: 38px;">
+    <div class="col-lg-4">
+      <div class="alert darkGray" role="alert" style="padding:5px; margin-bottom:10px;"><p class="slick"><i class="fa fa-bullseye"></i> Group Commands</p></div>
+    </div>
+    <div class="col-lg-8" >
+       <div class="alert darkGray" role="alert" style="padding:5px; margin-bottom:10px;"><p class="slick"><button type="button" class="btn btn-success btn-xs" ng-click='' ng-disabled="true">Add <i class="fa fa-arrow-circle-right"></i></button> Items to Group <button ng-class="{'btn-success': pendingSave==false, 'btn-warning' : pendingSave==true}" class="pull-right btn btn-xs" ng-click="groupSaveDialog(changesPending)">Save Changes</button></p></div>
+    </div>
+</div>
+<div class='row' style="margin-left:20px;padding-left: 38px;">
+    <div class="col-lg-4">  
+          <div class="panel panel-primary" style="border-color:#555555">
+          <div class="panel-heading" style="background-color:#777777; border-color:#555555">
+                <h4 class="panel-title">
+                  <i class="fa fa-sitemap"></i> Commandable Point Types
+                </h4>
+          </div>
+          <div>
+            <div class="panel-body darkGray" ng-show="commandablePointTypes && commandablePointTypes.length > 0">
+              <div class="input-group margin-bottom-sm">
+                  <span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+                  <input class="form-control" type="text" ng-model="pointTypeSearch" placeholder="Search">
+                </div> 
+              <div>
+                <table class="table  table-responsive ">
+                  <thead>
+                    <th colspan="2">Point Types</th>
+                  </thead>
+                  <tbody class=''>
+                      <tr ng-repeat="(id,pointType) in commandablePointTypes | searchObject:{name: pointTypeSearch} " ng-click=''  ng-class="" >
+                      <td>{{pointType.name}}</td>
+                      <td><button type="button" class="btn btn-danger btn-xs" ng-click='pointTypePopupDialog(id, pointType.id, pointType.name, pointType)'>Command</button><span class="pull-right" style="color:#00FF00">{{pointType.commandPointValue.value}}</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div ng-show="commandablePointTypesLoading" ng-class="panel-body" class="text-center">
+              <h3>
+                <i class="fa fa-spinner fa-spin text-info"></i>
+              </h3>
+              <strong>Data Loading ...</strong>
+            </div>
+            <div ng-show="!commandablePointTypesLoading && commandablePointTypes && commandablePointTypes.length == 0" ng-class="panel-body" class="text-center">
+              <h3>
+                <i class="fa fa-exclamation-circle text-danger"></i>
+              </h3>
+              <strong>No Data</strong>
+            </div>
+            <div class="panel-footer">
+              <div style="margin-bottom:20px"></div>
+            </div>
+          </div>
+          </div>
+    </div>
+   
+    <div class="col-lg-4" >
+      <div class="panel panel-info" >
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <i class="fa fa-th"></i>  Available Sites
+          </h4>
+        </div>
+
+        <div>
+          <div class="panel-body">
+
+            <div class="input-group margin-bottom-sm">
+                <span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+                <input class="form-control" type="text"ng-model="searchSites" placeholder="Search">
+              </div>
+            <div style="height:150px; overflow-y:scroll">
+            <table class="table table-hover table-responsive table-striped">
+              <thead>
+                <th>Sites</th>
+              </thead>
+              <tbody class=''>
+                <tr ng-repeat="(id,site) in addedsite | searchObject:{Name: searchSites} | orderBy: 'name'" ng-if="!sightsassigned[id]" ng-click='goDetail(id)' >
+                  <td >{{site.Name}}</td>
+
+                  <td ><button type="button" class="btn btn-success btn-xs" ng-click='addSite(id,site)'>Add <i class="fa fa-arrow-circle-right"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+
+        </div>
+        <div class="panel-footer">
+          <div style="margin-bottom:20px"></div>
+        </div>
+      </div>
+   
+      
+    </div>
+
+    
+<div class="col-lg-4" >
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <i class="fa fa-sitemap"></i> Sites in: {{groups.Name}} Group
+
+        </h4>
+      </div>
+
+      <div >
+        <div class="panel-body">
+
+          <div class="input-group margin-bottom-sm">
+              <span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+              <input class="form-control" type="text" ng-model="siteMemberSearch" placeholder="Search">
+            </div> 
+          <div style="height:150px; overflow-y:scroll">
+            <table class="table table-hover table-responsive table-striped">
+              <thead>
+                <th>Sites in "{{groups.Name}}"</th>
+              </thead>
+              <tbody class=''>
+
+                <tr ng-repeat="(id,member) in sightsassigned | searchObject:{name: siteMemberSearch}" ng-click=''  ng-class="" >
+
+
+                  <td>{{member.name}}</td>
+                  <td><button type="button" class="btn btn-danger btn-xs" ng-click='removeSite(member.Group, member.id)'>Remove</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+        <div class="panel-footer">
+
+          <div style="margin-bottom:20px"></div>
+        </div>
+      </div>
+    </div>
+
+      
+</div>
+
+  
+</div>
+

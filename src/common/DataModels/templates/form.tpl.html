@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h1 class="panel-title lead"><i class="fa fa-tasks"></i> Data Collection Form</h1>
+            </div>
+               
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="modelName">DataItem Name</label>
+                        <input class="form-control input-lg" id="modelName" placeholder="Name Of New DataItem" type="text" ng-model="model.name">
+                    </div>
+                </form>
+
+                <div class="well drop">
+                    <p class="lead"><i class="fa fa-pencil-square-o"></i> Drop items here to edit this form.</p>
+                    <div fb-builder="default" is-editable="true" name-field-required="NameFieldRequired"></div>
+                    <div class="col-xs-offset-3">
+                        <span class="slick text-success " ng-show="saveMessage == 'saved'"><i class="fa fa-check-circle-o"></i> Form Saved</span>
+                         <span class="slick text-danger " ng-show="saveMessage == 'error'"><i class="fa fa-times-circle-o"></i> Error Saving Form</span>
+                          <span class="slick text-warning " ng-show="saveMessage == 'pending'"><i class="fa fa-exclamation-triangle"></i> Changes Pending - Click "Save Changes".</span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer text-right">
+                <span class="pull-left"><img src="/assets/omniboard.png"></span>
+                <a href="#/admin/models" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancel</a>
+                <button style="margin-left:12px;" class="btn btn-success" ng-click="editFormCheck(model, form)"><i class="fa fa-save"></i> Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3" >
+        <div >
+            <div class="panel panel-toolbox gray bs-affix">
+                <div class="panel-heading">
+                    <h1 class="panel-title lead "><i class="fa fa-wrench text-primary "></i> Form Fields Toolbox</h1>
+                </div>  
+                   
+                        <center> <h5 style=" margin-top:0px; padding:5px;" class="bg-primary"><i class="fa fa-arrow-circle-left"></i> Drag fields left to form.</h5></center>
+                    
+                       
+                <div fb-components is-editable="false" show-relations="false"></div>
+                <div class="panel-footer">
+                   <small class="text-muted"><i class="fa fa-long-arrow-left text-primary"></i> Drag an Item from here to the list on the left to add a relationship.</small>
+                </div>
+            </div>
+        </div>
+    </div>                
+</div>

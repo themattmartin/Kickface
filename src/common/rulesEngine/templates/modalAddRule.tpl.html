@@ -1,0 +1,19 @@
+<div class="modal-header bg-primary">
+	<button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title"> Create Rule</h4>
+</div>
+
+<div class="modal-body">
+	<label for="ruleItem">Rule</label><br />
+	<input type="text" class="form-control" ng-model="ruleKey" placeholder="Rule Name" />	: 
+	<input type="text" class="form-control" ng-model="ruleExp" placeholder="Rule Expression" />	 
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-primary btn-sm" title="Save" ng-click="confirm(ruleKey,ruleExp)">
+		<i class="fa fa-floppy-o"></i> Save
+	</button>
+	<button class="btn btn-default btn-sm" title="Cancel" ng-click="closeDialog()">
+		<i class="fa fa-times-circle"></i> Cancel
+	</button>
+</div>

@@ -1,0 +1,27 @@
+<div class="dashboardNotifier bg-primary"><omni-nav-history></omni-nav-history></div>
+<div class="dashboardOptions darkGray" style="height:36px;">
+</div>
+
+<div class="row" style="margin-top:35px; padding-left: 38px;">
+
+	<div class="col-md-12" style="margin-top:20px; margin-left:20px; margin-right:20px">
+		<div>
+			<button class="btn btn-primary btn-sm pull-right" style="margin-bottom:5px" ng-csv="itemsArray" filename="ReportTableData.csv">
+			<i class="fa fa-download"></i> Export to CSV
+			</button>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-md-12">
+				<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+			</div>
+		</div>
+		<center><span ng-show="!dataLoaded">Loading... <i class="fa fa-spinner fa-spin"></i></span></center>
+
+
+		<div ng-if="allDataLoaded" class="gridStyle" ng-grid="gridOptions"></div>
+
+
+	</div>
+
+</div>

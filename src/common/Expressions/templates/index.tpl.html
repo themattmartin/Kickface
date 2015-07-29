@@ -1,0 +1,136 @@
+<div  class="dashboardNotifier bg-primary">
+	<omni-nav-history></omni-nav-history>
+	<local-time ng-cloak class="pull-right hidden-xs"></local-time>
+</div>
+<div  class="dashboardOptions darkGray" style="height:36px;">
+
+</div>
+<div style="margin-left:20px; margin-right:20px; padding-left: 38px;">
+	<div class="row" >
+	    <div class="col-md-9">	
+	    	<lock-status lock-data="lockData"></lock-status>
+			<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	        <h1><i class="fa fa-gears"></i> Expressions <small>{{expressionName}}</small></h1>        
+	    </div>
+	    <div class="col-md-3">
+			<div class="text-right">
+				<br>
+				<button 
+					type="button" 
+					class="btn btn-info" 
+					ui-sref="auth.expressionList" >
+						<i class="fa fa-ban"></i> Cancel
+				</button>			
+				<button 
+					type="button" 
+					class="btn btn-primary" 
+					ng-click="save()" 
+					ng-disabled="saving || !lockData.isEditable || !expressionName || !expressionType || !expressionTypeCategory">
+						<i ng-class="{fa:true, 'fa-play-circle':!saving, 'fa-spinner':saving, 'fa-spinning':saving }"></i> Save
+				</button>
+			</div>    	
+	    </div>
+	</div>
+
+	<div class="row" style="margin:0 0 25px 0;">
+		<button ng-disabled="pane==0" type="button" ng-click="previousPane()" class="btn btn-primary">Previous Step</button>
+		<div class="btn-group" style="margin:0 5px;">
+			<div class="btn btn-default disabled" style="opacity:1" ng-class="{'btn-info':pane==0}">Base Model</div>
+			<div class="btn btn-default disabled" style="opacity:1" ng-class="{'btn-info':pane==1}">Queries</div>
+			<div class="btn btn-default disabled" style="opacity:1" ng-class="{'btn-info':pane==2}">Notification Profile</div>
+		</div>
+		<button ng-disabled="pane==0" ng-hide="pane==2" type="button" ng-click="nextPane()" class="btn btn-primary">Next Step</button>
+	</div>
+
+	<div class="row">
+		<div class="col-md-5">
+			<div class="row">
+				<div class="col-md-12">
+					<form role="form" ng-if="pane==0">				
+						<div class="form-group">
+							<label for="expressionName">Expression Name</label>
+							<input type="text" class="form-control" name="expressionName" ng-model="expressionName">
+							<span ng-show="frm.expressionName.$error.required" class="help-inline">*Required</span>
+						</div>
+
+						<div class="form-group">
+							<label for="expressionType">Expression Type</label>
+							<select class="form-control" name="expressionType" ng-model="expressionType" ng-change="loadExpressionTypeCategories(expressionType)">
+								<option value="cv" selected="selected">Calculated Value</option>
+								<option value="alarm">Alarm</option>
+							</select>
+							<span ng-show="frm.expressionType.$error.required" class="help-inline">*Required</span>
+						</div>	
+
+						<div class="form-group" >
+							<label for="expressionTypeCategory">Expression Category</label>
+							<select class="form-control" name="expressionTypeCategory" ng-model="expressionTypeCategory" ng-options="key as key for (key,type) in expressionTypeCategories">
+								<option value="" selected="selected">[Choose a Category]</option>
+							</select>
+							<span ng-show="frm.expressionTypeCategory.$error.required" class="help-inline">*Required</span>
+						</div>												
+
+						<div class="form-group">
+							<label for="baseModel">For Every</label>
+							<select class="form-control" name="baseModel" ng-model="base.modelName" ng-options="key as key for (key,type) in models" ng-change="loadModelTypes(base.modelName, base)">
+								<option value="" selected="selected">Select</option>
+							</select>
+							<span ng-show="frm.baseModelName.$error.required" class="help-inline">*Required</span>
+						</div>
+
+						<div class="form-group" ng-if="base.modelName">
+							<label for="baseModelType">Of Type</label>
+							<select class="form-control" name="baseModelType" ng-model="base.query[base.modelName + 'Type']" ng-options="key as type.Name for (key,type) in modelTypes" ng-change="setModelType(base.modelName, base.modelType)">
+								<option value="" selected="selected">[All {{base.modelName}}]</option>
+							</select>
+							<span ng-show="frm.baseModelType.$error.required" class="help-inline">*Required</span>
+						</div>					
+
+						<div class="form-group" ng-if="base.modelName">
+							<button type="button" class="btn btn-primary" ng-click="setBaseModel(base, expressionName, expressionType, expressionTypeCategory)">Set Base Model</button>
+						</div>					
+					</form>
+					<ul ng-if="pane==1 && query" class="fa-ul"><query query='query' insert-fn="insertMe"></query></ul>
+					<h3 ng-if="pane==1 && !query" class="fa-ul">There is no query attached to this expression</h3>
+				</div>
+			</div>
+
+			<div class="row">
+				<div ng-if="pane==2" class="col-md-12">
+					<h1 style="width:200%;">
+						<i class="fa fa-gears"></i> Update Notification Profile for <small>{{expressionCategory}} / {{expressionType}}</small>
+					</h1>
+					<div class="form-group">
+						Email: <input class="form-control" type="text" ng-model="notificationProfile.Email" />
+					</div>
+					<div class="form-group">
+						SMS: <input class="form-control" type="text" ng-model="notificationProfile.SMS" />
+					</div>
+					<button ng-click="saveNotification()" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-md-7" ng-hide="pane==0">
+			<div ng-if="pane==1" class="well">
+				<div class="form-group">
+					<label for="modelType">Load Predefined</label>
+					<button class="btn btn-sm pull-right" ng-click="savePredefined()" style="position:relative;top:-5px;"
+						ng-class="{'btn-primary':!predefinedSaved, 'btn-success':predefinedSaved}">
+						Save As Predefined
+					</button>
+
+					<select class="form-control" name="modelName" ng-model="predef.func" ng-change="loadPreDefined(predef.func)" ng-options="key as key for (key,type) in predefinedExpressions">
+						<option value="" selected="selected">Select</option>
+					</select>
+				</div>
+
+				<h4 class="noTopMargin">Expression Editor</h4>
+				<ui-codemirror ng-model="fn.fnStr" ui-codemirror-opts="editorOptions"></ui-codemirror>
+				<br>
+				<h4>Raw Code</h4>
+				<pre><small>{{fn.fnStr}}</small></pre>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,178 @@
+<div ng-show="omniNavSettings.isShown()" ng-mouseenter="hideView = true" ng-mouseleave="hideView = false" class="sidebar sidebar-nav navbar-default navbar-static-side" role="navigation">
+
+	<div class="sidebar-collapse navScroll" style="height:500px; overflow-y:scrollable;" >
+		
+	<ul ng-show="hideView">
+		<li ng-if="model && omniNavSettings.showNav == true">
+
+			<a style="text-decoration:none">
+				<h4>Currently Viewing:</h4>
+				{{model}} : {{nameOfModelItem}}<br />
+				<div class="btn-group btn-group-justified" role="group">
+					<div class="btn-group" role="group">
+						<button  class="btn btn-sm btn-warning" ng-click="clear()">
+							<i class="fa fa-reply"></i> Map
+						</button>
+					</div>
+					<div class="btn-group" role="group">
+						<button  class="btn btn-sm btn-warning" ng-click="show()">
+							<i class="fa fa-plus-circle"></i> Site
+						</button>
+					</div>
+				</div>
+				<br />
+				<div ng-if="showMore" style="margin-top:5px" ng-repeat="(id,data) in relations">
+					<button class="btn btn-sm btn-primary btn-block"
+					ng-click="openModelModal(id,viewModel,modelId)">
+					<i class="fa fa-plus-circle"></i> {{splitName(id)}}
+				</button>
+			</div>
+			</a>
+		</li>
+	</ul>
+
+	<ul class="nav" id="side-menu" metis-menu>
+
+		<li class="" ng-show="isAllowed('Views')">
+
+			<a href="#"><i class="fa fa-globe"></i> Views<span class="fa arrow"></span></a>
+			<ul class="nav nav-second-level dashboard-nav">
+				<li>
+					<a style="text-decoration:none;">
+						<div class="input-group">
+							<input type="text" ng-model="newDashName" class="form-control" placeholder="Add View">
+							<span ng-click="addDash(newDashName)" class="input-group-addon" style="cursor:pointer"><i class="fa fa-plus"></i></span>
+						</div>
+						<br/><span ng-if="!viewLoaded" class="slick"><i ng-if="!viewLoaded" class="fa fa-spinner fa-spin text-info"></i> Creating New View</span>
+
+						<!-- These aren't working properly right now, so commenting out. For some reason, deleteMode won't toggle -->
+						<!-- 
+						<button class="btn btn-sm btn-default" ng-if="!deleteMode" ng-click="deleteMode = true">Delete Menu Items</button>
+						<button class="btn btn-sm btn-default" ng-if="deleteMode" ng-click="deleteMode = false">Close Edit Mode</button> 
+						-->
+					</a>
+				</li>
+
+				<li ng-repeat="(name,dashboard) in userBoards" ng-if="dashboard.navModel.navModel == ''">
+					<a  href="" ng-class="{'active': omniNavSettings.isSelected == dashboard.menuLabel}" ng-click="thisSelected({name:name, modelName:'Site', sectionName: 'Views'},dashboard )" ><i class="fa fa-leaf fa-fw"></i> {{dashboard.menuLabel}}
+						<button style="height:32px; margin:-5px -25px; float:right" href="" ng-if="isPersonalizedView(dashboard.$name) && deleteMode" class="btn btn-sm btn-danger" ng-click="removePersonalizedView(dashboard.$name)">
+							<i class="fa fa-trash"></i>
+						</button>
+					</a>
+				</li>
+			</ul>
+		</li>
+
+		<li class="" ng-show="isAllowed('Groups')">
+			<a href="#"><i class="fa fa-users"></i> Groups<span class="fa arrow"></span></a>
+
+			<ul class="nav nav-second-level dashboard-nav">
+
+				<li ng-repeat="(name,dashboard) in userBoards" ng-if="dashboard.navModel.navModel =='Groups'" >
+					<a  href="" ng-class="{'active': omniNavSettings.isSelected == dashboard.menuLabel}" ng-click="thisSelected({name:name, sectionName: 'Groups', modelName:'Groups'},dashboard )" ><i class="fa fa-leaf fa-fw"></i> {{dashboard.menuLabel}}
+						<button style="height:32px; margin:-5px -25px; float:right" href="" ng-if="isPersonalizedView(dashboard.$name) && deleteMode" class="btn btn-sm btn-danger" ng-click="removePersonalizedView(dashboard.$name)">
+							<i class="fa fa-trash"></i>
+						</button>
+					</a>
+				</li>
+
+			</ul>
+		</li>
+		<li class="" ng-show="isAllowed('Sites')">
+			<a href="#"><i class="fa fa-home"></i> Sites<span class="fa arrow"></span></a>
+
+			<ul class="nav nav-second-level dashboard-nav">
+
+				<li ng-repeat="(name,dashboard) in userBoards" ng-if="dashboard.navModel.navModel =='Site'" >
+					<a  href="" ng-class="{'active': omniNavSettings.isSelected == dashboard.menuLabel}" ng-click="thisSelected({name:name, sectionName: 'Sites', modelName:'Site'},dashboard )" ><i class="fa fa-leaf fa-fw"></i> {{dashboard.menuLabel}}
+						<button style="height:32px; margin:-5px -25px; float:right" href="" ng-if="isPersonalizedView(dashboard.$name) && deleteMode" class="btn btn-sm btn-danger" ng-click="removePersonalizedView(dashboard.$name)">
+							<i class="fa fa-trash"></i>
+						</button>
+					</a>
+				</li>
+
+			</ul>
+		</li>
+		
+
+
+		<li class="" ng-show="omniNavSettings.getScopeID() != '' && omniNavSettings.getCurrentModel() == 'ITC'">
+
+			<a href="#"><i class="fa fa-dashboard fa-fw" ></i> ITC<span class="fa arrow fa-fw"></span></a>
+			<ul class="nav nav-second-level dashboard-nav">
+				<li ng-repeat="(name,dashboard) in userBoards" ng-if="dashboard.navModel.navModel == 'ITC'">
+					<a  href="" ng-class="{'active': omniNavSettings.isSelected == dashboard.menuLabel}" ng-click="thisSelected({name:name, sectionName: 'ITC', modelName:'ITC'},dashboard )" ><i class="fa fa-leaf fa-fw"></i> {{dashboard.menuLabel}}
+						<button style="height:32px; margin:-5px -25px; float:right" href="" ng-if="isPersonalizedView(dashboard.$name) && deleteMode" class="btn btn-sm btn-danger" ng-click="removePersonalizedView(dashboard.$name)">
+							<i class="fa fa-trash"></i>
+						</button>
+					</a>
+				</li>
+
+ 			</ul>
+		</li>
+		<li class="" ng-show="isAllowed('Reports')">
+			<a href="#"><i class="fa fa-bar-chart"></i> Reports<span class="fa arrow"></span></a>
+			<ul class="nav nav-second-level dashboard-nav">
+				<li ng-show="isAllowed('Report - Manage Alarms') || isAllowed('Alarms')">
+					<a href="#/allAlarms/list"><i class="fa fa-briefcase fa-fw"></i> Manage Alarms</a>
+				</li>
+				<li ng-show="isAllowed('Report - Weekly Report')">
+					<a href="#/alarmReports/list"><i class="fa fa-file-text fa-fw"></i> Weekly Report</a>
+				</li>
+				<!--<li>
+					<a href="#/kWhUsage"><i class="fa fa-file-text fa-fw"></i> kWh Performance</a>
+				</li>
+				<li>
+					<a href="#/kWhUsageByArea"><i class="fa fa-file-text fa-fw"></i> kWh By Site Area</a>
+				</li>
+				-->
+				<li ng-show="isAllowed('Report - Create Report')">
+					<a href="#/Reports"><i class="fa fa-file-text fa-cogs"></i> Create Report</a>
+				</li>
+			</ul>
+		</li>
+
+		<li class="" ng-show="isAllowed('Schedules') && isAllowed('Schedule Details')">
+			<a href="#/schedules/full" ng-class="{'active' : omniNavSettings.getCurrentModel() == 'auth.schedules.fourMonth'}"><i class="fa fa-list fa-fw"></i> Schedule Details</a>
+		</li>
+
+		<li class="" ng-show="isAllowed('Group Management') || isAllowed('Groups List') || isAllowed('Point Management')">
+					<a href="#/GroupManagement" ng-class="{'active' : omniNavSettings.getCurrentModel() == 'auth.GroupManagement'}"><i class="fa fa-users"></i> Group Management</a>
+		</li>
+		<!--<li>
+			<a href="#/activeLoadTrend" ng-class="{'active' : omniNavSettings.getCurrentModel() == 'auth.GroupManagement'}"><i class="fa fa-list fa-fw"></i> Active Loads</a>
+		</li>-->
+		<li class="" ng-show="isAllowed('Admin Console')">
+			<a href="#"><i class="fa fa-cogs"></i> Admin Console<span class="fa arrow"></span></a>
+			<ul class="nav nav-second-level dashboard-nav">
+				<li ng-show="isAllowed('Configuration Settings')">
+					<a href="" ng-click="adminSelected('settings')" ng-class="{'active' : omniNavSettings.getCurrentModel() == 'auth.admin.settings'}"><i class="fa fa-gears fa-fw"></i> Configurable Settings</a>
+				</li>
+				<li ng-show="isAllowed('Data Models')">
+					<a href="" ng-click="adminSelected('models')" ng-class="{'active' : omniNavSettings.getCurrentModel() == 'auth.admin.models'}" ><i class="fa fa-cubes fa-fw"></i> Data Models</a>
+				</li>
+				<li ng-show="isAllowed('Point Management')">
+					<a href="#/groupCommand" ng-class="{'active' : omniNavSettings.getCurrentModel() == 'auth.groupCommand'}"><i class="fa fa-users"></i> Group Points</a>
+				</li>
+				<li ng-show="isAllowed('Audit Log')">
+					<a href="#/auditLog/list" ng-class="{'active' : omniNavSettings.getCurrentModel() == 'auth.auditLog.list'}"><i class="fa fa-history"></i> Audit Log</a>
+				</li>
+				<li ng-show="isAllowed('Expressions')">
+					<a href="#/expressions" style="background-color:#A5CAAB;background-image:none;" ng-class="{'active' : omniNavSettings.getCurrentModel() == 'auth.expressionList'}"><i class="fa fa-superscript fa-fw"></i> Expressions</a>
+				</li>
+				<li ng-show="isAllowed('Rule Builder')">
+					<a href="#/rulesEngine/newRule" style="background-color:#A5CAAB;background-image:none;" ng-class="{'active' : omniNavSettings.getCurrentModel() == 'auth.rulesEngineNewRule'}"><i class="fa fa-gavel fa-fw"></i> Rule Builder</a>
+				</li>
+			</ul>
+		</li>
+
+		<li class="" ng-show="isAllowed('Site Commissioning Wizard') && showWizard">
+			<a href="#/SiteCommissioningWizard" ng-class="{'active' : omniNavSettings.getCurrentModel() == 'auth.SCWList'}"><i class="fa fa-check-square-o"></i> Site Commissioning</a>
+		</li>
+
+	</ul>
+
+</div>
+<!-- /.sidebar-collapse -->
+
+</div>

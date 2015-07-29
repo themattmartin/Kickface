@@ -1,0 +1,19 @@
+<div ng-if="dataLoaded && !dataLoadedError"  ng-click="pointPopupDialog()">
+	<ul class="nav nav-pills nav-stacked">
+	  <li class="active" ng-style="{'margin-top': config.marginTop, 'margin-bottom' : config.marginBottom, 'margin-right' : config.marginRight, 'margin-left' : config.marginLeft}">
+	    <a class="slick">
+	      <span class="badge pull-right">
+			<i ng-class="returnedData['$' + config.modelName + 'Status'].Class" ng-if="config.commandBox" class="fa fa-bullseye text-primary" style="font-size:9px;"></i>  <span ng-class="returnedData['$' + config.modelName + 'Status'].Class">{{formatData( getDisplayValue(returnedData, config.valueProp) )}}</span></span>
+			{{ getValue(returnedData, config.labelProp) }}
+
+	    </a>
+	  </li>
+	</ul>
+	<popup point-popup-dialog="pointPopupDialog" config="config" returned-data="returnedData"></popup>
+</div>
+<div ng-if="!dataLoaded && !dataLoadedError">
+	<h3>
+		<i class="fa fa-spinner fa-spin text-info"></i>
+	</h3>
+	<strong>Data Loading ...</strong>
+</div>

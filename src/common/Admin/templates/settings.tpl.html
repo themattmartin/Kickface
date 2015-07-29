@@ -1,0 +1,527 @@
+<div class="row">
+
+	<div class="col-md-12" >
+		<p class="lead">These are global application configuration settings that will affect the Omniboard experience for all users. Choose one of the tabs below, make changes and click <strong>Apply</strong> when finished.</p>
+
+
+		<form>
+			<tabset>
+				<tab style="cursor:pointer" ng-repeat="(settingGroupName,settingGroup) in settings" heading="{{settingGroupName}}" ng-if="settingGroupName != 'PointLoad'">
+					<div class="row">
+						<div class="col-md-12" id='alerts' style="margin-top:25px;margin-bottom:-10px">
+							<alert ng-repeat="alert in alerts" 
+								type="{{alert.type}}" close="closeAlert($index)">
+								{{alert.msg}}
+							</alert>
+						</div>
+					</div>
+
+					<div class="container-fluid col-sm-6">
+					<h3 class="text-primary"><i class="fa fa-gear"></i> {{settingGroupName}} Settings</h3>
+					<br/>
+
+					<div class="form-group" ng-repeat="(settingName,setting) in settingGroup" ng-show="setting.enabled">
+						<label class="control-label" for="ctl{{$index}}">{{settingName}}</label>
+						<input id="ctl{{$index}}" ng-if="setting.type == 'number' || setting.type == 'text' || setting.type == 'checkbox'" type="{{setting.type ? setting.type : 'text'}}" ng-model="setting.value" class="{{setting.type === 'checkbox' ? '' : 'form-control'}}">
+						<select id="ctl{{$index}}" ng-if="setting.options" ng-model="setting.value" ng-options="option.value as option.label for (id,option) in setting.options" class="form-control"></select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div style="margin-top:60px" class="button-group pull-right">
+							<button type="button" class="btn btn-primary" ng-click="saveSettings(settings)" ng-disabled="saving"><i ng-class="{fa:true, 'fa-play-circle':!saving, 'fa-spinner':saving, 'fa-spinning':saving }"></i> Apply</button>
+						</div>
+					</div>
+				</tab>
+				<tab style="cursor:pointer" heading="EditorOptions">
+					<h3 class="text-primary"><i class="fa fa-gear"></i> Editor Options Settings <span style="font-size:12px"><i class="fa fa-info-circle text-primary" ng-click="EOoption()"></i></span></h3>
+					<div class="button-group pull-right">
+						<button type="button" class="btn btn-primary" ng-click="saveEditorOptions()"><i ng-class="{fa:true, 'fa-play-circle':!saving, 'fa-spinner':saving, 'fa-spinning':saving }"></i> Apply</button>
+					</div>
+					<div class="col-md-5">
+						<div class="slick" ng-if="editorOptionsInfo">
+							<p >Editor Options allow the user to select how a point type should be configured when it is commanded, it tells Omniboard how to display the point type's value. For example, if a point type is binary and you wish to display "On" in place of a value of "1", the value "On" would show in Omniboard but, the device would receive a "1" when commanded.</p>
+							<strong>To set Editor Options:</strong>
+							<ol>
+								
+								<li>Select the point type for which you wish to configure the editor options from the left menu.</li>
+								<li>In the right menu, select the type of editor option that best applies to the point type you have selected.</li>
+								<li>Configure the settings listed for that point type.</li>
+								<li>Select whether or not you want points of this type to be commandable by the user.</li>
+							</ol>
+						</div>
+
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<h3 class="panel-title">Choose Item</h3>
+							</div>
+							<div class="panel-body">
+								<div class="form-group">
+									<select class="form-control" ng-model="eoModel" ng-options="o as o for o in allModelNames" ng-change="getModelTypes(eoModel)" ng-init="eoModel = allModelNames[21]" disabled="disabled">
+										<option value="" selected="selected"><!--Model-->PointType</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<select class="form-control" ng-model="eoItem" ng-options="eoItem.Name for eoItem in eoItems" ng-change="getEditorOptions(eoItem)">
+										<option value="" selected="selected">Item Name</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<h3 class="panel-title">Editor Options</h3>
+							</div>
+							<div class="panel-body">
+								<div class="form-group">
+									<label for="eotype">Type</label>
+									<select class="form-control" id="eotype" ng-change="editTypeChange(eo.type)" ng-model="eo.editorOptions.type">
+										<option value="binary">Binary</option>
+										<option value="toggle">Toggle</option>
+										<option value="setpoint">Setpoint</option>
+										<option value="multivalue">Multivalue</option>
+									</select>
+								</div>
+								<div ng-show="eo.editorOptions.type == 'binary'" class="form-group">
+									<label for="eobinlist">Binary List</label>
+									<div class="row">
+										<div class="col-md-1">
+											<span><span class="text-primary badge slick">0</span></span>
+										</div>
+										<div  class="col-md-4">
+											<input class="form-control" type="text" id="eobinlist0" ng-model="eo.editorOptions.binarylist.0"/>
+										</div>
+										<div class="col-md-1"></div>
+										<div class="col-md-1">
+											<span class="text-primary badge slick">1</span>
+										</div>
+										<div class="col-md-4">
+											<input class="form-control" type="text" id="eobinlist1" ng-model="eo.editorOptions.binarylist.1"/>
+										</div>
+									</div>
+								</div>
+								<div ng-show="eo.editorOptions.type == 'multivalue'" class="form-group">
+									<label for="eolist">List</label>
+									<div class="row">
+										<div class="col-md-12 pull-left">
+											<label>Configure Displayed Value</label>
+											<p class="text-info slick">Enter the given value in the first box, then add the value you would like Omniboard to display when that value is returned in the second box. Example (0 = Off).</p>
+										</div>
+										<div class="col-md-4">
+											<input type="text" ng-model="displayKey" class="form-control" placeholder="Actual Value">
+										</div>
+										<div class="col-md-2 text-center">
+											<i class="fa fa-pause fa-rotate-270"></i>
+										</div>
+										<div class="col-md-4">
+											<input type="text" ng-model="displayValue" class="form-control" placeholder="Display Value">
+										</div>
+
+										<div class="col-md-2">
+											<button class="btn btn-primary" ng-click="addDisplayValue(displayKey, displayValue)"><i class="fa fa-plus-circle"></i> ADD</button>
+										</div>
+									</div>
+									<div ng-repeat="(key,value) in config.displayValues" class="" style="margin-top:20px;">
+										<span class="slick text-muted">{{key}} = {{value}}</span> <button class="btn btn-danger btn-xs" ng-click="deleteDisplayValue(key)"><i class="fa fa-trash-o"></i></button>
+									</div>
+															</div>
+								<div class="form-group">
+									<label for="eomaxval">Max Value</label>
+									<input class="form-control" type="text" id="eomaxval" ng-model="eo.editorOptions.maxValue"/>
+								</div>
+								<div class="form-group">
+									<label for="eominval">Min Value</label>
+									<input class="form-control" type="text" id="eominval" ng-model="eo.editorOptions.minValue"/>
+								</div>
+								<div class="checkbox">
+							    <label>
+							      <input ng-model="eo.commandable"  type="checkbox"> Commandable
+							    </label>
+							  </div>
+							</div>
+						</div>
+					</div>
+				</tab>
+				<tab style="cursor:pointer" heading="SecurityGroups" ng-if="superUser">
+					<div class="row">
+						<div class="col-md-12" id='alerts' style="margin-top:25px;margin-bottom:-10px">
+							<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
+								{{alert.msg}}
+							</alert>
+						</div>
+					</div>
+					<h3 class="text-primary"><i class="fa fa-gear"></i> Security Groups</h3>
+					<div class="button-group pull-right">
+						<button type="button" class="btn btn-primary" ng-click="saveGroupSettings(selectedGroup, groupName, selectedGroupUsers, selectedGroupViews, selectedGroupSites, selectedGroupModules, selectedGroupWidgets)"><i ng-class="{fa:true, 'fa-play-circle':!saving, 'fa-spinner':saving, 'fa-spinning':saving }"></i> Apply</button>
+					</div>
+					<div class="col-md-8">
+						<div class="container-fluid">
+							<div class="panel-body">
+								<div class="form-group">
+									<label class="control-label">Group</label>
+									<select class="form-control" ng-model="selectedGroup" ng-options="key as key for (key,option) in securityGroups" ng-change="setupGroupSettings(selectedGroup)">
+									<option value="" selected>Create New Group</option>
+									</select>
+									<br/>
+									<strong ng-show="selectedGroup == 'SuperUser'" class="text-primary">Users in the SuperUser group have access to all views and sites.</strong>
+									<input ng-hide="selectedGroup == 'SuperUser' || selectedGroup == 'Guest'" class="form-control" type="text" ng-model="groupName" placeholder="Enter group name"/>
+								</div>
+								<div class="row" ng-hide="selectedGroup == 'Guest'">
+									<div class="col-lg-6">
+										<div class="panel panel-info" >
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<i class="fa fa-th"></i>  Available Users
+												</h4>
+											</div>
+											<div>
+												<div class="panel-body">
+													<div class="input-group margin-bottom-sm">
+														<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+														<input class="form-control" type="text" ng-model="searchUsers" ng-init="searchUsers=''" placeholder="Search">
+													</div>
+													<div style="height:150px; overflow-y:scroll">
+														<table class="table table-hover table-responsive table-striped">
+															<thead>
+																<th>Users</th>
+															</thead>
+															<tbody class=''>
+																<tr ng-repeat="(id,name) in allUsers" ng-if="!selectedGroupUsers[id] && allUsers[id].toUpperCase().contains(searchUsers.toUpperCase())" >
+																	<td>{{name}}</td>
+																	<td><button type="button" class="btn btn-success btn-xs pull-right" ng-click='addPermission(id,allUsers,selectedGroupUsers)'>Add <i class="fa fa-arrow-circle-right"></i></button></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="panel-footer">
+												<div style="margin-bottom:20px"></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="panel panel-primary">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<i class="fa fa-sitemap"></i> Users in Group
+												</h4>
+											</div>
+											<div>
+												<div class="panel-body">
+													<div class="input-group margin-bottom-sm">
+														<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+														<input class="form-control" type="text" ng-model="userMemberSearch" ng-init="userMemberSearch=''" placeholder="Search">
+													</div> 
+													<div style="height:150px; overflow-y:scroll">
+														<table class="table table-hover table-responsive table-striped">
+															<thead>
+																<th>Selected Users</th>
+															</thead>
+															<tbody class=''>
+																<tr ng-repeat="(key,val) in selectedGroupUsers" ng-if="selectedGroupUsers[key].toUpperCase().contains(userMemberSearch.toUpperCase())">
+																	<td>{{val}}</td>
+																	<td><button type="button" class="btn btn-danger btn-xs pull-right" ng-click='removePermission(key,selectedGroupUsers)'>Remove</button></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="panel-footer">
+													<div style="margin-bottom:20px"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row" ng-hide="selectedGroup == 'SuperUser'">
+									<div class="col-lg-6">
+										<div class="panel panel-info" >
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<i class="fa fa-th"></i>  Available Sites
+												</h4>
+											</div>
+											<div>
+												<div class="panel-body">
+													<div class="input-group margin-bottom-sm">
+														<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+														<input class="form-control" type="text" ng-model="searchSites" ng-init="searchSites=''" placeholder="Search">
+													</div>
+													<div style="height:150px; overflow-y:scroll">
+														<table class="table table-hover table-responsive table-striped">
+															<thead>
+																<th>Sites</th>
+															</thead>
+															<tbody class=''>
+																<tr ng-repeat="(id,site) in availableSites" ng-if="!selectedGroupSites[id] && availableSites[id].toUpperCase().contains(searchSites.toUpperCase())" >
+																	<td>{{site}}</td>
+																	<td><button type="button" class="btn btn-success btn-xs pull-right" ng-click='addPermission(id,availableSites,selectedGroupSites)'>Add <i class="fa fa-arrow-circle-right"></i></button></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="panel-footer">
+												<div style="margin-bottom:20px"></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="panel panel-primary">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<i class="fa fa-sitemap"></i> Sites in Group
+												</h4>
+											</div>
+											<div>
+												<div class="panel-body">
+													<div class="input-group margin-bottom-sm">
+														<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+														<input class="form-control" type="text" ng-model="siteMemberSearch" ng-init="siteMemberSearch=''" placeholder="Search">
+													</div> 
+													<div style="height:150px; overflow-y:scroll">
+														<table class="table table-hover table-responsive table-striped">
+															<thead>
+																<th>Selected Sites</th>
+															</thead>
+															<tbody class=''>
+																<tr ng-repeat="(id,member) in selectedGroupSites" ng-if="selectedGroupSites[id].toUpperCase().contains(siteMemberSearch.toUpperCase())">
+																	<td>{{member}}</td>
+																	<td><button type="button" class="btn btn-danger btn-xs pull-right" ng-click='removePermission(id,selectedGroupSites)'>Remove</button></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="panel-footer">
+													<div style="margin-bottom:20px"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row" ng-hide="selectedGroup == 'SuperUser'">
+									<div class="col-lg-6">
+										<div class="panel panel-info" >
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<i class="fa fa-th"></i>  Available Views
+												</h4>
+											</div>
+											<div>
+												<div class="panel-body">
+													<div class="input-group margin-bottom-sm">
+														<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+														<input class="form-control" type="text" ng-model="searchViews" ng-init="searchViews=''" placeholder="Search">
+													</div>
+													<div style="height:150px; overflow-y:scroll">
+														<table class="table table-hover table-responsive table-striped">
+															<thead>
+																<th>Views</th>
+															</thead>
+															<tbody class=''>
+																<tr ng-repeat="(key,val) in availableViews" ng-if="!selectedGroupViews[key] && availableViews[key].toUpperCase().contains(searchViews.toUpperCase())" >
+																	<td>{{val}}</td>
+																	<td><button type="button" class="btn btn-success btn-xs pull-right" ng-click='addPermission(key,availableViews,selectedGroupViews)'>Add <i class="fa fa-arrow-circle-right"></i></button></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="panel-footer">
+												<div style="margin-bottom:20px"></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="panel panel-primary">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<i class="fa fa-sitemap"></i> Views in Group
+												</h4>
+											</div>
+											<div>
+												<div class="panel-body">
+													<div class="input-group margin-bottom-sm">
+														<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+														<input class="form-control" type="text" ng-model="viewMemberSearch" ng-init="viewMemberSearch=''" placeholder="Search">
+													</div> 
+													<div style="height:150px; overflow-y:scroll">
+														<table class="table table-hover table-responsive table-striped">
+															<thead>
+																<th>Selected Views</th>
+															</thead>
+															<tbody class=''>
+																<tr ng-repeat="(key,val) in selectedGroupViews | searchObject:{member: viewMemberSearch}" ng-if="selectedGroupViews[key].toUpperCase().contains(viewMemberSearch.toUpperCase())">
+																	<td>{{val}}</td>
+																	<td><button type="button" class="btn btn-danger btn-xs pull-right" ng-click='removePermission(key,selectedGroupViews)'>Remove</button></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="panel-footer">
+													<div style="margin-bottom:20px"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row" ng-hide="selectedGroup == 'SuperUser'">
+									<div class="col-lg-6">
+										<div class="panel panel-info" >
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<i class="fa fa-th"></i>  Available Modules
+												</h4>
+											</div>
+											<div>
+												<div class="panel-body">
+													<div class="input-group margin-bottom-sm">
+														<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+														<input class="form-control" type="text" ng-model="searchModules" ng-init="searchModules=''" placeholder="Search">
+													</div>
+													<div style="height:150px; overflow-y:scroll">
+														<table class="table table-hover table-responsive table-striped">
+															<thead>
+																<th>Modules</th>
+															</thead>
+															<tbody class=''>
+																<tr ng-repeat="(id,name) in availableGroupModules" ng-if="!selectedGroupModules[id] && id.toUpperCase().contains(searchModules.toUpperCase())" >
+																	<td>{{id}}</td>
+																	<td><button type="button" class="btn btn-success btn-xs pull-right" ng-click='showModulePermsModal(id, availableGroupModules, selectedGroupModules)'>Add <i class="fa fa-arrow-circle-right"></i></button></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="panel-footer">
+												<div style="margin-bottom:20px"></div>
+											</div>
+
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="panel panel-primary">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<i class="fa fa-sitemap"></i> Modules in Group
+												</h4>
+											</div>
+											<div>
+												<div class="panel-body">
+													<div class="input-group margin-bottom-sm">
+														<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+														<input class="form-control" type="text" ng-model="moduleMemberSearch" ng-init="moduleMemberSearch=''" placeholder="Search">
+													</div> 
+													<div style="height:150px; overflow-y:scroll">
+														<table class="table table-hover table-responsive table-striped">
+															<thead>
+																<th>Selected Modules</th>
+															</thead>
+															<tbody class=''>
+																<tr ng-repeat="(key,val) in selectedGroupModules" ng-if="key.toUpperCase().contains(moduleMemberSearch.toUpperCase())">
+																	<td>
+																		<i class="fa pull-left" ng-if="checkboxSettings[key]" ng-class="{'fa-chevron-right':!showChildren[key], 'fa-chevron-down':showChildren[key]}" ng-click="showChildren[key]=!showChildren[key]"></i>
+																		{{key}}
+																		<div ng-repeat="(perm,val) in checkboxSettings[key]" ng-if="checkboxSettings[key] && showChildren[key]" class="row">
+																			<div ng-hide="perm == 'Base'" style="padding-left:50px;" class="checkbox"><label><input ng-model="checkboxSettings[key][perm]" type="checkbox" ng-click="changeModulePemissions(key, perm)"> {{perm}}</label></div>
+																		</div>
+																	</td>
+																	<td><button type="button" class="btn btn-danger btn-xs pull-right" ng-click='removePermission(key,selectedGroupModules); removeCheckboxSettings(key);'>Remove</button></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="panel-footer">
+													<div style="margin-bottom:20px"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row" ng-hide="selectedGroup == 'SuperUser'">
+									<div class="col-lg-6">
+										<div class="panel panel-info" >
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<i class="fa fa-th"></i>  Available Widgets
+												</h4>
+											</div>
+											<div>
+												<div class="panel-body">
+													<div class="input-group margin-bottom-sm">
+														<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+														<input class="form-control" type="text" ng-model="searchWidgets" ng-init="searchWidgets=''" placeholder="Search">
+													</div>
+													<div style="height:150px; overflow-y:scroll">
+														<table class="table table-hover table-responsive table-striped">
+															<thead>
+																<th>Widgets</th>
+															</thead>
+															<tbody class=''>
+																<tr ng-repeat="(id,name) in availableWidgets" ng-if="!selectedGroupWidgets[id] && id.toUpperCase().contains(searchWidgets.toUpperCase())" >
+																	<td>{{id}}</td>
+																	<td><button type="button" class="btn btn-success btn-xs pull-right" ng-click='addPermission(id, availableWidgets, selectedGroupWidgets)'>Add <i class="fa fa-arrow-circle-right"></i></button></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											<div class="panel-footer">
+												<div style="margin-bottom:20px"></div>
+											</div>
+
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="panel panel-primary">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<i class="fa fa-sitemap"></i> Widgets in Group
+												</h4>
+											</div>
+											<div>
+												<div class="panel-body">
+													<div class="input-group margin-bottom-sm">
+														<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+														<input class="form-control" type="text" ng-model="widgetMemberSearch" ng-init="widgetMemberSearch=''" placeholder="Search">
+													</div> 
+													<div style="height:150px; overflow-y:scroll">
+														<table class="table table-hover table-responsive table-striped">
+															<thead>
+																<th>Selected Widgets</th>
+															</thead>
+															<tbody class=''>
+																<tr ng-repeat="(key,val) in selectedGroupWidgets" ng-if="key.toUpperCase().contains(widgetMemberSearch.toUpperCase())">
+																	<td>
+																		{{key}}
+																	</td>
+																	<td><button type="button" class="btn btn-danger btn-xs pull-right" ng-click='removePermission(key,selectedGroupWidgets)'>Remove</button></td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="panel-footer">
+													<div style="margin-bottom:20px"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</tab>
+			</tabset>
+		</form>
+	</div>
+</div>

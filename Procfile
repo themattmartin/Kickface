@@ -1,0 +1,14 @@
+web: node server.js
+expressionizer: node services/expressionizer.js
+historizer: node services/historizer.js
+search: node services/search/app.js
+emailizer: node services/emailizer.js
+jsonFetchinator: node services/drivers/jsonDriver.js
+jsonImportizer: node services/importizer.js
+egaugeDriver: node services/drivers/egaugeDriver/server.js
+tempEgaugeUpdater: node services/demoWintrustGeothermalWidgets.js
+tempEgaugeSheduleProc: node services/scheduleProcessorEgauge.js
+tempEgaugeExpressions: node services/egaugeExpressionProcessor.js
+tempEgaugeExpNormalizeKW: node services/Egauge_NormalizeKW.js
+tempEgaugeExpTotalAmps: node services/Egauge_TotalEgaugeAmps.js
+gatewayNotification: node services/gatewaynotification.js

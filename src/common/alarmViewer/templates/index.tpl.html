@@ -1,0 +1,5 @@
+<div ng-repeat="(key,item) in items" style="height:20px; width:{{widthOfItem}}px; float:left; cursor:pointer; border-right:1px solid #000;"
+	 ng-class="{'alarm-acknowledged': item.v == '100', 'alarm-normal': item.v == '0','alarm-warning': item.v == '300','alarm-critical': item.v == '500' || '501'}" ng-click="popupDialog(item, data.Name)">
+	&nbsp;
+</div>
+<div class="clearfix"></div>

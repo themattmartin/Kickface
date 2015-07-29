@@ -1,0 +1,42 @@
+<div ng-class="{'panel': config.showPanel ,'panel-default': config.showPanel, 'widgetPrimary': config.bgColor == 'blue' &&  config.showPanel, 'widgetSuccess': config.bgColor == 'green' &&  config.showPanel, 'widgetInfo': config.bgColor == 'lightBlue' &&  config.showPanel, 'widgetWarning': config.bgColor == 'yellow' &&  config.showPanel, 'widgetDanger': config.bgColor == 'red' &&  config.showPanel,'widgetGray': config.bgColor == 'gray' &&  config.showPanel,'darkGray': config.bgColor == 'darkGray' &&  config.showPanel}" ng-style="{'margin-top': config.marginTop, 'margin-bottom' : config.marginBottom}">
+
+	<div ng-if="!dataLoaded" ng-class="{'panel-body': config.showPanel}" class="text-center">
+		<h3>
+			<i class="fa fa-spinner fa-spin text-info"></i>
+		</h3>
+		<strong>Data Loading ...</strong>
+	</div>
+
+	<div ng-class="{'panel-body':config.showPanel}" ng-show="dataLoaded">
+		<div ng-class="{'panel-body': config.showPanel, 'text-left': config.buttonAlign =='left','text-center': config.buttonAlign=='center','text-right':config.buttonAlign=='right'}" >
+			<input type="text" name="model-search"  ng-model="search" placeholder="Search" class="form-control ng-pristine ng-valid">
+		<div class="panel panel-default" ng-show="search.length > 0" style="margin-top:8px; margin-bottom:0px; width:97%; position: absolute;z-index: 99;">
+			<div class="panel-body" style="max-height:250px; overflow-y:scroll">
+				<div ng-repeat="(id,data) in pointsToShow | filter:search">
+					<div style="cursor:pointer" >
+						<a ng-click="moveOn(data.href)" class="list-group-item">{{data.value}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--
+	<div ng-class="{'panel-body':config.showPanel}" class="col-md-3" ng-show="dataLoaded">
+		<div ng-class="{'panel-body': config.showPanel, 'text-left': config.buttonAlign =='left','text-center': config.buttonAlign=='center','text-right':config.buttonAlign=='right'}" class="input-group input-group-lg">
+			<input type="text" name="model-search" ng-model="search" placeholder="Search" class="form-control  ng-pristine ng-valid">
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body" style="max-height:418px; overflow-y:scroll;">
+				<div>
+					<div class="list-group" ui-tree-nodes="" ng-model="modelPoint" >
+					  <div ng-repeat="(id,data) in pointsToShow | filter:search">
+						<div ng-show="search!=''"><a href="{{data.href}}" class="list-group-item">{{data.value}}</a></div>
+					  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+-->
+</div>

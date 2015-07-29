@@ -1,0 +1,35 @@
+<div  class="dashboardNotifier bg-primary">
+	<omni-nav-history></omni-nav-history>
+	<local-time ng-cloak class="pull-right hidden-xs"></local-time>
+</div>
+	<div  class="dashboardOptions darkGray" style="height:36px;">
+
+	</div>
+<div class="row" style="margin-left:10px; margin-top:20px; margin-bottom:5px; padding-left: 38px;">
+	<div class="col-md-12">
+		<span class="slick text-warning" style="margin-left:5px"><i class="fa fa-info-circle"></i> Double-click on an item in the list to go to the details page for that site.</span>
+		<div class="btn-group pull-right">
+			<button class="btn btn-xs btn-primary" ng-click="toggleAll()" title="Select All">
+				<span class="fa-stack fa-sm">
+					  <i class="fa fa-circle fa-stack-2x"></i>
+					  <i class="fa fa-check-square-o fa-stack-1x text-primary "></i>
+				</span>
+			</button>
+			<button class="btn btn-xs btn-primary" ng-click="acknowledgeAlarmDialog()" ng-if="selectedAlarms.length > 0">
+				<span class="fa-stack fa-sm">
+					  <i class="fa fa-circle fa-stack-2x"></i>
+					  <i class="fa fa-thumbs-o-up fa-stack-1x text-primary "></i>
+				</span>
+			</button>
+		</div>
+	</div>
+</div>
+
+<div class="row" style="margin-left:10px; padding-left: 38px;">
+
+	<div class="col-md-12">
+
+		<div class="gridStyle"  ng-grid="gridOptions"></div>
+	</div>
+
+</div>

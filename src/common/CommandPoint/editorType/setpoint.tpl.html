@@ -1,0 +1,60 @@
+<p ng-show='notify' class="text-muted pull-left slick" style="font-size:12px">Point Commanded: <strong class="text-success">{{command.value}}</strong></p>
+<div class="btn-group pull-right" role="group" >
+	<button class="btn btn-xs btn-primary" ng-click="backToCommand()">One-Time Change</i></button>
+	<button class="btn  btn-xs btn-warning "  ng-click="openOverride()">Timed Override</button>
+</div>
+<form role="form">
+	<div class="col-md-12">
+		<div class="" ng-class="{'has-warning':loading==true}">
+			
+			
+		      <input style="margin-top:5px" type="text" class="form-control " id="inputname" placeholder="Enter value here" name="value" ng-model="command.value">
+	    	
+		
+		</div>
+	</div>
+</form>	
+	<div ng-if="timedOverride" style="padding-top: 5px;" class="form-group col-md-12" ng-class="{'has-warning':loading==true}">
+		<p style="margin:0px; margin-top:10px" class="text-warning"><strong>Timed Override Controls</strong></p>
+		<hr style="margin:0px"/>
+		<!--<p style="font-size: 10pt; margin-top:8px" class="text-muted">Return Value (after override)</p>-->
+		<form class="form-group">
+
+					
+			<div class="form-group col-md-4">
+				<label  for="resetAfterValue">Number</label></br>
+				<select id="resetAfterValue" placeholder="Value" ng-model="command.resetAfterValue" class="form-control input-sm" name="resetAfterValue" ng-options="n for n in IntervalRanges">
+				</select>
+				
+				</div>
+				<div class="form-group col-md-4">
+					<label  for="resetAfterUnits">Units</label></br>
+						<select  id="resetAfterUnits" placeholder="Units" ng-model="command.resetAfterUnits" class="form-control input-sm" name="resetAfterUnits" ng-change="checkValues(command.resetAfterUnits)">
+							<option value="1">mins</option>
+							<option value="60">hrs</option>
+							<option value="1440">days</option>
+						</select>		
+				</div>	
+				<div class="form-group col-md-4">
+				<label  for="inputOverride">Return Value</label>
+				<input  type="text" class="form-control input-sm" id="inputOverride" placeholder="Enter value here" name="value" ng-model="command.resetValue">
+			</div>				
+				
+		</form>
+			<p>
+				<span ng-if="notify || expires" style="font-size: 7pt" class="text-muted text-warning">Depending on network latency, the command may be off by up to two minutes. </span>					
+			</p>
+			
+	</div>	
+	<div class="" style="margin-bottom:15px"> 
+		<div ng-class="{'col-md-6': timedOverride, 'col-md-12':!timedOverride, 'xMargin':!timedOverride}"> 	
+
+			<button type="button" ng-disabled="pointCommandQueueEntry.expires || expires" ng-click="newCommand(command)"  class="btn btn-block btn-primary"><i class="fa " ng-class="{'fa-spinner':loading == true, 'fa-arrow-circle-up': !loading, 'fa-spin': loading == true }"></i> Command</button>
+
+		</div>
+		
+		<div ng-if="timedOverride" class="col-md-6">
+			<button type="button" ng-disabled="!(pointCommandQueueEntry.expires || expires)" ng-click="clearOverride()"  class="btn btn-block  btn-warning"><i class="fa " ng-class="{'fa-spinner':clearing == true, 'fa-exchange': !clearing, 'fa-spin': clearing == true }"></i> Clear Override</button>
+		</div>
+	</div>			
+

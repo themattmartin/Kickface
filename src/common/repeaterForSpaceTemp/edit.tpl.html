@@ -1,0 +1,117 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h5><i class="fa fa-bar-chart-o"></i> Detail Configuration</h5>
+	</div>
+	<div class="panel-body">
+		<form class="form-inline" role="form">
+			<div class="form-group">
+				<label for="modelName">Model</label><br />
+				<select class="form-control" name="modelName" ng-model="config.modelName" ng-options="key as key for (key,type) in modelNames" ng-change="loadModelTypes(config.modelName)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelName.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group">
+				<label for="modelType">Type</label><br />
+				<select class="form-control" name="modelType" ng-model="config.modelType" ng-options="key as type.Name for (key,type) in modelTypes" ng-change="setModelType(config.modelName, config.modelType)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelType.$error.required" class="help-inline">*Required</span>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!--
+<div class="panel panel-default">
+	<div class="panel-body" style="height:400px; overflow:scroll;">
+		<div class="form-group">
+			<input class="form-control" ng-model="searchText" placeholder="Filter">
+		</div>
+		<div class="form-group" ng-repeat="(id,data) in pointsAvailable | filter:searchText ">
+
+			<input type="checkbox" 
+			ng-checked="config.showPoints[data._id]" 
+			value="{{data._id}}" 
+			ng-click="addToConfig(data._source.Name,data._id)" />
+				{{data._source.Name}}
+				<br />
+		</div>
+	</div>
+</div>
+-->
+<div class="panel panel-default" ng-show="config.showSettings">
+	<div class="panel-heading">
+		<h5><i class="fa fa-cube"></i> Widget Style Configuration</h5>
+	</div>
+
+	<div class="panel-body">
+		<form class="form-inline"  style="margin-bottom:10px;">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div  class="form-group" >
+						<label for="background">Background</label></br>
+						<div class="checkbox">
+					    	<label>
+					        	<input ng-model="config.showPanel" name="background" type="checkbox"> Display
+					      	</label>
+			   			 </div>
+		   			</div>
+					<div class="form-group col-md-offset-1" ng-if="config.showPanel" style="margin-left:60px;">
+						<label for="bgColor" style="margin-left:10px; margin-top:10px;">Color</label></br>
+						<div style="margin-left:10px;" class="btn-group">
+							<button class="btn btn-default" ng-click="config.bgColor = ''">&nbsp;</button>
+							<button class="btn darkGray" ng-click="config.bgColor = 'darkGray'">&nbsp;</button>
+							<button class="btn gray" ng-click="config.bgColor = 'gray'">&nbsp;</button>
+							<button class="btn btn-primary" ng-click="config.bgColor = 'blue'">&nbsp;</button>
+							<button class="btn btn-success" ng-click="config.bgColor = 'green'">&nbsp;</button>
+							<button class="btn btn-info" ng-click="config.bgColor = 'lightBlue'">&nbsp;</button>
+							<button class="btn btn-warning" ng-click="config.bgColor = 'yellow'">&nbsp;</button>
+							<button class="btn btn-danger" ng-click="config.bgColor = 'red'">&nbsp;</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<form class="form-inline"  style="margin-bottom:10px;">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div  class="form-group" >
+						<label for="background">RTU Background</label></br>
+						<div class="checkbox">
+					    	<label>
+					        	<input ng-model="config.showRTUPanel" name="background" type="checkbox"> Display
+					      	</label>
+			   			 </div>
+		   			</div>
+					<div class="form-group col-md-offset-1" ng-if="config.showRTUPanel" style="margin-left:60px;">
+						<label for="bgColor" style="margin-left:10px; margin-top:10px;">Color</label></br>
+						<div style="margin-left:10px;" class="btn-group">
+							<button class="btn btn-default" ng-click="config.RTUbgColor = ''">&nbsp;</button>
+							<button class="btn gray" ng-click="config.RTUbgColor = 'gray'">&nbsp;</button>
+							<button class="btn btn-primary" ng-click="config.RTUbgColor = 'blue'">&nbsp;</button>
+							<button class="btn btn-success" ng-click="config.RTUbgColor = 'green'">&nbsp;</button>
+							<button class="btn btn-info" ng-click="config.RTUbgColor = 'lightBlue'">&nbsp;</button>
+							<button class="btn btn-warning" ng-click="config.RTUbgColor = 'yellow'">&nbsp;</button>
+							<button class="btn btn-danger" ng-click="config.RTUbgColor = 'red'">&nbsp;</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<form class="form-inline" role="form">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					  <div class="form-group">
+					    <label  for="margin-top">Margin-Top</label></br>
+					    <input type="text" ng-model="config.marginTop" class="form-control" id="margin-top" placeholder="10px">
+					  </div>
+					  <div class="form-group col-md-offset-1">
+					    <label  for="margin-bottom">Margin-Bottom</label></br>
+					    <input type="text" ng-model="config.marginBottom" class="form-control" id="margin-bottom" placeholder="10px">
+					  </div>
+				</div>
+			</div>
+  		</form>
+	</div>
+</div>

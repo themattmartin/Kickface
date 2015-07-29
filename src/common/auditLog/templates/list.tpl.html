@@ -1,0 +1,74 @@
+<div class="dashboardNotifier bg-primary">
+	<omni-nav-history></omni-nav-history>
+	<local-time ng-cloak class="pull-right hidden-xs"></local-time>
+</div>
+
+<div class="dashboardOptions darkGray" style="height:36px;"></div>
+
+<div class="row" style="margin-left:10px; margin-top:20px; margin-bottom:5px; padding-left: 38px;">
+	<div class="col-md-12">
+		<button class="btn btn-primary btn-sm pull-right" style="margin-bottom:5px" ng-csv="itemsArray" filename="Table Data"><i class="fa fa-download"></i> Export to CSV</button>
+	</div>
+</div>
+
+<div class='row' style="margin-left:20px;padding-left: 38px;">
+	<div class="col-lg-2">
+		<div class="panel panel-primary" style="border-color:#555555">
+			<div class="panel-heading" style="background-color:#777777; border-color:#555555">
+				<h4 class="panel-title">
+					<i class="fa fa-filter"></i> Filter
+				</h4>
+			</div>
+			<div class="panel-body darkGray">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Select Start Date" datepicker-popup="{{ format }}" ng-model="startDate" is-open="openedStart" min-date="'2001-01-01'" max-date="maxDate" datepicker-options="dateOptions" close-text="Close" ng-click="openStart($event)" value="{{ startDate }}" ng-required="true" ng-style="customState"/>
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Select End Date" datepicker-popup="{{ format }}" ng-model="endDate" is-open="openedEnd" min-date="startDate" max-date="maxDate" datepicker-options="dateOptions" close-text="Close" ng-click="openEnd($event)" value="{{ endDate }}" ng-required="startDate" ng-disabled="!startDate" ng-style="customState"/>
+				</div>
+				<div class="form-group">
+					<select ng-model="gridFilter.User" class="form-control" ng-style="customState" ng-options="user._id as user.Name for user in users">
+						<option value="">User</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select ng-model="gridFilter.AuditLogType" class="form-control" ng-style="customState" ng-options="type._id as type.Name for type in auditlogtypes">
+						<option value="">Audit Type</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select ng-model="gridFilter.AuditLogStatus" class="form-control" ng-style="customState" ng-options="status._id as status.Name for status in auditlogstatuses">
+						<option value="">Audit Status</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select ng-model="gridFilter.modelName" class="form-control" ng-style="customState" ng-options="key as key for (key,type) in modelNames">
+						<option value="">Model</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<a role="button" value="Run" ng-click="search(gridFilter,startDate,endDate)" class="btn btn-primary btn-success btn-block" ng-disabled="(!startDate || !endDate)&&!gridFilter.User&&!gridFilter.AuditLogType&&!gridFilter.AuditLogStatus&&!gridFilter.modelName">Run</a>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<div class="col-lg-10">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+				<i class="fa fa-th-list"></i> Result
+				</h4>
+			</div>
+			<div>
+				<div class="panel-body" style="height:800px;overflow-y:scroll">
+					<div class="gridStyle" ng-grid="gridOptions"></div>
+				</div>
+			</div>
+			<div class="panel-footer">
+				<div style="margin-bottom:20px"></div>
+			</div>
+		</div>
+	</div>
+</div>

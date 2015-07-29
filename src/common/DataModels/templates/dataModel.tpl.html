@@ -1,0 +1,23 @@
+<div class="row dataModel hdr">
+    <div class="col-md-12">
+        <h2 class="text-primary"><i class="fa fa-cube"></i> {{modelName}} <small>{{stateLabel}}</small>
+            <span style="font-size: 16px" class="pull-right">
+                <a ui-sref="auth.admin.dataModel.newItem" title="Add a New {{modelName}}">
+                    <i class="fa fa-plus-circle"></i></a>
+                <a ui-sref="auth.admin.dataModel.list" title="List all {{modelName}} items">
+                    <i class="fa fa-table"></i></a>
+                <a ui-sref="auth.admin.dataModel.edit" title="Edit {{modelName}} Definition">
+                    <i class="fa fa-edit"></i></a>
+                <a ui-sref="auth.admin.dataModel.relations" title="Edit {{modelName}} Relationships">
+                    <i class="fa fa-sitemap"></i></a>
+            </span> 
+        </h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+		<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>        
+	</div>
+	<br>
+</div>
+<div ui-view></div>

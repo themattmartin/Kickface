@@ -1,0 +1,124 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h5><i class="fa fa-cogs"></i> Point Configuration</h5>
+	</div>
+	<div class="panel-body">
+		<form class="form-inline" role="form">
+			<div class="form-group">
+				<label for="modelName">Model</label><br />
+				<select style="width:258px" class="form-control" name="modelName" ng-model="config.modelName" ng-options="key as key for (key,type) in modelNames" ng-change="loadModelTypes(config.modelName)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelName.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group">
+				<label for="modelType">Type</label><br />
+				<select style="width:260px" class="form-control" name="modelType" ng-model="config.modelType" ng-options="key as type.Name for (key,type) in modelTypes" ng-change="setModelType(config.modelName, config.modelType)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelType.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group">
+				<label style="margin-top:10px" for="valueProp">Value Property</label><br />
+				<select style="width:258px"  class="form-control" name="valueProp" ng-model="config.valueProp" ng-options="getPropertyValue(prop) as prop.label for (key,prop) in valueProps">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.valueProp.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group">
+				<label style="margin-top:10px" for="labelProp">Label Property</label><br />
+				<select  style="width:260px" class="form-control" name="labelProp" ng-model="config.labelProp" ng-options="getPropertyValue(prop) as prop.label for (key,prop) in labelProps">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.labelProp.$error.required" class="help-inline">*Required</span>
+			</div>	
+		</form>
+	</div>
+</div>
+<div class="panel panel-default" >
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-12 pull-left">
+				<label>Configure Displayed Value</label>
+				<p class="text-info slick">Enter the given value in the first box, then add the value you would like Omniboard to display when that value is returned in the second box. Example (0 = Off).</p>
+			</div>
+			<div class="col-md-4">
+				<input type="text" ng-model="displayKey" class="form-control" placeholder="Actual Value"> 
+			</div>  
+			<div class="col-md-2 text-center"> 
+				<i class="fa fa-pause fa-rotate-270"></i>
+			</div>  
+			<div class="col-md-4">
+				<input type="text" ng-model="displayValue" class="form-control" placeholder="Display Value">
+			</div>
+
+			<div class="col-md-2"> 
+				<button class="btn btn-primary" ng-click="addDisplayValue(displayKey, displayValue)"><i class="fa fa-plus-circle"></i> ADD</button>
+			</div>
+		</div>
+		<div ng-repeat="(key,value) in config.displayValues" class="" style="margin-top:20px;">
+			<span class="slick text-muted">{{key}} = {{value}}</span> <button class="btn btn-danger btn-xs" ng-click="deleteDisplayValue(key)"><i class="fa fa-trash-o"></i></button>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-7 pull-left">
+				<label>Command Panel</label>
+				<p class="text-info slick">
+					This feature when clicked provides a panel to command the point's value.
+				</p>
+			</div>
+			<div class="col-md-5 pull-right">
+		      <label class="text-muted pull-right"><small>Point Command Box</small></label></br>
+		      <label class="switch-light well">
+		      <input ng-model="config.commandBox" type="checkbox">
+		      <span>
+		       
+		        <span >Off</span>
+		        <span >On</span>
+		      </span>
+
+		      <a class="btn btn-primary" ></a>
+		      </label>
+		  </div>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default" ng-show="config.showSettings">
+	<div class="panel-heading">
+		<h5><i class="fa fa-cube"></i> Widget Style Configuration</h5>
+	</div>
+	<div class="panel-body">
+		<form class="form-inline" role="form">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					  <div class="form-group">
+					    <label  for="margin-top">Margin-Top</label></br>
+					    <input type="text" ng-model="config.marginTop" class="form-control" id="margin-top" placeholder="10px">
+					  </div>
+					  <div class="form-group col-md-offset-1">
+					    <label  for="margin-bottom">Margin-Bottom</label></br>
+					    <input type="text" ng-model="config.marginBottom" class="form-control" id="margin-bottom" placeholder="10px">
+					  </div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="form-group" >
+						<label for="">Number Fraction Size </label></br>
+						<select class="form-control" name="fractionSize" ng-model="config.fractionSize">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</div></br>
+				</div>
+			</div>
+  		</form>
+	</div>
+</div>

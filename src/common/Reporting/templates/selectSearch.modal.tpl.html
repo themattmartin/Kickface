@@ -1,0 +1,31 @@
+<div class="modal-header bg-primary">
+	<button type="button" class="close" ng-click="closeGroupDialog()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title"><i class="fa fa-tachometer"></i> Select Report Parameters</h4>
+</div>
+<div class="modal-body">
+	<form class="form-inline" role="form">
+		<div class="form-group">
+			<label for="modelName">Site</label><br />
+			<select class="form-control" id="modelName" name="modelName" ng-model="selected.site" ng-options="key as type.Name for (key,type) in siteList" ng-change="loadGateways(selected.site)">
+				<option value="" selected="selected">Select</option>
+			</select>
+			<span ng-show="frm.modelName.$error.required" class="help-inline">*Required</span>
+		</div>
+		<div class="form-group" ng-if="selected.site">
+			<label for="gatewayName">Gateway</label><br />
+			<select class="form-control" id="gatewayName" name="gatewayName" ng-model="selected.gateway" ng-options="key as type.Name for (key,type) in gatewayList">
+				<option value="" selected="selected">Select</option>
+			</select>
+			<span ng-show="frm.modelName.$error.required" class="help-inline">*Required</span>
+		</div>
+
+	</form>
+</div>
+<div class="modal-footer">
+	<span class="pull-left"><img src="/assets/omniboard.png"></span>
+	<button type="button" class="btn" ng-class="{'btn-primary':!saved, 'btn-success':saved}" ng-click="save(selected.site, selected.gateway)" ng-disabled="frm.$invalid">
+		<i class="fa fa-save"></i> Ok
+	</button>
+	<button type="button" class="btn btn-danger" ng-click="closeGroupDialog()"><i class="fa fa-times-circle-o"></i> Close</button>
+
+</div>

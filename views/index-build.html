@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en" ng-app="kickface">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="http://www.ttmartialarts.com/">
+	<title>KickFace</title>
+	
+	<link rel="stylesheet" type="text/css" href="assets/Kickface-0.0.1.css" />
+	
+</head>
+<body>
+	<div ui-view autoscroll="true">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<i class="fa fa-spinner fa-spin fa-5x text-info"></i><br />
+				<h2 style="color:#fff">LOADING</h2>
+			</div>
+		</div>
+	</div>
+	<!-- compiled JS -->
+	
+	<script type="text/javascript" src="vendor/firebase/firebase.js"></script>
+	
+	<script type="text/javascript" src="vendor/firebase-simple-login/firebase-simple-login.js"></script>
+	
+	<script type="text/javascript" src="vendor/jquery/dist/jquery.js"></script>
+	
+	<script type="text/javascript" src="vendor/jquery-ui/ui/jquery-ui.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular/angular.js"></script>
+	
+	<script type="text/javascript" src="vendor/ng-grid/build/ng-grid.js"></script>
+	
+	<script type="text/javascript" src="vendor/angularfire/dist/angularfire.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-route/angular-route.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-sanitize/angular-sanitize.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-animate/angular-animate.js"></script>
+	
+	<script type="text/javascript" src="vendor/bootstrap/js/collapse.js"></script>
+	
+	<script type="text/javascript" src="vendor/bootstrap/js/tooltip.js"></script>
+	
+	<script type="text/javascript" src="vendor/bootstrap/js/popover.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-strap/dist/angular-strap.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-strap/dist/angular-strap.tpl.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-bootstrap/ui-bootstrap.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-cookies/angular-cookies.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-webstorage/angular-webstorage.js"></script>
+	
+	<script type="text/javascript" src="vendor/metisMenu/jquery.metisMenu.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-local-storage/angular-local-storage.js"></script>
+	
+	<script type="text/javascript" src="vendor/codemirror/lib/codemirror.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-ui-codemirror/ui-codemirror.js"></script>
+	
+	<script type="text/javascript" src="vendor/angular-filter/dist/angular-filter.js"></script>
+	
+	<script type="text/javascript" src="src/app/app.js"></script>
+	
+	<script type="text/javascript" src="src/app/denied/denied.js"></script>
+	
+	<script type="text/javascript" src="src/app/home/home.js"></script>
+	
+	<script type="text/javascript" src="src/app/login/login.js"></script>
+	
+	<script type="text/javascript" src="src/app/rootStates/rootStates.js"></script>
+	
+	<script type="text/javascript" src="src/common/404/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/Admin/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/Admin/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/Admin/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/CommandPoint/commandpoint.js"></script>
+	
+	<script type="text/javascript" src="src/common/Dashboards/Dashboards.js"></script>
+	
+	<script type="text/javascript" src="src/common/DataModel-Plugins/ModelItemLocation/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/DataModel-Plugins/ModelItemkWh/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/DataModel-Plugins/ModelNotes/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/DataModel-Plugins/ModelStatuses/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/DataModel-Plugins/ModelTypes/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/DataModel-Plugins/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/DataModels/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/DataModels/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/DataModels/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/Expressions/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/Expressions/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/Expressions/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/Files/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/Files/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/GroupManagement/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/GroupManagement/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/GroupManagement/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/ImageViewer/ImageViewer.js"></script>
+	
+	<script type="text/javascript" src="src/common/Locking/Locking.js"></script>
+	
+	<script type="text/javascript" src="src/common/Perms/Perms.js"></script>
+	
+	<script type="text/javascript" src="src/common/Reporting/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/Reporting/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/Reporting/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/Reports/reports.js"></script>
+	
+	<script type="text/javascript" src="src/common/Schedules/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/Schedules/directiveScheduler.js"></script>
+	
+	<script type="text/javascript" src="src/common/Schedules/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/Schedules/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/Search/search.js"></script>
+	
+	<script type="text/javascript" src="src/common/SiteCommissioningWizard/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/SiteCommissioningWizard/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/SiteCommissioningWizard/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/Timezone/timezone.js"></script>
+	
+	<script type="text/javascript" src="src/common/Users/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/Users/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/activeLoadTrend/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/activeLoadTrend/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/activeLoadTrend/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/activityLog/activityLog.js"></script>
+	
+	<script type="text/javascript" src="src/common/aggregatePoint/aggregatePoint.js"></script>
+	
+	<script type="text/javascript" src="src/common/alarmAcknowledge/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/alarmAcknowledge/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/alarmAcknowledge/point/point.js"></script>
+	
+	<script type="text/javascript" src="src/common/alarmAcknowledge/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/alarmHistory/alarmHistory.js"></script>
+	
+	<script type="text/javascript" src="src/common/alarmReports/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/alarmReports/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/alarmReports/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/alarmViewer/alarmViewer.js"></script>
+	
+	<script type="text/javascript" src="src/common/angular-pageslide/angular-pageslide-directive.js"></script>
+	
+	<script type="text/javascript" src="src/common/angular-ui-calendar/src/calendar.js"></script>
+	
+	<script type="text/javascript" src="src/common/angular-validator/angular-validator-rules.js"></script>
+	
+	<script type="text/javascript" src="src/common/angular-validator/angular-validator.js"></script>
+	
+	<script type="text/javascript" src="src/common/angularDraggable/angularDraggable.js"></script>
+	
+	<script type="text/javascript" src="src/common/auditLog/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/auditLog/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/auditLog/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/badge/badge.js"></script>
+	
+	<script type="text/javascript" src="src/common/basicTrend/basicTrendChart.js"></script>
+	
+	<script type="text/javascript" src="src/common/button/button.js"></script>
+	
+	<script type="text/javascript" src="src/common/core/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/core/ob.js"></script>
+	
+	<script type="text/javascript" src="src/common/core/util.js"></script>
+	
+	<script type="text/javascript" src="src/common/dashboardStructures/dashboardStructures.js"></script>
+	
+	<script type="text/javascript" src="src/common/deviceCommandCenter/deviceCommandCenter.js"></script>
+	
+	<script type="text/javascript" src="src/common/donut/donut.js"></script>
+	
+	<script type="text/javascript" src="src/common/expression-widget/expression.js"></script>
+	
+	<script type="text/javascript" src="src/common/fileViewer/fileViewer.js"></script>
+	
+	<script type="text/javascript" src="src/common/firebaseConfig/firebaseConfig.js"></script>
+	
+	<script type="text/javascript" src="src/common/gaugeHC/gaugeHC.js"></script>
+	
+	<script type="text/javascript" src="src/common/geocode/geocode.js"></script>
+	
+	<script type="text/javascript" src="src/common/gridHeight/gridHeight.js"></script>
+	
+	<script type="text/javascript" src="src/common/groupCommand/groupCommand.js"></script>
+	
+	<script type="text/javascript" src="src/common/groupTable/groupTable.js"></script>
+	
+	<script type="text/javascript" src="src/common/lennoxEC/lennoxEC.js"></script>
+	
+	<script type="text/javascript" src="src/common/localTime/localTime.js"></script>
+	
+	<script type="text/javascript" src="src/common/mapStyle/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/mapStyle/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/mapStyle/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/metisMenu/metisMenu.js"></script>
+	
+	<script type="text/javascript" src="src/common/modelDetails/modelDetails.js"></script>
+	
+	<script type="text/javascript" src="src/common/modelInfo/modelInfo.js"></script>
+	
+	<script type="text/javascript" src="src/common/motionGraphic/motionGraphic.js"></script>
+	
+	<script type="text/javascript" src="src/common/obAffix/obAffix.js"></script>
+	
+	<script type="text/javascript" src="src/common/omniNav/omniNav.js"></script>
+	
+	<script type="text/javascript" src="src/common/pieChart/pieChart.js"></script>
+	
+	<script type="text/javascript" src="src/common/point/point.js"></script>
+	
+	<script type="text/javascript" src="src/common/pointPopup/pointPopup.js"></script>
+	
+	<script type="text/javascript" src="src/common/pointSetCommandCenter/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/repeater/repeater.js"></script>
+	
+	<script type="text/javascript" src="src/common/repeaterForSpaceTemp/repeaterForSpaceTemp.js"></script>
+	
+	<script type="text/javascript" src="src/common/rulesEngine/crud.js"></script>
+	
+	<script type="text/javascript" src="src/common/rulesEngine/main.js"></script>
+	
+	<script type="text/javascript" src="src/common/rulesEngine/states.js"></script>
+	
+	<script type="text/javascript" src="src/common/searchBox/searchBox.js"></script>
+	
+	<script type="text/javascript" src="src/common/sparklineTrend/sparklineTrendChart.js"></script>
+	
+	<script type="text/javascript" src="src/common/statusIndicator/statusIndicator.js"></script>
+	
+	<script type="text/javascript" src="src/common/table/table.js"></script>
+	
+	<script type="text/javascript" src="src/common/textBox/textBox.js"></script>
+	
+	<script type="text/javascript" src="src/common/treeView/treeView.js"></script>
+	
+	<script type="text/javascript" src="src/common/userProfile/userProfile.js"></script>
+	
+	<script type="text/javascript" src="src/common/weeklyCalendar/weeklyCalendar.js"></script>
+	
+	<script type="text/javascript" src="src/common/widget-linklist/linklist.js"></script>
+	
+	<script type="text/javascript" src="src/common/widget-repeater/repeater.js"></script>
+	
+	<script type="text/javascript" src="templates-common.js"></script>
+	
+	<script type="text/javascript" src="templates-app.js"></script>
+	
+</body>
+</html>

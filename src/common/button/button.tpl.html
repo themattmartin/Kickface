@@ -1,0 +1,7 @@
+<divng-class="{'panel': config.showPanel ,'panel-default': config.showPanel, 'widgetPrimary': config.bgColor == 'blue' &&  config.showPanel, 'widgetSuccess': config.bgColor == 'green' &&  config.showPanel, 'widgetInfo': config.bgColor == 'lightBlue' &&  config.showPanel, 'widgetWarning': config.bgColor == 'yellow' &&  config.showPanel, 'widgetDanger': config.bgColor == 'red' &&  config.showPanel,'widgetGray': config.bgColor == 'gray' &&  config.showPanel,'darkGray': config.bgColor == 'darkGray' &&  config.showPanel}" ng-style="{'margin-top': config.marginTop, 'margin-bottom' : config.marginBottom, 'margin-right' : config.marginRight, 'margin-left' : config.marginLeft}"  >
+	<div ng-class="{'panel-body': config.showPanel, 'text-left': config.buttonAlign =='left','text-center': config.buttonAlign=='center','text-right':config.buttonAlign=='right'}">
+
+		<a href="" class="btn" ng-click="save()" ng-class="[config.myButtonColor, config.myButtonSize]" ><i class="fa" ng-class="config.myButtonIcon"></i> {{config.content}}</a>
+		
+	</div>
+</div>

@@ -1,0 +1,17 @@
+<div class="modal-header bg-primary">
+	<button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title"><i class="fa fa-tachometer"></i> Edit Schedule </h4>
+</div>
+<div class="modal-body">
+	Are you sure you want to edit <span class="text-primary">{{schedule.Name}}</span>? Changes could negatively impact store performance.
+	 <ul ng-repeat="(id,data) in changesPending" style="list-style-type: none;">
+    	<li><p class="slick text-primary"><i class="fa fa-dot-circle-o"></i> {{data.title}}</p></li>
+    </ul>
+</div>
+<div class="modal-footer">
+	<span class="pull-left"><img src="/assets/omniboard.png"></span>
+	<button type="button" class="btn btn-primary" ng-click="saveBaseSchedule(thisTime)">
+		<i class="fa fa-save"></i> Save
+	</button>
+	<button type="button" class="btn btn-danger" ng-click="closeDialog()"><i class="fa fa-times-circle-o"></i> Close</button>
+</div>

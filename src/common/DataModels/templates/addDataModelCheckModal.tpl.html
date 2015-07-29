@@ -1,0 +1,14 @@
+<div class="modal-header" ng-class="{'schedule-dtException':exceptionType.type == 'date-range','schedule-otException': exceptionType.type == 'one-time', 'bg-primary' : !exceptionType.type}">
+	<button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title"><i class="fa fa-question-circle"></i> Save Data Model</h4>
+</div>
+<div class="modal-body">
+	Are you sure you want to add this Data Model?
+</div>
+<div class="modal-footer">
+	<span class="pull-left"><img src="/assets/omniboard.png"></span>
+	<button type="button" class="btn btn-success" ng-click="submit(currentItem,saveFiles)">
+		<i class="fa fa-save"></i> Create Data Model
+	</button>
+	<button type="button" class="btn btn-primary" ng-click="closeDialog()"><i class="fa fa-times-circle-o"></i> Close</button>
+</div>

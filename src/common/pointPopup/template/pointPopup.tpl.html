@@ -1,0 +1,46 @@
+<div class="modal-header bg-primary" ng-class="{'bg-primary': !command.expires, 'override': command.expires}"  ng-repeat="(index,model) in returnedData" >
+  <div class="row">
+    <div class="col-md-9">
+      <h3 class="modal-title">{{model.Name}}</h3>
+      <p  class="slick">Use this form to command the value of this point on the remote device. When you click the {{editorOptionName}} Command button, Omniboard will send a command to the remote device.</p>  
+      			
+    </div>
+    <div class="col-md-3" style="text-align:center;">
+      <button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+      <h4 style="margin:0;"><i class="fa fa-cloud-upload fa-4x "  ng-class="model['$' + config.modelName + 'Status'].Class"></i></h4>
+    </div>
+  </div>
+</div>
+<div class="modal-body" ng-repeat="(index,model) in returnedData">
+  <div class="row">
+    <div class="col-md-12" ng-hide="!model['$' + config.modelName + 'Type'].commandable" style="padding-left:5px">
+      
+      <form role="form" class="form">
+        <div>
+           <command point-command-queue-entry="command", point-type="pointType" point-data="returnedData" loading="loading" close-dialog="closeDialog" point-id="pointId" editor-options="editorOptions" config="config" model="model"></command>
+        </div>
+      </form>
+
+    </div>
+    
+    
+
+    <div class="col-md-6 slick" ng-show="!model['$' + config.modelName + 'Type'].commandable">
+      <i class="fa fa-info-circle"></i> Point cannot be commanded.
+    </div>
+    <div class="col-md-6" ng-if="returnedData[0]" ng-show="!model['$' + config.modelName + 'Type'].commandable" ng-init="setView()" style="margin-bottom:0px; padding-right:5px">
+       
+    </div>
+  </div>
+  <div style="margin-top:15px">
+    <p class="text-muted pull-left slick" style="font-size:12px">
+      Current Value: <span ng-class="model['$' + config.modelName + 'Status'].Class"><strong ng-hide="pointValueName">{{model.Value | number:1 }}</strong><strong ng-show="pointValueName">{{model.Value}} ({{pointValueName}})</strong><span ng-if="command.expires" class="text-muted text-warning"> (Expires in {{command.overRideExpiresIn}} mins)</span></span>
+    </p>
+    <p class="text-muted pull-right slick" style="font-size:12px">Last Modified: {{model.lastModified | date:'medium'}}</p>
+  </div>
+</div>
+
+<div class="modal-footer" style="margin-top:0;">
+  <span class="pull-left"><img src="/assets/omniboard.png"></span>
+  <button type="button" class="btn btn-primary" ng-click="closeDialog()"><i class="fa fa-times-circle-o"></i> Close</button>
+</div>

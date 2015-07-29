@@ -1,0 +1,94 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h5><i class="fa fa-sitemap"></i> Tree Configuration</h5>
+	</div>
+	<div class="panel-body">
+		<form class="form-inline" role="form">
+			<div class="form-group">
+				<label for="useScope">Use Scope</label></br>
+				<div class="checkbox">
+					<label>
+					<input ng-model="config.useScope" name="useScope" type="checkbox" ng-change="loadModelTypes(config.scopeModel)"> Use Scope
+					</label>
+				</div>
+   			</div>
+			<div class="form-group">
+				<label for="modelName">Model</label><br />
+				<select ng-disabled="config.useScope" class="form-control" name="modelName" ng-model="config.modelName" ng-options="key as key for (key,type) in modelNames" ng-change="loadModelTypes(config.modelName)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelName.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group">
+				<label for="modelType">Type</label><br />
+				<select class="form-control" name="modelType" ng-model="config.modelType" ng-options="key as type.Name for (key,type) in modelTypes" ng-change="setModelType(config.modelName, config.modelType)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelType.$error.required" class="help-inline">*Required</span>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default" ng-show="config.showSettings">
+	<div class="panel-heading">
+		<h5><i class="fa fa-cube"></i> Widget Style Configuration</h5>
+	</div>
+	<div class="panel-body">
+		<form class="form-inline"  style="margin-bottom:10px;">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div  class="form-group" >
+						<label for="background">Background</label></br>
+						<div class="checkbox">
+					      <label>
+					        <input ng-model="config.showPanel" name="background" type="checkbox"> Display
+					      </label>
+			   			 </div>
+		   			</div>
+					<div  class="form-group col-md-offset-1" ng-if="config.showPanel" style="margin-left:60px;">
+						<label for="bgColor" style="margin-left:10px; margin-top:10px;">Color</label></br>
+						<div style="margin-left:10px;" class="btn-group">
+							<button class="btn btn-default" ng-click="config.bgColor = ''">&nbsp;</button>
+							<button class="btn darkGray" ng-click="config.bgColor = 'darkGray'">&nbsp;</button>
+							<button class="btn gray" ng-click="config.bgColor = 'gray'">&nbsp;</button>
+							<button class="btn btn-primary" ng-click="config.bgColor = 'blue'">&nbsp;</button>
+							<button class="btn btn-success" ng-click="config.bgColor = 'green'">&nbsp;</button>
+							<button class="btn btn-info" ng-click="config.bgColor = 'lightBlue'">&nbsp;</button>
+							<button class="btn btn-warning" ng-click="config.bgColor = 'yellow'">&nbsp;</button>
+							<button class="btn btn-danger" ng-click="config.bgColor = 'red'">&nbsp;</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<form class="form-inline"  style="margin-bottom:10px;">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div  class="form-group">
+		              <label for="">Title Text</label></br>
+		                <label class="radio-inline">
+		                      <input type="radio" ng-model="config.titleTextLabel" name="inlineRadioOptions" id="inlineRadio1" value="slick"> On
+		                </label>
+		                <label class="radio-inline">
+		                      <input type="radio" ng-model="config.titleTextLabel" name="inlineRadioOptions" id="inlineRadio1" value=""> Off
+		                </label>
+		          </div>
+		        </div>
+		     </div>
+		</form>
+		<form class="form-inline" role="form">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					  <div class="form-group">
+					    <label  for="margin-top">Margin-Top</label></br>
+					    <input type="text" ng-model="config.marginTop" class="form-control" id="margin-top" placeholder="10px">
+					  </div>
+					  <div class="form-group col-md-offset-1">
+					    <label  for="margin-bottom">Margin-Bottom</label></br>
+					    <input type="text" ng-model="config.marginBottom" class="form-control" id="margin-bottom" placeholder="10px">
+					  </div>
+				</div>
+			</div>
+  		</form>
+	</div>
+</div>

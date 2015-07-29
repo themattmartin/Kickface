@@ -1,0 +1,331 @@
+<div style="margin-top:30px; padding-left: 38px;">
+	<div class="dashboardNotifier bg-primary">
+		<omni-nav-history></omni-nav-history>
+		<local-time ng-cloak class="pull-right hidden-xs"></local-time>
+	</div>
+
+	<div  class="dashboardOptions darkGray" style="height:36px;">
+		<div class="col-md-12" style="display:inline-block; margin-left:-10px">
+			<form class="form-inline">
+				  <div class="form-group">
+				    <label for="exampleInputName2" class="slick">Schedules</label>
+				    <select  ng-model="schedType" ng-change="schedTypeChange()" class="form-control input-sm" style="height:27px;">
+						<option value="group">Group</option>
+						<option value="local">Local</option>
+					</select>
+					<select ng-model="schedSite"  ng-show="schedType == 'local'" ng-change='loadLocalSched(schedSite)' class="form-control input-sm" ng-class="{'boxGlow': schedSite == null}" ng-options="key as site.Name for (key,site) in sites" style="height:27px;">
+						<option value="" selected="selected">Select Site</option>
+					</select>
+					<span  class="alert alert-warning slick" role="alert" style="height:24px;padding:5px; font-size:11px">Pending Schedule Change: {{groupCount}}</span>
+				  </div>
+			</form>
+
+		</div>
+	</div>
+	<div ng-if="schedType =='local' && schedData.scheduleGroupID"  class="schedNotifier alarm-acknowledged" style="color:#000">
+		<span ng-if="schedType =='local'" class="slick center">Controlled by Group Schedule: 
+			<strong>{{groupSchedules[schedData.scheduleGroupID].Name}}</strong>
+			<button class="btn btn-success btn-xs" ng-click="releaseSched(schedData.$id)">
+				Release to Local Schedule
+			</button>
+		</span>
+	</div>
+		<div style="margin-left:10px;" ng-class="{'applyMargin' : schedType =='local' && hasGroupSched}">
+			
+			<div class="row left-padded">
+				<div class="col-md-3">
+					<label><span ng-if="schedType =='local'">Local</span><span ng-if="schedType =='group'">Groups</span></label><span class="pull-right" ng-hide="schedType =='local'"><button class="btn btn-xs btn-primary" ng-click="addScheduleDialog()"><i class="fa fa-plus-circle"></i> Create</button></span>
+					
+					<div class="panel panel-default" style="margin-top:3px">
+						<div class="panel-body" ng-class="{'groupHeight': schedType == 'local','localHeight': schedType == 'group'}" >
+							<div class="input-group margin-bottom-sm">
+					                <span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+					                <input class="form-control" type="text" ng-model="searchSched" placeholder="Search">
+
+					            </div>
+							<ul style="list-style-type: none; padding-left:0px">
+
+								<li  ng-repeat="(key,data) in schedules | orderObjectBy:'Name' | searchObject:{Name: searchSched} track by key" ng-class="{'highlightSchedule': highlightActive == data.id}" style="padding:5px;">
+
+									<a href="" ng-class="{'text-danger': data.mode=='offline', 'text-primary' : data.mode=='online'}" ng-click="loadSchedule(data.id)" style="font-size:14px;" title="{{data.Name}}">
+										{{data.Name | limitStringLength:24}}<strong ng-show="data.mode=='offline'" title="Will not be pushed to controllers">(Inactive)</strong>
+									</a>
+									<span class="pull-right">
+										<i style="cursor:'pointer'" class="fa fa-remove text-danger" ng-click="deleteScheduleDialog(data.id, data)"></i>
+									</span>
+								</li>
+								
+							</ul>
+						</div>
+					</div>
+					<div ng-hide="schedType == 'local'">
+						<label>Available Schedules</label>
+						<div class="panel panel-default">
+							<div class="panel-body" >
+								<div class="input-group margin-bottom-sm">
+					                <span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+					                <input class="form-control" type="text" ng-model="searchSites" placeholder="Search">
+
+					            </div>
+								<div style="height:278px; overflow-y:scroll">
+									
+					              <table class="table table-hover table-responsive table-striped">
+					                
+					                <tbody class=''>
+					                  <tr ng-repeat="(id,data) in localSchedules | orderObjectBy:'Name'| searchField: 'Name': 'typeName' | filter: searchSites" ng-click='goDetail(id)' ng-show="!data.scheduleGroupID">
+
+					                  	 <td><button type="button" ng-click='addScheduleToGroup(id,data)' class="btn btn-success btn-xs">Add <i class="fa fa-arrow-circle-right"></i></button></td>
+
+					                    <td style="font-size:12px">{{sites[data.Site].Name}} : <span class="text-primary">{{data.Name}}</span>
+					                    	<p class="slick" style="font-size:10px">{{data.typeName}}</p>
+					                    </td>
+					                    
+					                  </tr>
+					                </tbody>
+					              </table>
+					            </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3" ng-class="{'topMargin': schedType == 'local'}">
+					
+					<span class="pull-right">
+					<div ng-hide="schedType =='local'" class="btn-group" style="margin-bottom:0px" role="group" aria-label="...">
+								  <div class="btn-group" role="group">
+								    <button type="button" class="btn btn-primary btn-xs" ng-click="viewSchedules()">Assigned Schedules</button>
+								  </div>
+								  <div class="btn-group" role="group">
+								    <button type="button" class="btn btn-primary btn-xs" ng-click="viewExceptions()">Group Schedules</button>
+								  </div>
+							</div>
+					</span>
+					<div style="clear:right" ></div>
+
+					<div class="panel panel-default" style="margin-top:3px;">
+						<div class="panel-body" style="height:625px; overflow-y:scroll; background-color:#E6E6E6; border-color:#333" ng-if="selectedView != 'loading'">
+							<div >
+								<p class="text-primary" title="{{schedData.Name}}"><strong>{{schedData.Name | limitStringLength:24}}</strong><span class="pull-right"><i style="margin-right: 5px" class="fa" ng-class="{'fa-arrow-circle-down' : expandDescription, 'fa-arrow-circle-left' : !expandDescription}" ng-click="expandDetails()"></i></span></p>
+								<div ng-show="expandDescription">
+									<p class="slick text-muted">{{schedData.description}}</p>
+								</div>
+							</div>
+							
+							<div ng-show="groupView == 'schedules'">
+								<div ng-hide="schedType == 'local'" class="row " >
+										<div>
+											<div class="input-group margin-bottom-sm">
+								              <span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+								              <input class="form-control" type="text" ng-model="searchGroupScheds" placeholder="Search">
+								            </div>
+								            <div >
+								            <table class="table table-hover table-responsive table-striped">
+								              <thead>
+								                <th>Schedules in "{{schedData.Name | limitStringLength:24}}"</th>
+								              </thead>
+								              <tbody class=''>
+
+								              	<tr ng-repeat="(id,tempSchedule) in tempSchedules | orderObjectBy:'Name' | searchObject:{Name: searchGroupScheds}">
+								              		<td style="font-size:12px">
+								              			{{sites[tempSchedule.Site].Name}} : <span class="text-primary">{{tempSchedule.Name}}</span>
+								              		</td>
+													
+								                	<td><button type="button" class="btn btn-danger btn-xs" ng-click='removeTempSchedule(id, tempSchedule.schedID)'>Remove</button></td>
+												</tr>
+								                <tr ng-repeat="(id,schedule) in addedSchedule | orderObjectBy:'Name' | searchObject:{Name: searchGroupScheds, ScheduleType: searchGroupScheds} track by id">
+								                	<td style="font-size:12px">{{sites[schedule.Site].Name}} : <span class="text-primary">{{schedule.Name}}</span></td>
+									                
+									                <td><button type="button" class="btn btn-danger btn-xs" ng-click='removeSchedule(id, schedule.schedID)'>Remove</button></td>
+								              	</tr>
+								              </tbody>
+								            </table>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row panel panel-primary" ng-show="groupView == 'exceptions'" >
+								<div class="panel-heading">
+									<span class="pull-right">
+										<a  style="color: #fff; text-decoration:none" href="" ng-click="editScheduleDialog()"> <i class="fa fa-cog"></i></a>
+									</span>
+									<h3 class="panel-title">Base Schedule</h3>
+								</div>
+								<div class="panel-body">
+									<div>
+										<p class="slick" title="{{schedData.Name}}" style="margin-bottom:2px;"><strong>{{schedData.Name | limitStringLength:24}}</strong><span class="pull-right"><i style="margin-right: 5px" class="fa" ng-class="{'fa-arrow-circle-down' : expandSchedule, 'fa-arrow-circle-left' : !expandSchedule}" ng-click="expandSchedDiv()"></i></span></p>
+									</div>
+
+									<hr style="margin:0px"/>
+									<p class="slick" ng-repeat="(id, dates) in schedData.Schedule"  style="margin-bottom:2px;">{{dateFromDay(initialYear, dates.start) | date : "MMM-dd"}} - {{dateFromDay(initialYear, dates.end) | date : "MMM-dd"}}</p>           
+									<div  ng-show="expandSchedule">
+										<div  >
+											<table class="table" style="margin-bottom:0px">
+												<th>Day</th>
+												<th>Start</th>
+												<th>End</th>
+												<tr ng-repeat='(key,time) in schedData.Days'>
+													<td>{{time.Name}}</td>
+													<td >
+														<table>
+															<tr ng-repeat="(id, data) in time.timeblocks">
+																<td>{{data.start.hr}}:{{data.start.mn}}</td>
+																
+															</tr>
+														</table>
+													</td>
+													<td>
+														<table>
+															<tr ng-repeat="(id, data) in time.timeblocks">
+																
+																<td >{{data.end.hr}}:{{data.end.mn}}</td>
+															</tr>
+														</table>
+													</td>
+												</tr>
+											</table>
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="row panel panel-dtException" ng-repeat="(id,data) in schedData.exception track by id" ng-show="data.type == 'date-range' && groupView == 'exceptions'">
+								<div class="panel-heading">
+									<span class="pull-right">
+										<a  style="color: #fff; text-decoration:none" href="" ng-click="openPanel(id)"> <i class="fa fa-cog"></i></a>
+									</span>
+									<h3 class="panel-title">Date Range Exception</h3>
+								</div>
+								<div class="panel-body">
+									<div>
+										<p class="slick" style="margin-bottom:2px;"><strong>{{data.Name}}</strong><span class="pull-right"><i style="margin-right: 5px" class="fa" ng-class="{'fa-arrow-circle-down' : expandedException[id], 'fa-arrow-circle-left' : !expandedException[id]}" ng-click="expandException(id)"></i></span></p>
+									</div>
+
+									<hr style="margin:0px"/>
+									<p class="slick" ng-repeat="(id, schedule) in data.Schedule"  style="margin-bottom:2px;">{{dateFromDay(initialYear, schedule.start) | date : "MMM-dd"}} - {{dateFromDay(initialYear, schedule.end) | date : "MMM-dd"}}</p>           
+									<div>
+										<div  ng-show="expandedException[id]">
+											<table class="table" style="margin-bottom:0px">
+												<th>Day</th>
+												<th>Start</th>
+												<th>End</th>
+												<tr ng-repeat='(key,val) in data.Days'>
+													<td>{{val.Name}}</td>
+													<td>
+														<table>
+															<tr ng-repeat="(id, data) in val.timeblocks">
+																<td>{{data.start.hr}}:{{data.start.mn}}</td>
+															</tr>
+														</table>
+													</td>
+													<td>
+														<table>
+															<tr ng-repeat="(id, data) in val.timeblocks">
+																<td>{{data.end.hr}}:{{data.end.mn}}</td>
+															</tr>
+														</table>
+													</td>
+												</tr>
+											</table>
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="row panel panel-otException" ng-repeat="(id,data) in schedData.exception track by id" ng-show="data.type == 'one-time' && groupView == 'exceptions'">
+
+								<div class="panel-heading">
+									<span class="pull-right">
+										<a style="color: #fff;text-decoration:none" href="" ng-click="openPanel(id)"> <i class="fa fa-cog"></i></a>
+									</span>
+									<h3 class="panel-title">One Time Exception</h3>
+								</div>
+								<div class="panel-body">
+									<div>
+										<p class="slick" style="margin-bottom:2px;"><strong>{{data.Name}}</strong><span class="pull-right"><i style="margin-right: 5px" class="fa" ng-class="{'fa-arrow-circle-down' : expandedException[id], 'fa-arrow-circle-left' : !expandedException[id]}" ng-click="expandException(id)"></i></span></p>
+									</div>
+									<hr style="margin:0px"/>
+									<p class="slick" ng-repeat="(id, schedule) in data.Schedule" style="margin-bottom:2px;">{{dateFromDay(initialYear, schedule.start) | date : "MMM-dd"}}</p>
+
+									<div>
+										<div ng-show="expandedException[id]">
+											<table class="table" style="margin-bottom:0px">
+												<th>Day</th>
+												<th>Start</th>
+												<th>End</th>
+												<tr ng-repeat='(key,val) in data.Days'>
+													<td ng-hide="!val.timeblocks">{{val.Name}}</td>
+													<td ng-hide="!val.timeblocks">
+														<table>
+															<tr ng-repeat="(id, data) in val.timeblocks">
+																<td>{{data.start.hr}}:{{data.start.mn}}</td>
+															</tr>
+														</table>
+													</td>
+													<td ng-hide="!val.timeblocks" >
+														<table>
+															<tr ng-repeat="(id, data) in val.timeblocks">
+																<td>{{data.end.hr}}:{{data.end.mn}}</td>
+															</tr>
+														</table>
+													</td>
+												</tr>
+											</table>
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="panel-body text-center" ng-if="selectedView == 'loading'" style="padding:10px;">
+							<i class="fa fa-spinner fa-spin fa-4x text-primary"></i>
+							<p class="lead text-muted">Loading</p>
+						</div>
+
+					</div>
+
+				</div>
+				<div class="col-md-6">
+
+					<label>
+						
+						<div  class="btn-group">
+							<button class="btn btn-xs btn-primary" ng-click="toggleWeek()">Week</button>
+							<button  ng-click="toggleMonth()" class="btn btn-xs btn-primary">Month</button>
+							<button  ng-click="toggleYear()" class="btn btn-xs btn-primary">Year</button>
+						</div>
+					</label>
+					<button ng-class="{'btn-success': pendingSave==false, 'btn-warning' : pendingSave==true}" class="pull-right btn btn-xs" ng-click="saveScheduleDialog(changesPending)" ng-disabled='schedType == "local" && schedData.scheduleGroupID'>Save {{changesPending.length}} Changes</button>
+
+					<div class="panel panel-default">
+						<div class="panel-body" style="height: 625px; overflow-y: scroll;">
+
+							<div style="margin:0px;" ng-if="selectedView == 'month' || selectedView == 'year'">
+								<scheduler  selected-view="selectedView" schedule="schedData" pending-save="pendingSave" changes-pending="changesPending"></scheduler>
+							</div>
+							<div class="text-center" ng-if="selectedView == 'loading'" style="padding:10px;">
+								<i class="fa fa-spinner fa-spin fa-4x text-primary"></i>
+								<p class="lead text-muted">Loading</p>
+							</div>
+
+							<div ng-if="selectedView == 'week' ">
+
+								<weekly-calendar events="eventSources" selected-view="selectedView" sched-data="schedData"></weekly-calendar>
+								<!--
+								<div ui-calendar="uiConfig.calendar" calendar="myCalendar1" ng-model="eventSources" inc-date="incDate1"></div>
+								-->
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

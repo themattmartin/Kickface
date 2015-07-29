@@ -1,0 +1,248 @@
+<div  class="dashboardNotifier bg-primary">
+	<omni-nav-history></omni-nav-history>
+	<local-time ng-cloak class="pull-right hidden-xs"></local-time>
+</div>
+<div  class="dashboardOptions darkGray" style="height:36px;">
+</div>
+<div class="row">
+    <div class="col-md-12">	
+    	<lock-status lock-data="lockData"></lock-status>
+    </div>
+</div>
+<div class="row" style="margin-left:38px;">
+    <div class="col-md-12">
+		<h1><i class="fa fa-edit"></i> Site Commissioning Wizard</h1>
+		<p class="lead">Omniboard will walk you through a few simple steps to get your new site up and running quickly.</p>
+		<ul class='nav nav-wizard'>
+			<li ng-click="activeStep=1" ng-class="{active:activeStep==1}"><a href="">Pick Model</a></li>
+			<li ng-click="activeStep=2" ng-class="{active:activeStep==2}"><a href="">Pick Gateway</a></li>
+			<li ng-click="activeStep=3" ng-class="{active:activeStep==3}"><a href="">Update Device</a></li>
+			<li ng-click="activeStep=4" ng-class="{active:activeStep==4}"><a href="">Update Points</a></li>
+			<li ng-click="activeStep=5" ng-class="{active:activeStep==5}"><a href="">Update Schedules</a></li>
+		</ul>
+	</div>
+</div>
+<div class="row" style="margin-left:38px;">
+	<div class="col-md-6" ng-if="!loading && activeStep == 1">
+		<div class="form-group" ng-if="!config.useScope">
+			<p class="lead" style="margin-top:15px;">The Omniboard import tool allows you to verify points and devices that you wish to upload from the data of any imported site.</p>
+			<p class="slick text-info" style="font-size:20px;"><i class="fa fa-reply fa-rotate-180"></i> Begin by selecting a Model from the list below. <i class="fa fa-chevron-circle-down"></i></p>
+			<label for="modelName">Model</label><br />
+			<select class="form-control" name="modelName" ng-model="selectedModelName" ng-options="key as key for (key,type) in modelNames" ng-change="getPendingStatusData(selectedModelName)">
+				<option value="" selected="selected">Select</option>
+			</select>
+		</div>
+	</div>
+</div>
+<div class="row" ng-if="loading">
+	<div class="col-md-12 text-center">
+		<h2><i class="fa fa-spinner fa-spin fa-5x text-info"></i></h2><br />
+		<strong>Loading</strong>
+	</div>
+</div>
+
+
+<div class="row" style="margin-left:38px;" ng-if="!loading && activeStep == 2">
+	<div class="col-md-12 ">
+		<p class="slick text-info" style="font-size:20px; margin-top:15px;"><i class="fa fa-reply fa-rotate-180"></i> Next, select the Gateway you wish to work on.</p>
+    </div>
+</div>
+<div class="row" style="margin-left:38px;" ng-if="!loading && activeStep == 2">
+	<div class="col-md-12" ng-repeat="(id,data) in itemsPending">
+		{{data.Name}} - {{data.IP}} 
+		<button class="btn btn-sm btn-primary" ng-click="pickItemToWork(id)">
+			<i class="fa fa-check"></i>
+		</button>
+    </div>
+</div>
+
+<!-- SHOW THE TITLE OF THE GATEWAY THAT IS BEING WORKED ON -->
+<div class="row" style="margin-left:38px;" ng-if="!loading && activeStep > 2">
+	<div class="col-md-4">
+		<h3>{{itemsPending[selectedItem].Name}}</h3>
+	</div>
+</div>
+
+<!-- DISPLAY FOR DEVICES -->
+<div class="row" style="margin-left:50px;" ng-if="!loading && activeStep == 3">
+	<p class="slick text-info" style="font-size:20px;"><i class="fa fa-reply fa-rotate-180"></i> From here you can verify all incoming device types and create new device types.</p>
+	<div class="col-md-12 ">
+		<div class="row">
+			<div class="col-md-12 well well-sm pull-right">
+				<div class="row">
+					<div class="col-md-9">
+						<strong>Devices Remaining:</strong> {{remainingDevices}}
+					</div>
+					<div class="col-md-3">
+						<button type="button" class="btn btn-sm btn-primary pull-right" ng-click="addTypeDialog('Device')"> Add Device Type</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">			
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+							<th>Path</th>
+							<th>Type</th>
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="(key,data) in filteredData" ng-class="{success:data.verifyInProgress, info:!data.verifyInProgress&&config.ptType}">
+							<td>{{key}}</td>
+							<td>{{data.Name}}</td>
+							<td>{{data.Path}}</td>
+							<td>
+								<select class="form-control" name="ptType" ng-model="config.ptType" ng-options="key as type.Name for (key,type) in deviceTypes">
+									<option value="" selected="selected">Select</option>
+								</select>
+							</td>
+							<td>
+								<div class="btn-group">
+									<button class="btn btn-sm btn-primary" ng-disabled="!config.ptType || data.verifyInProgress" ng-click="verify(data.Name,data.Path,config.ptType,selectedItem,key,'Device','',true,data)">
+										<i ng-class="{fa:true, 'fa-spinner':data.verifyInProgress, 'fa-spin': data.verifyInProgress, 'fa-check':!data.verifyInProgress}"></i>
+									</button>
+									<button class="btn btn-sm btn-danger" ng-disabled="data.verifyInProgress" ng-click="remove(selectedItem,key,'Device',true)">
+										<i class="fa fa-trash-o"></i>
+									</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">			
+				<button class="btn btn-primary" ng-disabled="remainingDevices != 0" ng-click="incActiveStep()">Next</button>
+			</div>
+		</div>
+
+    </div>
+</div>
+<!-- DISPLAY FOR POINTS -->
+<div class="row" style="margin-left:50px;" ng-show="!loading && activeStep == 4">
+	<p class="slick text-info" style="font-size:20px;"><i class="fa fa-reply fa-rotate-180"></i> From here you can verify all incoming point types and create new point types.</p>
+	<div class="col-md-12 ">
+		<div class="row">
+			<div class="col-md-12 well well-sm pull-right">
+				<div class="row">
+					<div class="col-md-2" ng-if="!loading && activeStep == 4">
+						<strong>Points Remaining:</strong> {{remainingPoints}}
+					</div>
+					<div class="col-md-2">
+						<div class="input-group">
+							<input type="text" class="form-control" ng-model="filter1" placeholder="Filter 1" ng-change="primaryFilter(filter1)" >
+							<span class="input-group-addon"><i ng-class="{fa:true, 'fa-spin':searchInProgress, 'fa-spinner':searchInProgress, 'fa-keyboard-o':searchInWait&&!searchInProgress }"></i></span>							
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="input-group" >
+							<input type="text" ng-disabled="!filter1 || filter1.length == 0 || primaryFilterPromise" class="form-control"  ng-model="filter2" placeholder="Filter 2" ng-change="secondaryFilter(filter2)" >
+							<span class="input-group-addon"><i ng-class="{fa:true, 'fa-spin':secondarySearchInProgress, 'fa-spinner':secondarySearchInProgress, 'fa-keyboard-o':secondarySearchInWait&&!secondarySearchInProgress }"></i></span>							
+						</div>
+					</div>
+					<div class="col-md-3">
+						<select class="form-control" name="ptType" ng-model="updateAll.ptType" ng-options="key as type.Name for (key,type) in pointTypes">
+							<option value="" selected="selected">Select</option>
+						</select>
+					</div>
+					<div class="col-md-3">
+						<button type="button" ng-if="activeStep==4" class="btn btn-sm btn-primary pull-right" ng-click="addTypeDialog('Point')"><i class="fa fa-plus-circle"></i> Add Point Type</button>
+						<button ng-disabled="!filter1 || filter1.length == 0" class="btn btn-sm btn-danger pull-right" ng-click="deleteAll(updateAll.ptType)">
+							<i ng-class="{fa:true, 'fa-spinner':deleteAllInProgress, 'fa-spin':deleteAllInProgress, 'fa-trash-o':!deleteAllInProgress }"></i>
+							{{ deleteAllInProgress ? 'Deleting...' : 'Delete All' }}
+						</button>
+						<button ng-disabled="!updateAll.ptType || !filter1 || filter1.length == 0" class="btn btn-sm btn-warning pull-right" ng-click="updateAll(updateAll.ptType)">
+							<i ng-class="{fa:true, 'fa-spinner':verifyAllInProgress, 'fa-spin':verifyAllInProgress, 'fa-check':!verifyAllInProgress }"></i>
+							{{ verifyAllInProgress ? 'Applying...' : 'Apply To All' }}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">			
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+							<th>Value</th>
+							<th>Path</th>
+							<th>devicePath</th>
+							<th>Type</th> 
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="(key,data) in filteredData track by key" ng-if="data && !data.complete" ng-class="{success:data.verifyInProgress||verifyAllInProgress, warning:deleteAllInProgress, info:!data.verifyInProgress&&config.ptType}">
+							<td>{{key}}</td>
+							<td>{{data.Name}}</td>
+							<td>{{data.Value}}</td>
+							<td>{{data.Path}}</td>
+							<td>{{data.devicePath}}</td>
+							<td>
+								<select class="form-control" name="ptType" ng-model="config.ptType" ng-options="key as type.Name for (key,type) in pointTypes">
+									<option value="" selected="selected">Select</option>
+								</select>
+							</td>
+							<td>
+
+								<div class="btn-group">
+									<button class="btn btn-sm btn-primary" ng-disabled="!config.ptType || data.verifyInProgress" ng-click="verify(data.Name,data.Path,config.ptType,selectedItem,key,'Point',data.Device,true,data)">
+										<i ng-class="{fa:true, 'fa-spinner':data.verifyInProgress, 'fa-spin': data.verifyInProgress, 'fa-check':!data.verifyInProgress}"></i>
+									</button>
+									<button class="btn btn-sm btn-danger" ng-disabled="data.verifyInProgress" ng-click="remove(selectedItem,key,'Point',true)">
+										<i class="fa fa-trash-o"></i>
+									</button>
+								</div>
+
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">			
+				<button class="btn btn-primary" ng-disabled="remainingPoints != 0" ng-click="completeProcess()">Next</button>
+			</div>
+		</div>
+    </div>
+</div>
+<!-- DISPLAY FOR SCHEDULES -->
+<div class="row" style="margin-left:50px;" ng-if="!loading && activeStep == 5">
+	<div class="col-md-12">
+		<p class="slick text-info" style="font-size:20px;"><i class="fa fa-reply fa-rotate-180"></i> From here you can manage your schedules.</p>
+		<div class="row well well-sm">
+			<button class="btn btn-small btn-success pull-right" ng-click="saveSchedules()"><i class="fa fa-save"></i> Save All</button>
+		</div>
+		<div class="row">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Type</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(key,data) in schedules track by key" ng-if="schedules.length">
+						<td>{{key}}</td>
+						<td>{{data.Name}}</td>
+						<td>
+							<select class="form-control input-sm" ng-model="data.type" ng-options="type as type.Name for (key,type) in scheduleTypes">
+								<option value="" selected="selected">Select</option>
+							</select>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

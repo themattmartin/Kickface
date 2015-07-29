@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="button-group pull-right">
+        	<button type="button" class="btn btn-primary" ng-click="savePageRights()" ng-disabled="saving"><i ng-class="{fa:true, 'fa-play-circle':!saving, 'fa-spinner':saving, 'fa-spinning':saving }"></i> Apply</button>
+        	<br>
+        </div>    	        
+
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<tabset>
+	    	<tab ng-repeat="(pageGroup,pages) in availablePages" heading="{{pageGroup}}">
+
+	    		<div>
+	    			<div style="padding:10px" class="bg-primary" ng-if="pageGroup == 'Dashboards' || pageGroup == 'Models'">
+	    				<div class="input-group input-group-md">
+ 	 						<span class="input-group-addon"><i class="fa fa-bullseye"></i> Scope</span>
+		    				<select class="form-control" ng-model="modelName" ng-options="modelName as modelName for (modelName,model) in modelNames" ng-change="updateDashboardModelName(modelName)">
+		    					<option value="" selected="selected">[ Any Model ]</option>
+		    				</select>
+	    				</div>
+	    				<!-- <select class="form-control input-md" ng-if="dashboardModelItems" ng-model="modelItemId" ng-options="modelItemId as modelItem.Name for (modelItemId,modelItem) in dashboardModelItems" ng-change="updateDashboardModelItem(modelItemId)"></select> -->
+					</div>
+					<center> <h4 style=" margin-top:0px; margin-bottom:0px; padding:10px;" class=" bg-info">Drag pages right to assign rights. <i class="fa fa-arrow-circle-right"></i></h4></center>
+					<div ui-tree="pagesTreeOptions">
+						<div class="list-group" ui-tree-nodes="" ng-model="pages" data-nodrop>
+							<div ng-repeat="page in pages" ui-tree-node> 
+								<div ng-class="{'list-group-item': true, 'list-group-item-info': page.alreadyAssigned}" >
+									<h4 class="list-group-item-heading">{{page.displayName}} {{page.testTitle}}</h4>
+									<p class="list-group-item-text">
+										<span class="text-muted" ng-bind-html="page.displayUrl"></span>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div> 
+				</div>
+			</tab>
+		</tabset>
+	</div>
+
+	<div class="col-md-8" >
+		<div class="panel panel-primary" style="display:inline-block; width:400px; margin-right:10px; vertical-align:top" ng-repeat="(right,rightObject) in allRights">
+			<div class="panel-heading">
+				<h3 class="panel-title"><i class="fa fa-users"></i> {{right}}</h3>
+			</div>		
+			<div ui-tree="pagesTreeOptions" data-empty-place-holder-enabled="true">
+				<div class="list-group" ui-tree-nodes="" ng-model="pagesArray[right]">
+					<div ng-repeat="page in pagesArray[right]" ui-tree-node data-nodrag> 
+						<div class="list-group-item" >
+							<h4 class="list-group-item-heading">
+								{{page.displayName}}
+								<a ng-click="removePageRight($index, right)" href=""><i class="text-danger fa fa-times pull-right"></i></a>
+							</h4>
+							<p class="list-group-item-text">
+								
+								<span class="text-muted" ng-bind-html="page.displayUrl"></span>								
+							</p>							
+							
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+	</div>
+</div>

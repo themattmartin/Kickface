@@ -1,0 +1,33 @@
+<div class="popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title" ng-bind="title" ng-show="title"></h3>
+	<div class="popover-content">
+		<form role="form">
+			<div class="form-group">
+				<label for="modelName">Model</label><br />
+				<select class="form-control" name="modelName" ng-model="newQuery.modelName" ng-options="key as key for (key,type) in models" ng-change="loadModelTypes(newQuery.modelName, query)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelName.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group" ng-if="newQuery.modelName">
+				<label for="modelType">Model Types</label><br />
+				<select class="form-control" name="modelType" ng-model="newQuery.query[newQuery.modelName + 'Type']" ng-options="key as type.Name for (key,type) in modelTypes" ng-change="setModelType(newQuery.modelName, newQuery.modelType)">
+					<option value="" selected="selected">[All {{newQuery.modelName}}]</option>
+				</select>
+				<span ng-show="frm.modelType.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group" ng-if="newQuery.modelName">
+				<label for="valueProp">Model Properties</label><br />
+				<select class="form-control" name="modelProp" ng-model="newQuery.valueProp" ng-options="prop.label as prop.label for (key,prop) in modelProps">
+					<option value="" selected="selected">[No Property]</option>
+				</select>
+				<span ng-show="frm.valueProp.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary" ng-click="addQuery(); $hide();">Add to Query</button>
+				<button class="btn btn-danger" ng-click="$hide()">Cancel</button>
+			</div>
+		</form>		
+	</div>
+</div>

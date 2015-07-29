@@ -1,0 +1,87 @@
+
+<script type="text/ng-template"  id="tree_item_renderer.html">
+
+	<i title="Expand/Collapse" ng-class="{'treeViewNoPointer':!data.id, 'treeViewPointer':data.id}" ng-if="data.folder==true" class="fa fa-folder treeViewPointer" ng-click="getChildren(data,data.modelName,data.id, data.Name, false)"></i>
+	<i title="Expand/Collapse" ng-if="data.id && data.folder==true && !data.expanded " ng-click="getChildren(data, data.modelName, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-right': !data.loading}"></i>
+	<i title="Expand/Collapse" ng-if="data.id && data.folder==true && data.expanded " ng-click="getChildren(data, data.modelName, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-down': !data.loading}"></i>
+
+	<i title="Expand/Collapse" ng-class="{'treeViewNoPointer':!data.id, 'treeViewPointer':data.id}" ng-if="data.type=='Site'&&data.folder==false" class="fa fa-building" ng-click="getChildren(data,data.type,data.id, data.Name, false)"></i>
+	<i title="Expand/Collapse" ng-if="data.id && !data.expanded && data.folder==true" ng-click="getChildren(data, data.type, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-right': !data.loading}"></i>
+	<i title="Expand/Collapse" ng-if="data.id && data.expanded && data.folder==true" ng-click="getChildren(data, data.type, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-down': !data.loading}"></i>
+
+	<i title="Expand/Collapse" ng-class="{'treeViewNoPointer':!data.id, 'treeViewPointer':data.id}" ng-if="data.type=='Point'&&data.folder==false" class="fa fa-circle-o" ng-click="getChildren(data,data.type,data.id, data.Name, false)"></i>
+	<i title="Expand/Collapse" ng-if="data.id && !data.expanded && data.folder==false" ng-click="getChildren(data, data.type, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-right': !data.loading}"></i>
+	<i title="Expand/Collapse" ng-if="data.id && data.expanded && data.folder==false" ng-click="getChildren(data, data.type, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-down': !data.loading}"></i>
+
+	<i title="Expand/Collapse" ng-class="{'treeViewNoPointer':!data.id, 'treeViewPointer':data.id}" ng-if="data.type=='Device'&&data.folder==false" class="fa fa-leaf" ng-click="getChildren(data,data.type,data.id, data.Name, false)"></i>
+	<i title="Expand/Collapse" ng-if="data.id && !data.expanded && data.folder==false" ng-click="getChildren(data, data.type, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-right': !data.loading}"></i>
+	<i title="Expand/Collapse" ng-if="data.id && data.expanded && data.folder==false" ng-click="getChildren(data, data.type, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-down': !data.loading}"></i>
+
+	<i title="Expand/Collapse" ng-class="{'treeViewNoPointer':!data.id, 'treeViewPointer':data.id}" ng-if="data.type=='Gateway'&&data.folder==false" class="fa fa-power-off" ng-click="getChildren(data,data.type,data.id, data.Name, false)"></i>
+	<i title="Expand/Collapse" ng-if="data.id && !data.expanded && data.folder==false" ng-click="getChildren(data, data.type, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-right': !data.loading}"></i>
+	<i title="Expand/Collapse" ng-if="data.id && data.expanded && data.folder==false" ng-click="getChildren(data, data.type, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-down': !data.loading}"></i>
+
+	<i title="Expand/Collapse" ng-class="{'treeViewNoPointer':!data.id, 'treeViewPointer':data.id}" ng-if="data.type=='SiteNote'&&data.folder==false" class="fa fa-pencil" ng-click="getChildren(data,data.type,data.id, data.Name, false)"></i>
+	<i title="Expand/Collapse" ng-if="data.id && !data.expanded && data.folder==false" ng-click="getChildren(data, data.type, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-right': !data.loading}"></i>
+	<i title="Expand/Collapse" ng-if="data.id && data.expanded && data.folder==false" ng-click="getChildren(data, data.type, data.id, data.Name, false)" class="fa-li fa treeViewPointer" ng-class="{'fa-spinner fa-spin': data.loading, 'fa-chevron-down': !data.loading}"></i>
+
+
+	<a ng-if="data.id" style="white-space: nowrap;" class="treeViewPointer text-info" title="Details for {{data.Name}}" ng-click="showDetail(data, key, data.Name, true)">
+		{{data.Name}}
+	</a>
+	<span ng-if="!data.id" style="white-space: nowrap;" class="treeViewNoPointer text-muted" title="Details for {{data.Name}}" ng-click="showDetail(data, key, data.Name, true)">
+		{{data.Name}}
+	</span>
+
+
+	<ul class="fa-ul">
+		<li ng-repeat="(key,data) in data.nodes" ng-include="'tree_item_renderer.html'"></li>
+	</ul>
+
+</script>
+<div  ng-class="{'panel': config.showPanel ,'panel-default': config.showPanel, 'widgetPrimary': config.bgColor == 'blue' &&  config.showPanel, 'widgetSuccess': config.bgColor == 'green' &&  config.showPanel, 'widgetInfo': config.bgColor == 'lightBlue' &&  config.showPanel, 'widgetWarning': config.bgColor == 'yellow' &&  config.showPanel, 'widgetDanger': config.bgColor == 'red' &&  config.showPanel,'widgetGray': config.bgColor == 'gray' &&  config.showPanel, 'darkGray': config.bgColor == 'darkGray' &&  config.showPanel}" ng-style="{'margin-top': config.marginTop, 'margin-bottom' : config.marginBottom}">
+	<div ng-if="dataLoaded && !dataLoadedError" ng-class="{'panel-body':config.showPanel}">
+		<div>
+			<div class="row">
+				<div class="col-md-4">
+					<ul class="fa-ul">
+						<li ng-class="config.titleTextLabel" ng-repeat="data in tree" ng-include="'tree_item_renderer.html'"></li>
+					</ul>
+				</div>
+				<div class="col-md-8" ng-if="details" close="closeDetails($index)">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+							<h3 class="panel-title">Details for {{detailTitle}}</h3>
+						</div>
+						<div class="panel-body">
+							<div ng-repeat="(key,data) in details">
+								<span ng-if="key != '_id'" style="word-wrap: break-word;">
+									<span class="label label-primary">{{key}}</span>
+									<span ng-if="key == 'Password'">**********</span>
+									<span ng-if="key != 'Password' && key != 'lastModified'">{{data}}</span>
+									<span ng-if="key == 'lastModified'">{{data | date:'medium'}}</span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 text-center" ng-if="!dataLoaded">
+		<h3>
+			<i class="fa fa-spinner fa-spin text-info"></i>
+		</h3>
+		<strong>Data Loading ...</strong>
+	</div>
+	<div class="col-md-12 text-center" ng-if="dataLoadedError">
+		<h3>
+			<i class="fa fa-star-o text-warning"></i>
+		</h3>
+		<!--<strong>Error Loading Data</strong>-->
+	</div>
+
+
+</div>

@@ -1,0 +1,170 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h5><i class="fa fa-cogs"></i> Button Configuration</h5>
+	</div>
+	<div class="panel-body">
+		<div class="panel panel-default" style="margin-top:10px">
+			<div class="panel-body">
+				<div  ng-class="{'panel': config.showPanel ,'panel-default': config.showPanel, 'widgetPrimary': config.bgColor == 'blue' &&  config.showPanel, 'widgetSuccess': config.bgColor == 'green' &&  config.showPanel, 'widgetInfo': config.bgColor == 'lightBlue' &&  config.showPanel, 'widgetWarning': config.bgColor == 'yellow' &&  config.showPanel, 'widgetDanger': config.bgColor == 'red' &&  config.showPanel,'widgetGray': config.bgColor == 'gray' &&  config.showPanel}" >
+	<div ng-class="{'panel-body': config.showPanel, 'text-left': config.buttonAlign =='left','text-center': config.buttonAlign=='center','text-right':config.buttonAlign=='right'}">
+
+		<a href="" class="btn" ng-click="save()" ng-class="[config.myButtonColor, config.myButtonSize]" ><i class="fa" ng-class="config.myButtonIcon"></i> {{config.content}}</a>
+		
+	</div>
+</div>
+
+			</div>
+		</div>
+		<form class="form-inline" role="form">
+			<div class="form-group">
+				<label for="modelName">Model</label><br />
+				<select class="form-control" name="modelName" ng-model="config.modelName" ng-options="key as key for (key,type) in modelNames" ng-change="loadModelTypes(config.modelName)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelName.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group">
+				<label for="modelType">Type</label><br />
+				<select class="form-control" name="modelType" ng-model="config.modelType" ng-options="key as type.Name for (key,type) in modelTypes" ng-change="setModelType(config.modelName, config.modelType)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelType.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group">
+				<label for="valueProp">Value Property</label><br />
+				<select class="form-control" name="valueProp" ng-model="config.valueProp" ng-options="getPropertyValue(prop) as prop.label for (key,prop) in valueProps">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.valueProp.$error.required" class="help-inline">*Required</span>
+			</div>
+		</form>
+		
+			
+		<form class="form-inline" role="form">
+			<div class="form-group">
+	        	<label for="content" style="margin-top:10px">Button Text</label></br>
+	        	<input type="text" class="form-control" ng-model="config.content" />
+	      	</div>
+	      	<div class="form-group col-md-offset-1" style="margin-top:10px;">
+	        	<label for="value">Value</label></br>
+	        	<input type="text" name="value" class="form-control" ng-model="config.myButtonValue" />
+	        	<span ng-show="frm.value.$error.required" class="help-inline">*Required</span>
+	      	</div>
+	    </form>
+	    <form class="form-inline" role="form">
+			<div  class="form-group">
+				<label for="labColor">Button Color</label></br>
+				<div  name="labColor" class="btn-group">
+					<button class="btn btn-default" ng-click="config.myButtonColor = ''">&nbsp;</button> 
+					<button class="btn btn-primary" ng-click="config.myButtonColor = 'btn-primary'">&nbsp;</button>
+					<button class="btn btn-success" ng-click="config.myButtonColor = 'btn-success'">&nbsp;</button> 
+					<button class="btn btn-info" ng-click="config.myButtonColor = 'btn-info'">&nbsp;</button> 
+					<button class="btn btn-warning" ng-click="config.myButtonColor = 'btn-warning'">&nbsp;</button> 
+					<button class="btn btn-danger" ng-click="config.myButtonColor = 'btn-danger'">&nbsp;</button>  
+				</div>
+			</div>
+			<div  class="form-group col-md-offset-1" style="margin-left:65px">
+				<label for="buttonSize" style="margin-top:10px;">Button Size</label></br>
+				<div  name="buttonSize">
+					<button class="btn btn-xs" ng-click="config.myButtonSize = 'btn-xs'">&nbsp;</button> 
+					<button class="btn btn-sm" ng-click="config.myButtonSize = 'btn-sm'">&nbsp;</button>
+					<button class="btn " ng-click="config.myButtonSize = ''">&nbsp;</button> 
+					<button class="btn btn-lg" ng-click="config.myButtonSize = 'btn-lg'">&nbsp;</button> 
+				</div>
+			</div>		
+		</form>
+		<form>
+			<label for="buttonSize" style="margin-top:10px;">Button Alignment</label></br>
+			<div class="btn-group">
+ 				 <button type="button" class="btn btn-primary" ng-click="config.buttonAlign = 'left'"><i class="fa fa-align-left"></i></button>
+  				 <button type="button" class="btn btn-primary" ng-click="config.buttonAlign = 'center'"><i class="fa fa-align-center"></i></button>
+ 				 <button type="button" class="btn btn-primary" ng-click="config.buttonAlign = 'right'"><i class="fa fa-align-right"></i></button>
+			</div>
+		</form>
+		<label for="buttonSize" style="margin-top:10px;">Choose an Icon</label></br>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-cube'"><i class="fa fa-cube" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-cube'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-bolt'"><i class="fa fa-bolt" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-bolt'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-globe'"><i class="fa fa-globe" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-globe'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-plus-square'"><i class="fa fa-plus-square" ng-class="{'text-primary':config.myButtonIcon =='fa fa-plus-square'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-minus-square'"><i class="fa fa-minus-square" ng-class="{'text-primary':config.myButtonIcon =='fa fa-minus-square'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-sign-in'"><i class="fa fa-sign-in" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-sign-in'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-sign-out'"><i class="fa fa-sign-out" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-sign-out'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-pencil-square-o'"><i class="fa fa-pencil-square-o" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-pencil-square-o'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-arrow-circle-down'"><i class="fa fa-arrow-circle-down" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-arrow-circle-down'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-arrow-circle-up'"><i class="fa fa-arrow-circle-up" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-arrow-circle-up'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-arrow-circle-left'"><i class="fa fa-arrow-circle-left" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-arrow-circle-left'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-arrow-circle-right'"><i class="fa fa-arrow-circle-right" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-arrow-circle-right'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-star'"><i class="fa fa-star" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-star'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-users'"><i class="fa fa-users" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-users'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-floppy-o'"><i class="fa fa-floppy-o" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-floppy-o'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-repeat'"><i class="fa fa-repeat" ng-class="{'text-primary':config.myButtonIcon =='fa fa-repeat'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-arrows'"><i class="fa fa-arrows" ng-class="{'text-primary':config.myButtonIcon =='fa fa-arrows'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-thumbs-up'"><i class="fa fa-thumbs-up" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-thumbs-up'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-thumbs-down'"><i class="fa fa-thumbs-down" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-thumbs-down'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-lightbulb-o'"><i class="fa fa-lightbulb-o" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-lightbulb-o'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-link'"><i class="fa fa-link" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-link'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-upload'"><i class="fa fa-upload" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-upload'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-download'"><i class="fa fa-download" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-download'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-cog'"><i class="fa fa-cog" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-cog'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-trash-o'"><i class="fa fa-trash-o" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-trash-o'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-cogs'"><i class="fa fa-cogs" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-cogs'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-play'"><i class="fa fa-play" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-play'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-stop'"><i class="fa fa-stop" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-stop'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-exclamation-triangle'"><i class="fa fa-exclamation-triangle" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-exclamation-triangle'}"></i></a>
+				<a class="text-muted" ng-click="config.myButtonIcon = 'fa fa-info'"><i class="fa fa-info" ng-class="{'text-primary':config.myButtonIcon == 'fa fa-info'}"></i></a>
+
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default" ng-show="config.showSettings">
+	<div class="panel-heading">
+		<h5><i class="fa fa-cube"></i> Widget Style Configuration</h5>
+	</div>
+	<div class="panel-body">
+		<form class="form-inline"  style="margin-bottom:10px;">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div  class="form-group" >
+						<label for="background">Background</label></br>
+						<div class="checkbox">
+					      <label>
+					        <input ng-model="config.showPanel" name="background" type="checkbox"> Display
+					      </label>
+			   			 </div>
+		   			</div>
+					<div  class="form-group col-md-offset-1" ng-if="config.showPanel" style="margin-left:60px;">
+						<label for="bgColor" style="margin-left:10px; margin-top:10px;">Color</label></br>
+						<div style="margin-left:10px;" class="btn-group">
+							<button class="btn btn-default" ng-click="config.bgColor = ''">&nbsp;</button>
+							<button class="btn darkGray" ng-click="config.bgColor = 'darkGray'">&nbsp;</button>
+							<button class="btn gray" ng-click="config.bgColor = 'gray'">&nbsp;</button>
+							<button class="btn btn-primary" ng-click="config.bgColor = 'blue'">&nbsp;</button>
+							<button class="btn btn-success" ng-click="config.bgColor = 'green'">&nbsp;</button>
+							<button class="btn btn-info" ng-click="config.bgColor = 'lightBlue'">&nbsp;</button>
+							<button class="btn btn-warning" ng-click="config.bgColor = 'yellow'">&nbsp;</button>
+							<button class="btn btn-danger" ng-click="config.bgColor = 'red'">&nbsp;</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<form class="form-inline" role="form">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					  <div class="form-group">
+					    <label  for="margin-top">Margin-Top</label></br>
+					    <input type="text" ng-model="config.marginTop" class="form-control" id="margin-top" placeholder="10px">
+					  </div>
+					  <div class="form-group col-md-offset-1">
+					    <label  for="margin-bottom">Margin-Bottom</label></br>
+					    <input type="text" ng-model="config.marginBottom" class="form-control" id="margin-bottom" placeholder="10px">
+					  </div>
+				</div>
+			</div>
+  		</form>
+	</div>
+</div>

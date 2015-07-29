@@ -1,0 +1,17 @@
+<div ng-if="dataLoaded && !dataLoadedError" ng-style="{'margin-top': config.marginTop, 'margin-bottom' : config.marginBottom, 'margin-right' : config.marginRight, 'margin-left' : config.marginLeft}">
+	<div style="max-height:500px; overflow-x:hidden; overflow-y:auto" class="panel panel-default" ng-click="pointPopupDialog()">
+		<table class="table" >
+			<tr ng-repeat="(key,prop) in labelProps" ng-if="config.properties[key]" class="active">
+				<td class="">
+					<b>{{ prop.label }}</b> : <span ng-class="returnedData['$' + config.modelName + 'Status'].Class">{{ getDisplayValue(returnedData, prop.label) == undefined ? 'Not Available' : formatData(getDisplayValue(returnedData, prop.label)) }}</span>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div ng-if="!dataLoaded && !dataLoadedError">
+		<h3>
+			<i class="fa fa-spinner fa-spin text-info"></i>
+		</h3>
+		<strong>Data Loading ...</strong>
+	</div>
+</div>

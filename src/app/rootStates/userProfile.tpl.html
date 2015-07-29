@@ -1,0 +1,42 @@
+<div class="modal-header bg-primary">
+	<button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title"><i class="fa fa-user"></i> {{name}} ({{userName}})</h4>
+</div>
+<div class="modal-body">
+	<div ng-if="!name" ng-class="panel-body" class="text-center">
+		<h3>
+			<i class="fa fa-spinner fa-spin text-info"></i>
+		</h3>
+		<strong>Data Loading ...</strong>
+	</div>
+	<div ng-class="panel-body" ng-show="name">
+		<span ng-if="lastOnline"><label style="font-size:14px; font-family:verdana; font-style:italic; font-weight:bold; text-align:right">Last Login:</label><span style="margin:2px;"></span><label style="color:#008cba; text-align:left">{{lastOnline | date:'yyyy-MM-dd HH:mm:ss Z'}}</label></span>
+		<div class="panel panel-default" style="margin-bottom:10px;">
+			<div class="panel-body" style="margin-left:15px;/*max-height:418px; overflow-y:scroll;*/">
+				<div>
+					<table style="width:100%">
+						<tr><td><alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert></td></tr>
+						<tr><td><label class="text-primary" style="font-size:14px; font-family:verdana; font-style:italic; font-weight:bold; text-align:right">First Name</label></td></tr>
+						<tr><td><input type="text" name="first_name" ng-pattern="word" ng-model="firstName" class="form-control" placeholder="First Name" required><br/></td></tr>
+						<tr><td><label class="text-primary" style="font-size:14px; font-family:verdana; font-style:italic; font-weight:bold; text-align:right">Last Name</label></td></tr>
+						<tr><td><input type="text" name="last_name" ng-pattern="word" ng-model="lastName" class="form-control" placeholder="Last Name" required><br/></td></tr>
+						<tr><td><label class="text-primary" style="font-size:14px; font-family:verdana; font-style:italic; font-weight:bold; text-align:right">Phone</label></td></tr>
+						<tr><td><input type="text" ng-model="phone" class="form-control" placeholder="Phone"><br/></td></tr>
+						<tr><td><input type="checkbox" ng-model="emailNotification"><span style="margin:2px;"></span><label class="text-primary" style="font-family:verdana; font-style:italic; font-weight:normal; text-align:right"> Receive email notifications for alarms</label><br/><br/></td></tr>
+						<tr><td><input type="checkbox" ng-model="textNotification" ng-change="validatePhone()"><span style="margin:2px;"></span><label class="text-primary" style="font-family:verdana; font-style:italic; font-weight:normal; text-align:right"> Receive text notifications for alarms on phone(Number required)</label><br/><br/></td></tr>
+						<tr><td style="text-align:center;"><a class="btn btn-primary btn-block" title="Save" ng-click="saveNameAndPhone()">Save</i></a></td></tr>
+						<tr><td><hr/></td></tr>
+						<tr><td><input type="checkbox" ng-model="wantPasswordChange"><span style="margin:2px;"></span><label style="font-size:14px; font-family:verdana; font-style:italic; font-weight:bold; text-align:right"> Change Password</label><br/><br/></td></tr>
+						<tr ng-show="wantPasswordChange"><td><label style="font-size:14px; font-family:verdana; font-style:italic; font-weight:bold; text-align:right">Enter current password</label></td></tr>
+						<tr ng-show="wantPasswordChange"><td><input type="password" ng-model="currentPassword" class="form-control" placeholder="Current Password"><br/></td></tr>
+						<tr ng-show="wantPasswordChange"><td><label style="font-size:14px; font-family:verdana; font-style:italic; font-weight:bold; text-align:right">Enter new password</label></td></tr>
+						<tr ng-show="wantPasswordChange"><td><input type="password" ng-model="newPassword" class="form-control" placeholder="New Password"><br/></td></tr>
+						<tr ng-show="wantPasswordChange"><td><label style="font-size:14px; font-family:verdana; font-style:italic; font-weight:bold; text-align:right">Re-enter new password</label></td></tr>
+						<tr ng-show="wantPasswordChange"><td><input type="password" ng-model="confirmNewPassword" class="form-control" placeholder="Confirm New Password"><br/></td></tr>
+						<tr ng-show="wantPasswordChange"><td style="text-align:center;"><input type="button" value="Change Password" ng-click="changePassword()" class="btn btn-primary"/></td></tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,378 @@
+<div class="modal-header" role="dialog" ng-class="{'schedule-dtException':exceptionType.type == 'date-range','schedule-otException': exceptionType.type == 'one-time', 'panel-noException' : !exceptionType.type}">
+  <button type="button" class="close" ng-click="closeExceptionDialog()" aria-hidden="true">&times;</button>
+  <h4 class="modal-title"><i class="fa fa-tachometer"></i> Day Details for {{month}} - {{day}}</h4>
+</div>
+<div class="modal-body">
+  <div>
+    <h3>{{newExceptionType}} Exception<span class="pull-right">
+      
+      <div class="btn-group">
+        <button class="btn btn-xs schedule-otException" ng-class="{'active': otException}" ng-click="addOneTime()"><i class="fa fa-plus-circle"></i> One Time</button>
+        <button class="btn btn-xs schedule-dtException" ng-class="{'active': dtException}"  ng-click="addDateRange()"><i class="fa fa-plus-circle"></i> Date Range</button>
+      </div></span>
+    </h3>
+    <div ng-show="addException == 'newOneTime'">
+      <div class="form-group">
+        <div class="col-md-3 pull-right">
+                <select class="form-control" ng-model="time.frequency" >
+                  <option value="Recurring">Recurring</option>
+                  <option value="Once">Once</option>
+                </select>
+         </div>
+      </div>
+       <div class="form-group">
+        <label for="Name" style="margin-top:18px">Name</label>
+        <input type="text" required class="form-control" name="Name" ng-model="time.Name" />
+        <span ng-show="requiredField" class="label label-danger">*Required</span>
+		<span ng-show="nameInUse" class="label label-danger">*Name already in use</span>
+      </div>
+     
+        
+     
+        <hr style="margin:0px"/>
+      <div class="row" style="margin-bottom:5px;">
+          <div style="margin-top:8px;" class="col-md-2">
+                <label class="text-muted">Date:</label>
+          </div>
+          <div style="margin-top:8px;margin-bottom:8px" class="col-md-4">
+                <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="time.schedStart" is-open="opened1" min-date="minDate"  datepicker-options="dateOptions" close-text="Close" ng-click="openTime1($event)"/>
+          </div>
+          <div  class="col-md-5">
+          </div>
+      </div>
+<div class="row">
+			<div class="col-md-12" id="alerts">
+				<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+			</div>
+			<br>
+		</div>
+
+     
+
+      <table class="table" style="margin-bottom:0px;">
+          <th>Day</th>
+          <th></th>
+          <th style="padding-left:10px">Start</th>
+          <th style="padding-left:40px">End</th>
+          <th style="padding-left:40px">Delete</th>
+      </table>
+      <table class="table"  style="margin-bottom:0px">
+        <tr ng-hide="!day.timeblocks"  ng-repeat="(key, day) in exceptionType.Days">
+          <td >
+            {{day.Name}}</br><button class="btn btn-xs btn-warning" ng-click="addTimeblock(key)"><i class="fa fa-plus-circle"></i> Timeblock</button>
+          </td>
+          <td>
+            <table>
+              <tr ng-repeat="(val,timeblocks) in day.timeblocks" >
+                <td> 
+                  <form class="form-inline" role="form" style="margin-top:10px;">
+                    <div class="form-group form-group-sm">
+                      <div class="input-group">
+                        <label class="sr-only" for="exampleInputEmail2">Hours</label>
+                        <select class="form-control" ng-change="updateTime('start', 'hr', timeblocks.start.hr )" ng-model="timeblocks.start.hr" >
+                           <option value="00">00</option>
+                          <option value="01">01</option>
+                          <option value="02">02</option>
+                          <option value="03">03</option>
+                          <option value="04">04</option>
+                          <option value="05">05</option>
+                          <option value="06">06</option>
+                          <option value="07">07</option>
+                          <option value="08">08</option>
+                          <option value="09">09</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                          <option value="13">13</option>
+                          <option value="14">14</option>
+                          <option value="15">15</option>
+                          <option value="16">16</option>
+                          <option value="17">17</option>
+                          <option value="18">18</option>
+                          <option value="19">19</option>
+                          <option value="20">20</option>
+                          <option value="21">21</option>
+                          <option value="22">22</option>
+                          <option value="23">23</option>
+                        </select>
+                      </div> 
+                    </div>   :                    
+                    <div class="form-group">
+                      <div class="input-group form-group-sm">
+                        <label class="sr-only" for="exampleInputEmail2">Mins</label>
+                        <select class="form-control" ng-change="updateTime('start', 'mn', timeblocks.start.mn )" ng-model="timeblocks.start.mn" >
+                        <option value="00" selected>00</option>
+                        <option value="05">05</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="35">35</option>
+                        <option value="40">40</option>
+                        <option value="45">45</option>
+                        <option value="50">50</option>
+                        <option value="55">55</option>
+                        <option value="59">59</option>
+                        <option value="60">60</option>
+                        </select>
+                      </div>
+                    </div>
+                  </form>
+                </td>
+                <td>
+                  <form class="form-inline" role="form" style="margin-top:10px; margin-left:10px;">
+                    <div class="form-group form-group-sm">
+                      <div class="input-group">
+                        <label class="sr-only" for="exampleInputEmail2">Hours</label>
+                        <select class="form-control" ng-change="updateTime('end', 'hr', timeblocks.end.hr )" ng-model="timeblocks.end.hr" >
+                          <option value="00">00</option>
+                          <option value="01">01</option>
+                          <option value="02">02</option>
+                          <option value="03">03</option>
+                          <option value="04">04</option>
+                          <option value="05">05</option>
+                          <option value="06">06</option>
+                          <option value="07">07</option>
+                          <option value="08">08</option>
+                          <option value="09">09</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                          <option value="13">13</option>
+                          <option value="14">14</option>
+                          <option value="15">15</option>
+                          <option value="16">16</option>
+                          <option value="17">17</option>
+                          <option value="18">18</option>
+                          <option value="19">19</option>
+                          <option value="20">20</option>
+                          <option value="21">21</option>
+                          <option value="22">22</option>
+                          <option value="23">23</option>
+                        </select>
+                      </div> 
+                    </div>   :                    
+                    <div class="form-group">
+                      <div class="input-group form-group-sm">
+                        <label class="sr-only" for="exampleInputEmail2">Min</label>
+                        <select class="form-control" ng-change="updateTime('end', 'mn', timeblocks.end.mn )" ng-model="timeblocks.end.mn" >
+                          <option value="00">00</option>
+                         
+                        <option value="05">05</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="35">35</option>
+                        <option value="40">40</option>
+                        <option value="45">45</option>
+                        <option value="50">50</option>
+                        <option value="55">55</option>
+                        <option value="59">59</option>
+                        <option value="60">60</option>
+                        </select>
+                      </div>
+                    </div>
+                  </form>
+                </td>
+                <td style="padding-left:50px">
+                  <i  class="fa fa-times text-danger" ng-click="removeTimeblock(key, val)"></i>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div ng-show="addException == 'newDateRange' ">
+      <div class="form-group col-md-3 pull-right">
+         <select class="form-control" ng-model="time.frequency" >
+            <option value="Recurring">Recurring</option>
+            <option value="Once">Once</option>
+          </select>
+      </div>
+       <div class="form-group">
+          <label style="margin-top:18px">Name</label>
+          <input type="text" required class="form-control" name="Name" ng-model="time.Name" />
+          <span ng-show="requiredField" class="label label-danger">*Required</span>
+          <span ng-show="nameInUse" class="label label-danger">*Name already in use</span>
+      </div>
+       
+      <table class="table"  style="margin-bottom:0px">
+        <tr>
+          <td><label class="text-muted">Date:</label></td>
+          <td> <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="time.schedStart" is-open="opened1" min-date="minDate"  datepicker-options="dateOptions" close-text="Close" ng-click="openTime1($event)"/></td>
+          <td>-
+          </td>
+          <td> <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="time.schedEnd" is-open="opened2" min-date="minDate" datepicker-options="dateOptions" close-text="Close" ng-click="openTime2($event)"/></td>
+        </tr>
+      </table>
+      <div class="row">
+			<div class="col-md-12">
+				<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+			</div>
+			<br>
+		</div>
+
+      
+      
+      <table class="table" style="margin-bottom:0px;">
+          <th><span>Day</th>
+          <th></th>
+          <th style="padding-left:45px">Start</th>
+          <th style="padding-left:70px">End</th>
+          <th style="padding-left 0px"><input type="checkbox" ng-click="applyChecked(!master)" title="Synchronize corresponding timeblocks of all days" ng-model="master"></th>
+          <th style="padding-left:30px">Delete</th>
+      </table>
+
+      <table class="table">
+        <tr ng-repeat="(id, days) in exceptionType.Days">
+          <td>
+            {{days.Name}}</br><button class="btn btn-xs btn-warning" ng-click="addTimeblock(id)"><i class="fa fa-plus-circle"></i> Timeblock</button>
+          </td>
+          <td>
+            <table>
+              <tr ng-repeat="(key,timeblock) in days.timeblocks" >
+                <td> 
+                  <form class="form-inline" role="form" style="margin-bottom:5px;">
+                    <div class="form-group">
+                      <div class="input-group form-group-sm">
+                        <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                        <select class="form-control" ng-change="updateTime(key, 'start', 'hr', timeblock.start.hr, id)" ng-model="timeblock.start.hr" placeholder="{{timeblock.start.hr}}" >
+                          <option value="00">00</option>
+                          <option value="01">01</option>
+                          <option value="02">02</option>
+                          <option value="03">03</option>
+                          <option value="04">04</option>
+                          <option value="05">05</option>
+                          <option value="06">06</option>
+                          <option value="07">07</option>
+                          <option value="08">08</option>
+                          <option value="09">09</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                          <option value="13">13</option>
+                          <option value="14">14</option>
+                          <option value="15">15</option>
+                          <option value="16">16</option>
+                          <option value="17">17</option>
+                          <option value="18">18</option>
+                          <option value="19">19</option>
+                          <option value="20">20</option>
+                          <option value="21">21</option>
+                          <option value="22">22</option>
+                          <option value="23">23</option>
+                        </select>
+                      </div> 
+                    </div>   :                    
+                    <div class="form-group">
+                      <div class="input-group form-group-sm">
+                        <label class="sr-only" for="exampleInputEmail2">Email address</label>
+
+                        <select class="form-control" ng-change="updateTime(key, 'start', 'mn', timeblock.start.mn, id)" ng-model="timeblock.start.mn" >
+                        <option value="00">00</option>
+                        <option value="05">05</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="35">35</option>
+                        <option value="40">40</option>
+                        <option value="45">45</option>
+                        <option value="50">50</option>
+                        <option value="55">55</option>
+                        <option value="59">59</option>
+                        <option value="60">60</option>
+                        </select>
+                      </div>
+                    </div>
+                  </form>
+                </td>
+                <td > 
+                  <form class="form-inline" role="form" style="margin-bottom:5px; margin-left:20px;" >
+                    <div class="form-group form-group-sm">
+                      <div class="input-group">
+                        <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                        <select class="form-control" ng-change="updateTime(key, 'end', 'hr', timeblock.end.hr, id)" ng-model="timeblock.end.hr" >
+                          <option value="00">00</option>
+                          <option value="01">01</option>
+                          <option value="02">02</option>
+                          <option value="03">03</option>
+                          <option value="04">04</option>
+                          <option value="05">05</option>
+                          <option value="06">06</option>
+                          <option value="07">07</option>
+                          <option value="08">08</option>
+                          <option value="09">09</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                          <option value="13">13</option>
+                          <option value="14">14</option>
+                          <option value="15">15</option>
+                          <option value="16">16</option>
+                          <option value="17">17</option>
+                          <option value="18">18</option>
+                          <option value="19">19</option>
+                          <option value="20">20</option>
+                          <option value="21">21</option>
+                          <option value="22">22</option>
+                          <option value="23">23</option>
+                        </select>
+                      </div> 
+                    </div>   :                    
+                    <div class="form-group form-group-sm">
+                      <div class="input-group">
+                        <label class="sr-only" for="exampleInputEmail2">Email address</label>
+
+                        <select class="form-control" ng-change="updateTime(key, 'end', 'mn', timeblock.end.mn, id)" ng-model="timeblock.end.mn" >
+                          <option value="00">00</option>
+                         
+                        <option value="05">05</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="35">35</option>
+                        <option value="40">40</option>
+                        <option value="45">45</option>
+                        <option value="50">50</option>
+                        <option value="55">55</option>
+                        <option value="59">59</option>
+                        <option value="60">60</option>
+                        </select>
+                      </div>
+                    </div>
+                  </form>
+                </td>
+				<td style="padding-left:25px">
+					<input id="checkSlave" type="checkbox" ng-checked="master" ng-click="flagTime(id,key)" title="Synchronize this timeblock">
+				</td>
+                <td style="padding-left:60px">
+                  <i  class="fa fa-times text-danger" ng-click="removeTimeblock(id, key)"></i>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <span class="pull-left"><img src="/assets/omniboard.png"></span>
+  <button  ng-show="!exceptionType.type" type="button" class="btn" ng-class="{'btn-primary':!saved, 'btn-success':saved}" ng-click="saveNewException(time,exceptionType.type)" ng-disabled="frm.$invalid">
+    <i class="fa fa-save"></i> Save
+  </button>
+  <button ng-show="exceptionType.type" type="button" class="btn" ng-class="{'btn-primary':!saved, 'btn-success':saved}" ng-click="saveNewException(time, exceptionType.type)" ng-disabled="frm.$invalid">
+    <i class="fa fa-save"></i> Save
+  </button>
+  <button type="button" ng-if="exceptionType.type" class="btn btn-danger" ng-click="deleteException()"><i class="fa fa-trash"></i> Delete</button>
+  <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="closeExceptionDialog()"><i class="fa fa-times-circle-o"></i> Close</button>
+</div>

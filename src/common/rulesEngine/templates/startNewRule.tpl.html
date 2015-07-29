@@ -1,0 +1,34 @@
+<div class="modal-header bg-primary">
+	<button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title">Select Item To Build Rule</h4>
+</div>
+
+<div class="modal-body">
+
+	<label for="modelName">Model</label><br />
+	<select class="form-control" name="modelName" ng-model="modelName" 
+			ng-options="key as key for (key,type) in modelNames" 
+			ng-change="loadModelTypes(modelName)">
+		<option value="" selected="selected">Select</option>
+	</select>
+
+	<label ng-show="showModelTypes" for="modelType">Type</label><br />
+	<select ng-show="showModelTypes" class="form-control" name="modelType" ng-model="modelType" ng-options="key as type.Name for (key,type) in modelTypes" ng-change="getItem(modelName, modelType)">
+		<option value="" selected="selected">Select</option>
+	</select>
+
+	<label ng-show="showModelItems" for="modelType">Item</label><br />
+	<select ng-show="showModelItems" class="form-control" name="modelItem" ng-model="modelItem" ng-options="key as type.Name for (key,type) in modelItems" ng-change="selectItem(modelItem)">
+		<option value="" selected="selected">Select</option>
+	</select>
+
+</div>
+
+<div class="modal-footer">
+	<button ng-show="showConfirm" class="btn btn-success btn-sm" title="Continue" ng-click="confirm(modelType)">
+		<i class="fa fa-check-circle"></i> Ok
+	</button>
+	<button class="btn btn-default btn-sm" title="Cancel" ng-click="closeDialog()">
+		<i class="fa fa-times-circle"></i> Cancel
+	</button>
+</div>

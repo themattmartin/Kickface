@@ -1,0 +1,23 @@
+<div class="modal-header" ng-class="{'schedule-dtException':exceptionType.type == 'date-range','schedule-otException': exceptionType.type == 'one-time', 'bg-primary' : !exceptionType.type}">
+	<button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title"><i class="fa fa-tachometer"></i> Delete Schedule </h4>
+</div>
+<div class="modal-body">
+	Are you sure you want to delete <strong>{{schedule.Name}}</strong>? You cannot undo this action. If you are sure please 
+	type in the name of the schedule and click the delete button.    
+	<form role="form" name="frm">
+		<div class="form-group">
+			<label for="Name">Schedule Name</label>
+			<input type="text" required class="form-control" name="scheduleNameToDelete" ng-model="scheduleNameToDelete" ng-pattern="/^{{schedule.Name}}$/" />
+			<span ng-show="frm.scheduleNameToDelete.$error.pattern" class="label label-danger">*Required</span>
+		</div>
+	</form>
+
+</div>
+<div class="modal-footer">
+	<span class="pull-left"><img src="/assets/omniboard.png"></span>
+	<button type="button" class="btn btn-danger" ng-click="removeSchedule(scheduleNameToDelete, scheduleId)" ng-disabled="frm.$invalid">
+		<i class="fa fa-save"></i> Delete 
+	</button>
+	<button type="button" class="btn btn-primary" ng-click="closeDialog()"><i class="fa fa-times-circle-o"></i> Close</button>
+</div>

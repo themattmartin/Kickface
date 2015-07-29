@@ -1,0 +1,30 @@
+<div ng-if="!dataLoadedError" ng-style="{'margin-top': config.marginTop, 'margin-bottom' : config.marginBottom, 'margin-right' : config.marginRight, 'margin-left' : config.marginLeft}">
+	<div style="overflow-x: auto; overflow-y: auto;" ng-if="dataLoaded" ng-class="{'panel-body': config.showPanel, 'text-left': config.buttonAlign =='left','text-center': config.buttonAlign=='center','text-right':config.buttonAlign=='right'}">
+		<table class="table table-striped table-bordered table-condensed">
+			<thead  ng-class="{'widgetPrimary': config.bgColor == 'blue', 'widgetSuccess': config.bgColor == 'green', 'widgetInfo': config.bgColor == 'lightBlue', 'widgetWarning': config.bgColor == 'yellow', 'widgetDanger': config.bgColor == 'red','widgetGray': config.bgColor == 'gray', 'darkGray': config.bgColor == 'darkGray'}">
+				<th colspan="25" ng-if="startDate && endDate">{{config.tableTitle}}  ({{startDate | date:'medium'}} - {{endDate | date:'medium'}})</th>
+			</thead>
+			<tbody>
+				<tr>
+					<th class="text-center" ng-repeat="(key,col) in config.columns" ng-if="col.show && col.name != 'Value'">{{col.name == 'RollUp' ? config.rollUp : col.name}}</th>
+				</tr>
+				<tr ng-repeat="data in returnedData">
+					<td ng-repeat="(key,col) in config.columns" ng-if="col.show && col.name != 'Value'" style="text-align:center">
+						<span ng-if="!col.isCustom">{{(data['$'+ col.name].Name ? (col.format ? formatData(data['$'+ col.name].Name) : data['$'+ col.name].Name) : (col.format ? formatData(data[col.name]) : data[col.name]))}}</span>
+						<span ng-if="col.name == 'GROUP AVERAGE'">{{(col.format ? formatData(pointTypeAvgs[data.PointType].AVG.Value) : pointTypeAvgs[data.PointType].AVG.Value)}} {{config.selectedTypes[data.PointType].unit}}</span>
+						<span ng-if="col.name == 'SITE AVERAGE'">{{(col.format ? formatData(pointTypeAvgsForSite[data.PointType][data.Site].AVG.Value) : pointTypeAvgsForSite[data.PointType][data.Site].AVG.Value)}} {{config.selectedTypes[data.PointType].unit}}</span>
+						<span ng-if="col.name == 'ACCOUNT AVERAGE'">{{(col.format ? formatData(pointTypeAvgsForAccounts[data.PointType][data.AccountNumber].AVG.Value) : pointTypeAvgsForAccounts[data.PointType][data.AccountNumber].AVG.Value)}} {{config.selectedTypes[data.PointType].unit}}</span>
+						<span ng-if="col.name == 'SITE AVERAGE/SQFT'"><span ng-if="data.$Site.2012NetRentableSquareFootageApprovedbyGWLRA">{{(col.format ? formatData(pointTypeAvgsForSite[data.PointType][data.Site].AVG.Value/data.$Site.2012NetRentableSquareFootageApprovedbyGWLRA) : pointTypeAvgsForSite[data.PointType][data.Site].AVG.Value/data.$Site.2012NetRentableSquareFootageApprovedbyGWLRA)}} {{config.selectedTypes[data.PointType].unit}}</span><span ng-if="!data.$Site.2012NetRentableSquareFootageApprovedbyGWLRA"> - </span></span>
+						<span ng-if="col.name == 'GROUP AVERAGE/SQFT'"><span  ng-if="data.$Site.2012NetRentableSquareFootageApprovedbyGWLRA">{{(col.format ? formatData(pointTypeAvgs[data.PointType].AVG.Value/data.$Site.2012NetRentableSquareFootageApprovedbyGWLRA) : pointTypeAvgs[data.PointType].AVG.Value/data.$Site.2012NetRentableSquareFootageApprovedbyGWLRA)}} {{config.selectedTypes[data.PointType].unit}}</span><span  ng-if="!data.$Site.2012NetRentableSquareFootageApprovedbyGWLRA"> - </span></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div ng-if="!dataLoaded && !dataLoadedError">
+	<h3>
+		<i class="fa fa-spinner fa-spin text-info"></i>
+	</h3>
+	<strong>Data Loading ...</strong>
+</div>

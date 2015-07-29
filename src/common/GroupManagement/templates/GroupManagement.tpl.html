@@ -1,0 +1,36 @@
+<div class="row">
+	<div  class="dashboardNotifier bg-primary"><omni-nav-history></omni-nav-history> 
+		<local-time ng-cloak class="pull-right hidden-xs"></local-time>
+		<span style="display:inline-block" class="pull-right" >
+            <button class="btn btn-sm btn-primary"   ng-click="addGroupDialog()"><i class="fa fa-plus-circle"></i> Add Group</button>
+        </span>
+    </div>
+	<div  class="dashboardOptions darkGray" style="height:36px;">
+
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12" style="margin-top:20px; margin-left:20px; margin-right:20px; padding-left: 38px;">
+        <table class="table table-hover table-striped">
+           
+            <th>Name</th>
+            <th>Number of Members</th>
+            <th>Last Modified</th>
+            <th>Modified By</th>
+            <th></th>
+            <th></th>
+            
+            <tr ng-repeat="(id, data) in groups">
+               	<td>{{data.Name}}</td>
+               	<td>{{totalMembers(data.sites)}}</td>
+               	<td>{{data.lastModified | date :'medium'}}</td>
+                <td>{{data.User}}</td>
+                <td><a href="" ng-click="deleteGroup(id)">Delete</a></td>
+               	<td><a href="/index.html#/GroupManagement/edit/{{id}}" >Edit</a></td>
+
+            </tr>
+
+        </table>
+    </div>
+</div>

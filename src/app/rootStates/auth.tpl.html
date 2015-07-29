@@ -1,0 +1,284 @@
+<div id="wrapper" >
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" ng-click="reloadApp('/dashboard/home/Site/')"> <span class="pull-left"><img src="/assets/CornerLogo.png"> <div class="text-primary companyName">{{companyName.value}}</div></a>
+
+		
+			
+		</div>
+		<!-- /.navbar-header -->
+			
+		<ul  class="nav navbar-top-links navbar-right">
+			<li ng-hide="true" class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+				</a>
+				<ul class="dropdown-menu dxropdown-messages">
+					<li>
+						<a href="#">
+							<div>
+								<strong><i class="fa fa-user"></i> John Smith</strong>
+								<span class="pull-right text-muted">
+									<em>Yesterday</em>
+								</span>
+							</div>
+							<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="#">
+							<div>
+								<strong><i class="fa fa-user"></i> John Smith</strong>
+								<span class="pull-right text-muted">
+									<em>Yesterday</em>
+								</span>
+							</div>
+							<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="#">
+							<div>
+								<strong><i class="fa fa-user"></i> John Smith</strong>
+								<span class="pull-right text-muted">
+									<em>Yesterday</em>
+								</span>
+							</div>
+							<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a class="text-center" href="#">
+							<strong>Read All Messages</strong>
+							<i class="fa fa-angle-right"></i>
+						</a>
+					</li>
+				</ul>
+				<!-- /.dropdown-messages -->
+			</li>
+			<!-- /.dropdown -->
+			<li ng-hide="true" class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
+				</a>
+				<ul class="dropdown-menu dropdown-tasks">
+					<li>
+						<a href="#">
+							<div>
+								<p>
+									<strong><a href="#/404/404">Task 1</a></strong>
+									<span class="pull-right text-muted">40% Complete</span>
+								</p>
+								<div class="progress progress-striped active">
+									<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+										<span class="sr-only">40% Complete (success)</span>
+									</div>
+								</div>
+							</div>
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="#">
+							<div>
+								<p>
+									<strong>Task 2</strong>
+									<span class="pull-right text-muted">20% Complete</span>
+								</p>
+								<div class="progress progress-striped active">
+									<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+										<span class="sr-only">20% Complete</span>
+									</div>
+								</div>
+							</div>
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="#">
+							<div>
+								<p>
+									<strong>Task 3</strong>
+									<span class="pull-right text-muted">60% Complete</span>
+								</p>
+								<div class="progress progress-striped active">
+									<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+										<span class="sr-only">60% Complete (warning)</span>
+									</div>
+								</div>
+							</div>
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="#">
+							<div>
+								<p>
+									<strong>Task 4</strong>
+									<span class="pull-right text-muted">80% Complete</span>
+								</p>
+								<div class="progress progress-striped active">
+									<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+										<span class="sr-only">80% Complete (danger)</span>
+									</div>
+								</div>
+							</div>
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a class="text-center" href="#">
+							<strong>See All Tasks</strong>
+							<i class="fa fa-angle-right"></i>
+						</a>
+					</li>
+				</ul>
+				<!-- /.dropdown-tasks -->
+			</li>
+			<li class="text-warning" ng-show="logoutIn">
+				<!--logout message -->
+				{{logoutIn.msg}}
+				<button class="btn btn-sm btn-warning" 
+						ng-class="{'btn-warning': !logoutIn.underMinute, 'btn-danger': logoutIn.underMinute}" 
+						ng-click="stayOnline(logoutIn.user)">
+					Refresh
+				</button>
+			</li>
+
+			<!-- /.dropdown -->
+			<li ng-show="showSystemEvents" class="dropdown hidden-xs">
+				<a class="dropdown-toggle" data-toggle="dropdown" data-target="#otherSection">
+					<span class="badge  alert-danger">Events</span>
+				</a>
+				<ul class="dropdown-menu dropdown-alerts " style="height:300px; overflow-y:scroll;">
+					<li style="margin:0px" ng-repeat="(id, data) in systemEvents">
+							<div>
+								<table class="table table-hover" style="margin-bottom:0px; ">
+									<tr ng-click="acknowledgeEvent(id, data)">
+										<td >
+											<span style="margin-top:-2px; margin-right:10px" class="fa-stack fa-fw">
+												<i  class="fa fa-check-square fa-stack-1x"></i>
+											</span>
+										</td>
+										<td>
+											<h5 class="" style="margin:0px; margin-top:0px; ">
+												{{data.Message}}</br>
+											</h5>
+										</td>
+									</tr>
+								</table><hr style="padding:0px; margin:0px"/>
+							</div>					
+					</li>
+				</ul>
+			<li class="dropdown hidden-xs">
+				<a class="dropdown-toggle" data-toggle="dropdown" data-target="#otherSection">
+					<i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+				</a>
+				<ul class="dropdown-menu dropdown-alerts ">
+					<li style="margin:0px" ng-repeat="(id, data) in currentAlarms | limitTo: 5" >
+						<a ui-sref="auth.alarms.list">
+							<div>
+								<table>
+									<tr >
+										<td>
+											<span style="margin-top:-2px; margin-right:10px" class="fa-stack fa-fw">
+												<i class="fa fa-bell fa-stack-1x"></i>
+												<i class="fa fa-ban fa-stack-2x text-danger"></i>
+											</span>
+										</td>
+										<td>
+											<h5 class="text-muted" style="margin:0px; margin-top:10px; ">
+												<strong ng-class="{'text-warning': data.attributes.CurrentValue == 300, 'text-critical': data.attributes.CurrentValue == 500, 'text-acknowledged' : data.attributes.CurrentValue == 100}">{{data.attributes.Name}}</strong></br>
+												{{data.attributes.SiteName}}
+											</h5>
+											<p class="text-muted small">{{data.attributes.Occurred | timeDifference}} ago</p>
+
+										</td>
+
+									</tr>
+								</table><hr style="padding:0px; margin:0px"/>
+							</div>
+						</a>
+						
+					</li>
+					
+					<li ng-if="totalAlarms > 5">
+						<a class="text-center" ui-sref="auth.alarms.list">
+							<strong>See All ({{totalAlarms}}) Alerts</strong>
+							<i class="fa fa-angle-right"></i>
+						</a>
+					</li>
+				</ul>
+				<!-- /.dropdown-alerts -->
+			</li>
+			<!-- /.dropdown -->
+			<li class="dropdown hidden-xs">
+				<a class="dropdown-toggle" data-toggle="dropdown" data-target="#otherSection">
+					<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+				</a>
+				<ul class="dropdown-menu dropdown-user">
+					<li>
+						<a ng-click="showUserProfile()" href=""><i class="fa fa-user fa-fw"></i> User Profile</a>
+					</li>
+					<li>
+						<a ng-click="showVersionNumber()" href=""><i class="fa fa-list-alt"></i> App Details</a>
+					</li>
+					<!--
+					<li><a data-target="#otherSection"><i class="fa fa-gear fa-fw"></i> Settings</a>
+					</li>
+					<li class="divider"></li>
+					-->
+					<li>
+						<a href="" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+					</li>
+				</ul>
+				<!-- /.dropdown-user -->
+			</li>
+			<!-- /.dropdown -->
+			<li class="dropdown hidden-xs">
+				<a class="dropdown-toggle" data-toggle="dropdown" data-target="#otherSection">
+					<i class="fa fa-users fa-fw"></i>  <i class="fa fa-caret-down"></i>
+				</a>
+				<ul class="dropdown-menu dropdown-users">
+					<li class="bg-info" style="margin-top:0px"><p style="margin-top:0px"><center>Currently Logged In</center></p></li>
+					<li ng-repeat="(id,data) in onlineUsers">
+						<i class="fa fa-user fa-fw"></i>
+						 {{data.Firstname}} {{data.Lastname}}
+					</li>
+				</ul>
+				<!-- /.dropdown-user -->
+			</li>
+			
+		</ul>
+		<!-- /.navbar-top-links -->
+
+		
+				
+
+						<omni-nav user-boards="userBoards" >
+						</omni-nav>
+
+					
+				<!-- /#side-menu -->
+			
+
+		<!-- /.navbar-static-side -->
+	</nav>
+
+	<div id="page-wrapper" style="padding-right: 20px; padding-top:40px">
+		<div ui-view >
+			<h1>Waiting on some content</h1>
+		</div>
+
+	</div>
+	<!-- /#page-wrapper -->
+</div>

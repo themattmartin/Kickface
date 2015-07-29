@@ -1,0 +1,17 @@
+<div ng-class="{'panel': config.showPanel ,'panel-default': config.showPanel, 'widgetPrimary': config.bgColor == 'blue' &&  config.showPanel, 'widgetSuccess': config.bgColor == 'green' &&  config.showPanel, 'widgetInfo': config.bgColor == 'lightBlue' &&  config.showPanel, 'widgetWarning': config.bgColor == 'yellow' &&  config.showPanel, 'widgetDanger': config.bgColor == 'red' &&  config.showPanel,'widgetGray': config.bgColor == 'gray' &&  config.showPanel,'darkGray': config.bgColor == 'darkGray' &&  config.showPanel}" ng-style="{'margin-top': config.marginTop, 'margin-bottom' : config.marginBottom}" ng-click="pointPopupDialog()" >
+	<div ng-if="dataLoaded && !dataLoadedError" ng-class="{'panel-body':config.showPanel}" ng-click="pointPopupDialog()">
+		<highchart style="height:110px" config="donutGraphConfig"></highchart>
+		<p ng-class="[config.myLabelColor, config.titleTextLabel]" ng-show="config.showLabel" ng-style="{'font-size':config.myLabelSize}" style="text-align:center;">
+			{{returnedDataVal}} <i ng-if="config.commandBox" class="fa fa-bullseye text-primary" style="font-size:9px;"></i>
+		</p>
+		<popup point-popup-dialog="pointPopupDialog" config="config" returned-data="returnedData"></popup>
+	</div>
+
+	<div ng-if="!dataLoaded && !dataLoadedError" ng-class="{'panel-body': config.showPanel}" class="text-center">
+		<h3>
+			<i class="fa fa-spinner fa-spin text-info"></i>
+		</h3>
+		<strong>Data Loading ...</strong>
+	</div>
+</div>
+

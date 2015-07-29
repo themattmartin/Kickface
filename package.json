@@ -1,0 +1,76 @@
+{
+  "author": "Tyler Bowler",
+  "name": "Kickface",
+  "version": "0.0.1",
+  "homepage": "http://www.ttmartialarts.com/",
+  "licenses": {
+    "type": "Commercial",
+    "url": "http://www.ttmartialarts.com/"
+  },  
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kickface.git"
+  },
+  "dependencies": {
+    "express": "3.3.4",
+    "ejs": "*",
+    "less-middleware": "*",
+    "request": "*",
+    "firebase": "2.0.6",
+    "firebase-token-generator":"*",
+    "permcomb": "*",
+    "async": "*",
+    "colors": "~0.6.2",
+    "swig": "",
+    "deferred": "0.7.1",
+    "util": "*",
+	"cheerio": "*",
+	"url": "*"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "0.10.24"
+  },
+  "private": true,  
+  "devDependencies": {
+    "btoa": "~1.1.1",
+    "canonical-json": "~0.0.3",
+    "grunt": "0.4.2",
+    "grunt-cli": "~0.1.13",
+    "karma": "~0.10.9",
+    "bower": "~1.3.5",
+    "grunt-banner": "~0.2.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-connect": "~0.6.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-contrib-csslint": "~0.2.0",
+    "grunt-contrib-cssmin": "~0.7.0",
+    "grunt-contrib-jade": "~0.9.1",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-less": "~0.9.0",
+    "grunt-contrib-qunit": "~0.4.0",
+    "grunt-contrib-uglify": "~0.3.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-csscomb": "~2.0.1",
+    "grunt-exec": "0.4.3",
+    "grunt-html-validation": "~0.1.13",
+    "grunt-jekyll": "~0.4.1",
+    "grunt-jscs-checker": "~0.3.0",
+    "grunt-saucelabs": "~5.0.0",
+    "grunt-sed": "~0.1.1",
+    "load-grunt-tasks": "~0.3.0",
+    "markdown": "~0.5.0",
+    "grunt-karma": "~0.5.0",
+    "grunt-ngmin": "0.0.2",
+    "grunt-html2js": "~0.1.3",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-coffeelint": "0.0.6",
+    "grunt-conventional-changelog": "~0.1.1",
+    "grunt-bump": "0.0.6",
+    "grunt-express": "1.2.0",
+    "MD5": "1.2.1"
+  }
+}

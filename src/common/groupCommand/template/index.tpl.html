@@ -1,0 +1,50 @@
+<div class="row" style="padding-left: 38px;">
+	<div class="dashboardNotifier bg-primary">
+		<omni-nav-history></omni-nav-history>
+		<local-time ng-cloak class="pull-right hidden-xs"></local-time>
+	</div>
+	<div class="dashboardOptions darkGray" style="height:40px;">
+		<!--
+		<span class="text-muted">
+		<a ng-click="toggleNav()">
+		<i class="fa fa-lg" ng-class="{'fa-chevron-circle-down': omniNavSettings.isShown(), 'fa-chevron-circle-right': !omniNavSettings.isShown()}"></i>
+		</a> Menu
+		</span>
+		-->
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-5" style="margin-top:40px; margin-left:20px; padding-left: 38px; ">
+		<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+		<p class="lead" style="margin-bottom:20px;"><i class="fa fa-check-square-o"></i> Use the box below to select point types you wish to mark global.</p>
+	</div>
+</div>	
+
+	<div class="row">
+		<div class="col-md-3" style="margin-left:20px; padding-left: 38px;">
+			<div class="panel panel-primary" >
+				<div class="panel-heading">
+					<h3 class="panel-title">Commandable Point Type</h3>
+				</div>
+				<div class="panel-body" >
+					<div class="input-group margin-bottom-sm" style="margin-bottom:5px;">
+						<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+						<input class="form-control" type="text" ng-model="searchPoints" placeholder="Search"/>
+
+					</div>
+					<button ng-show="globalPointCounter > 0" class="btn btn-primary btn-block" style="margin-top:5px; margin-bottom:8px" ng-click="markPointsAsGlobal()"><i class="fa fa-chevron-circle-right"></i> Apply</button>
+					<div style="height:400px; overflow-y:scroll">
+						<table class="table table-striped table-hover" style="max-height: 300px;" ng-show="pointTypes.length > 0">
+							<tbody>
+								<tr ng-repeat="pointType in pointTypes | searchObject:{name: searchPoints}">
+									<td><input type="checkbox" ng-checked="pointType.global" ng-click="selectedPointTypeSelected($event,pointType.id)"/>&nbsp; {{ pointType.name }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

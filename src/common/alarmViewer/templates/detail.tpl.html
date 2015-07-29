@@ -1,0 +1,22 @@
+
+
+<div class="modal-header bg-primary">
+    <button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title"><i class="fa fa-exclamation-triangle"></i> {{data}}</h4>
+</div>
+
+	<div class="modal-body">
+
+
+
+<h2 style="margin:0px;"><strong ng-if='item.attrs.reason'  ng-class="{'text-acknowledged': item.attrs.CurrentValue == '100', 'text-normal': item.attrs.CurrentValue == '0' , 'text-warning': item.attrs.CurrentValue == '300', 'text-critical': item.attrs.CurrentValue == '500' || '501'}">{{alarmCall.getName(item.attrs.CurrentValue)}}</strong>
+</h2><span class="slick text-muted" ng-if='item.attrs.reason'>{{item.attrs.reason}}</span>
+<p class="slick" ng-if='item.attrs.reason'><strong>BY:</strong> {{UserName}}</p>
+<p class="text-muted slick" ng-if='item.attrs.reason'>{{item.attrs.Occurred | date:'medium'}}</p>
+
+
+<h2 style="margin:0px;"><strong ng-if='!item.attrs.reason'  ng-class="{'text-acknowledged': item.v == '100', 'text-normal': item.v == '0' , 'text-warning': item.v == '300', 'text-critical': item.v == '500' || '501'}">{{alarmCall.getName(item.v)}}</strong></h2>
+<p class="text-muted slick" ng-if='!item.attrs.reason'>{{item.attrs.Occurred | date:'medium'}}</p>
+<p class="slick text-muted" ng-if='!item.attrs.reason'>No Additional Information</p>
+</div>
+

@@ -1,0 +1,180 @@
+<div ng-class="{'panel': config.showPanel ,'panel-default': config.showPanel, 'widgetPrimary': config.bgColor == 'blue' &&  config.showPanel, 'widgetSuccess': config.bgColor == 'green' &&  config.showPanel, 'widgetInfo': config.bgColor == 'lightBlue' &&  config.showPanel, 'widgetWarning': config.bgColor == 'yellow' &&  config.showPanel, 'widgetDanger': config.bgColor == 'red' &&  config.showPanel,'widgetGray': config.bgColor == 'gray' &&  config.showPanel, 'darkGray': config.bgColor == 'darkGray' &&  config.showPanel}" ng-style="{'margin-top': config.marginTop, 'margin-bottom' : config.marginBottom}" ng-if="showInfo">
+
+
+		<div class="panel-heading bg-primary" style="padding-left:10px;">
+			<h3 class="panel-title " >{{details.Name}} Details
+
+				<!--<span ng-hide="!displayEnergy" class="pull-right"><button class="btn btn-primary btn-xs" ng-click="toggleWidth()"><i class="fa" ng-class="{'fa-arrows-alt' : !fullScreen, 'fa-minus-square': fullScreen}"></i></button></span>-->
+			</h3>
+		</div>
+		<div ng-if="!displayEnergy" ng-class="{'panel-body':!displayEnergy && !transit}">
+			<div >
+				{{details.Address}}<br />
+				{{details.City}}, {{details.State}} {{details.Zip}}<br />
+				{{details.Email}}<br />
+				<a href="" class="text-info pull-left" ng-click="seeMore(details._id)">
+					See More <i class="fa fa-arrow-circle-right"></i>
+				</a>
+				
+			</br>
+			</div>
+			<div class="" ng-if="!displayEnergy" ng-repeat="(id, data) in details.expressions.values.alarm">
+						
+						<div class="panel panel-default darkGray pull-left" style="width:45%; margin-left:3.3%; margin-top:10px;" ng-repeat="(alarmName, alarm) in data"  ng-if="alarm.Value != 0" ng-class="{'border-error' : alarm.Value == 'err', 'border-acknowledged':alarm.Value == 100,'border-warning':alarm.Value == 300,'border-critical':alarm.Value == 500}" >
+							
+							<div class="panel-body">
+								<h3 style="margin:0px; margin-bottom:0px;" ng-class="{'text-error':alarm.Value == 'err','text-acknowledged':alarm.Value == 100,'text-warning':alarm.Value == 300,'text-critical':alarm.Value == 500}" ><strong>{{alarmCall.getName(alarm.Value)}}</strong></h3>
+								<p class="slick text-muted" style="margin:0px">{{alarmName}}</p>
+							</div>
+
+							<p class="text-warning" style="margin: 0px; padding-left: 10px; margin-top: -10px; margin-bottom: 10px;">{{id}}</p>
+
+							<p ng-if="alarm.history" ng-repeat="alarmHistory in alarm.history" style="margin: 0px; padding-left: 10px; margin-top: -10px; margin-bottom: 10px;">
+								<a class="text-info pull-left" ng-if="alarmHistory.Point.DeviceTypeName === 'RTU'" ui-sref="auth.dashboard.ready({name:'RTU Details', modelName:'Device',scopeID: alarmHistory.Point.Device})"><i class="fa fa-info-circle"></i> {{alarmHistory.Point.Name | limitStringLength:10}}</a>
+							</p>
+
+						</div>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+			<!-- {{alarmData}} -->
+		<div class="panel-body"  ng-if="displayEnergy">
+						
+			<div class="row" ng-if="displayEnergy">
+				<div class="col-md-12">
+
+					<span class="pull-left">
+						<select ng-model="data.sites" ng-change='siteData(data.sites)' class="form-control input-sm" ng-options="site._id as site.Name for (key,site) in pins">
+							<option value="" selected="selected">Select a Different Site</option>
+						</select>
+					</span>
+					<span class="pull-right" style="margin-top:0px; margin-right:10px;">
+						<!-- <button class="btn btn-xs btn-primary" ng-click="detailsView()">Details</button> -->
+						<button class="btn btn-xs btn-primary" ng-click="trendView()">Trend</button>
+						<a href="" ng-click="aLoadsView()" class="btn btn-xs btn-primary" style="margin-right:3px">Active Loads</a>
+					</span>
+					
+				</div>
+			</div>
+			<div class="row"  ng-if="displayEnergy  && !activeLoads  && noReturn ">
+				<div class="col-md-4" ng-if="trend">
+					<h4 class="slick text-info" style="margin-top:10px; margin-bottom:0px; padding-left:3px;" ng-class="{'text-warning':kwhPerSqft == 0}"><strong>{{kwhPerSqft}}</strong>
+						<i ng-if="kwhPerSqft == 0" class="fa fa-info-circle" title="Possible issue with demand meter. KWH has not changed."></i>
+					</h4>
+					<p class="lead" style="font-size:14px;margin-bottom:5px;">kW/Square Foot</p>
+				</div>
+				<div class="col-md-4" ng-if="trend">
+					<h4 class="slick text-info" style="margin-top:10px; margin-bottom:0px; margin-left:7px;"><strong>{{details.degreeDays}}</strong></h4>
+					<p class="lead" style="font-size:14px; margin-bottom:5px; margin-left:7px">Site Energy Score</p>
+				</div>
+				<div class="col-md-4" ng-if="trend">
+					<h4 class="slick text-info" style="margin-top:10px; margin-bottom:0px; padding-left:3px;"><strong>{{CurrentAvgOmniScore}}</strong></h4>
+					<p class="lead" style="font-size:14px;margin-bottom:5px;">Avg. Energy Score</p>
+				</div>
+				<div class="col-md-12" ng-if="!trend">
+					<p class="lead" style="margin-bottom:5px;">Energy Details</p>
+				</div>
+
+			</div>
+
+			<div class="row"  ng-if="displayEnergy && trend ">
+				<div ng-if='noReturn' class="col-md-12" >
+					<highchart style="width: 90%; height: 300px; margin-left:2%" config="trendConfig"></highchart>
+				</div>
+				<p ng-if='!noReturn' class="text-center text-warning slick" style="margin-top:20px">
+					<i class="fa fa-exclamation-triangle text-warning"></i> No data available to compute Omniscore.
+				</p>
+			</div>
+
+			<div class="row"  ng-if="displayEnergy && !trend && !activeLoads">
+				<div class="col-md-4">
+					
+					<h2 class="slick text-info text-center" style="margin-top:0px; padding-left:3px; border-right:1px solid #999"><strong>{{kwhPerSqft}}</strong></h2>
+					<p class="lead text-center" style="font-size:12px; margin-top:0px;margin-bottom:0px;"> kWh/Square Foot</p>
+				</div>
+				<div class="col-md-4">
+					
+					<h2 class="slick text-info text-center" style="margin-top:0px; padding-left:3px; border-right:1px solid #999"><strong>{{details.degreeDays}}</strong></h2>
+					<p class="lead text-center" style="font-size:12px; margin-top:0px;margin-bottom:0px;"> Site Energy Score</p>
+				</div>
+				<div class="col-md-4">
+					
+					<h2 class="slick text-info text-center" style="margin-top:0px; padding-left:3px;"><strong>{{CurrentAvgOmniScore}}</strong></h2>
+					<p class="lead text-center" style="font-size:12px; margin-top:0px;margin-bottom:0px;"> Avg. Energy Score</p>
+				</div>
+			</div>
+			<div class="row"  ng-if="displayEnergy && !trend  && !activeLoads">
+				<div class="col-md-12">
+					<p class="slick text-muted" ng-show="!fullScreen" style="margin-top:10px;"><small>Energy Score calculated by normalizing energy usage with degree days and square footage over a 30 day period. </small></p>
+					<p class="slick text-muted" ng-show="fullScreen" style="margin-top:20px;"><small>*Energy Score calculated by normalizing energy usage with degree days and square footage over a 30 day period. </small></p>
+				</div>
+			</div>
+					
+			<div style="clear:both"></div>
+		</div>
+		
+
+		<div class="panel-body" ng-if="dataLoaded && !dataLoadedError && !details.Address && !displayEnergy">
+			Traveling at {{details.Speed}} mph<br />
+			Last Reported: {{details.timestamp | date: 'medium' }}
+		</div>
+		<!---Active Loads Panel-->
+		<div class="row" ng-if="displayEnergy && activeLoads && !trend ">
+			<div class="panel-body">
+				<div class="col-md-4">
+					<h4 class="slick text-info" style="margin-top:10px; margin-bottom:0px; padding-left:3px;"><strong>{{kw | number : 2}}</strong></h4>
+					<p class="lead" style="font-size:12px;margin-bottom:5px;">Demand (kW)</p>
+				</div>
+				<div class="col-md-4">
+					<h4 class="slick text-info" style="margin-top:10px; margin-bottom:0px; padding-left:3px;"><strong>{{lastHrKwH | number : 2}}</strong></h4>
+					<p class="lead" style="font-size:12px;margin-bottom:5px;">
+						<i class="fa fa-play	fa-rotate-270 fa-inverse"></i>
+						kWh Last Hour</p>
+				</div>
+				<div class="col-md-4">
+					<h4 class="slick text-info" style="margin-top:10px; margin-bottom:0px; padding-left:3px;"><strong>{{kwhPerSqftAC | number : 6}}</strong></h4>
+					<p class="lead" style="font-size:12px;margin-bottom:5px;">
+						<i class="fa fa-play	 fa-rotate-270 fa-inverse"></i>
+						kWh / Sq Ft Last Hour
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="row" ng-if="displayEnergy && !trend && activeLoads && !hideTrend ">
+			<div class="panel-body col-md-12" >
+				<highchart style="width: 90%; height: 200px; margin-left:2%" config="trendConfigActiveLoads"></highchart>
+				<h4 ng-if="selectUsagePoints" class="slick text-info" style="margin-top:10px; margin-bottom:0px; padding-left:3px;">
+					<strong>ActiveLoads on {{activeLoadTime}} {{timeZoneAbbr}}</strong>
+				</h4>
+				<div class="row" style="font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, Helvetica, sans-serif;font-size: 12px; color: #fff;">
+					<div class="col-md-6" ng-repeat="(id,data) in selectUsagePoints track by id">
+
+						<table class="table" style="margin:0px">
+							
+							<tr>
+								<td>
+									{{data.DeviceName}} - {{data.Name | limitStringLength:10}} 
+								
+									<span class="label label-default pull-right" ng-class="{'label-success' : data.NormalizedValue == 'ON'}">{{data.NormalizedValue}} - {{data.v}}</span>
+								</td>
+							</tr>
+						</table>
+						
+					</div>
+				</div>
+
+				
+			</div>
+			
+		</div>
+		<div class="row" ng-if="displayEnergy">
+				<div class="col-md-12">
+					<span class="pull-right slick" style="margin-top:0px; margin-right:10px;">
+						<a href="" class="text-info pull-right" ng-click="seeMore(details._id)">
+							See More <i class="fa fa-arrow-circle-right"></i>
+						</a>
+					</span>
+				</div>
+			</div>
+	</div>
+

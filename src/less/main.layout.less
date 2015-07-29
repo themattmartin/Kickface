@@ -1,0 +1,607 @@
+.navbar-brand, .companyName {
+	display:inline;
+	position:relative;
+	top:4px;
+	left:5px;
+	font-size: 100%;
+	cursor:pointer;
+}
+
+.table-row1{
+   border: 1px solid lightgray;
+   min-width: 60px !important;
+}
+
+td.table-row1{
+  padding:2px !important;
+  height:24px
+}
+
+.table-border{
+  border: 1px solid lightgray;
+  min-width:80px !important;
+  padding:0px !important;
+}
+
+.daterange {
+  
+}
+
+
+
+.table-time{
+  font-size:12px;
+}
+
+.navScroll{
+  height:600px; 
+  overflow-y:scroll;
+}
+
+select {
+    color: #333333 !important;
+}
+
+.groupHeight{
+  height:652px; 
+  overflow-y:scroll;
+}
+
+.xMargin{
+  margin-top:10px;
+}
+
+.override{
+  background-color:#e99002 !important;
+  color: #ffffff !important;
+}
+
+.localHeight{
+   height:250px; 
+   overflow-y:scroll;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-button {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #e1e1e1;
+  border: 0px none #555555;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555555;
+}
+::-webkit-scrollbar-thumb:active {
+  background-color: #000000;
+}
+::-webkit-scrollbar-track {
+  background-color: #3c3c3c;
+  border: 0px none #555555;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: #666666;
+}
+::-webkit-scrollbar-track:active {
+  background-color: #333333;
+}
+::-webkit-scrollbar-corner {
+  background-color: #333333;
+}
+
+
+
+
+.activeLoadsExpanded{
+    height:300px;
+}
+
+.activeLoadsMinimized{
+    height:110px;
+}
+
+.fb-component {
+    border-bottom: dashed 1px @gray-light;
+}
+
+.drop {
+    border: dashed 1px @gray-light;
+}
+
+.slick{
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+.removePadding{
+    padding:0px !important;
+}
+
+.panel-toolbox {
+    background-color:   @navbar-default-bg;
+}
+
+.panel-error {
+     background-color: rgb(186, 3, 3);
+     color: lighten(@navbar-default-color, 90%);
+}
+
+.panel-noException {
+    background-color:   @navbar-default-bg;
+    color:#fff;
+}
+
+.panel-toolbox .panel-heading, .panel-toolbox .panel-footer {
+    background-color: @navbar-default-bg;
+    color: lighten(@navbar-default-color, 90%);
+}
+
+
+
+.affix{
+    position:fixed;
+    width:70%;
+}
+
+
+.toolboxWidth{
+    width:55%;
+}
+/*----Background Colors------*/
+.darkGray {
+background-color:lighten(@gray-darker, 10%);
+color:@gray-lighter;
+
+}
+
+.text-darkGray{
+    color:lighten(@gray-darker, 10%);
+}
+
+.text-lightGray{
+    color: @gray-lighter;
+}
+
+.recurring{
+    background-color:#3a87ad;
+}
+
+.exception{
+    background-color:#ff0000;
+    color: #ffffff;
+    border:1px solid #eee;
+}
+
+.schedDateRange{
+  background-color:#8a2be2;
+  color:#ffffff;
+  border:1px solid #eee;
+}
+
+.schedTimeBlock{
+  background-color:#008cba;
+  color:#ffffff;
+  border:1px solid #eee;
+}
+
+.gray {
+background-color:@gray;
+color:@gray-lighter;
+}
+
+.gray-lighten {
+background-color:@gray-light;
+color:@gray;
+}
+
+
+.widgetGray {
+background-color:@gray;
+color:@gray-lighter;
+}
+
+.widgetPrimary{
+background-color:@brand-primary;
+color:@gray-lighter;
+}
+
+.widgetSuccess{
+background-color:@brand-success;
+color:@gray-lighter;
+}
+
+.widgetInfo{
+background-color:@brand-info;
+color:@gray-lighter;
+}
+
+.widgetWarning{
+ background-color:@brand-warning;
+color:@gray-lighter;   
+}
+
+.widgetDanger{
+  background-color:@brand-danger;
+color:@gray-lighter;    
+}
+
+.color-swatch{
+    height:30px;
+    width:30px;
+}
+
+.percentWidth
+{
+    width:100% !important;
+    height:100% !important;
+}
+
+
+.gridStyle {
+   border: 1px solid @gray;
+   width:100%;
+   height:800px;
+  
+
+-webkit-border-top-left-radius: 4px;
+-webkit-border-top-right-radius: 4px;
+
+}
+
+ 
+/* Side notes for calling out things
+-------------------------------------------------- */
+ 
+/* Base styles (regardless of theme) */
+.bs-callout {
+  margin:20px 0px;
+  padding: 15px 30px 15px 15px;
+  border-left: 5px solid @gray-lighter;
+}
+.bs-callout h4 {
+  margin-top: 0;
+}
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
+.bs-callout code,
+.bs-callout .highlight {
+  background-color: @gray-lighter;
+}
+ 
+/* Themes for different contexts */
+.bs-callout-danger {
+   background-color: @brand-danger;
+  border-color:darken(@brand-danger,20%);
+}
+.bs-callout-warning {
+  background-color: @brand-warning;
+  border-color:darken(@brand-warning,20%);
+}
+.bs-callout-info {
+  background-color: @brand-info;
+  border-color: darken(@brand-info,20%);
+}
+
+/* Global Styles */
+
+/* ------------------------------- */
+
+body {
+    padding-top: 100px;
+    color:#333;
+}
+
+@media(min-width:768px) {
+    body {
+        padding-top: 50px;
+    }
+}
+
+.buttonMargin
+{
+   float:left;
+   margin-left:-245px;
+}
+
+.buttonFloat
+{
+   float:left;
+    margin-left:0px;
+}
+
+/* Wrappers */
+
+/* ------------------------------- */
+
+#wrapper {
+    width: 100%;
+}
+
+#page-wrapper {
+    padding: 0 15px;
+    /*min-height: 568px;*/
+    background-color: @body-bg;
+}
+#page-wrapper:before {
+    position: absolute;
+    width: 38px;
+    height: 100%;
+    background: @navbar-default-bg;
+    content: '';
+}
+
+@media(min-width:768px) {
+    #page-wrapper {
+        position: inherit;
+        padding: 0 0px;
+        min-height: 600px;
+        border-left: 1px solid @navbar-default-border;
+    }
+}
+
+.addNavMargin{
+    margin-left:250px;
+}
+
+.topMargin{
+  margin-top:25px;
+}
+
+/* Navigation */
+
+/* ------------------------------- */
+
+/* Top Right Navigation Dropdown Styles */
+
+.navbar-top-links li {
+    display: inline-block;
+}
+
+.navbar-top-links li:last-child {
+    margin-right: 15px;
+}
+
+.navbar-top-links li a {
+    padding: 15px;
+    min-height: 50px;
+}
+
+.navbar-top-links .dropdown-menu li {
+    display: block;
+}
+
+.navbar-top-links .dropdown-menu li:last-child {
+    margin-right: 0;
+}
+
+.navbar-top-links .dropdown-menu li a {
+    padding: 3px 20px;
+    min-height: 0;
+}
+
+.navbar-top-links .dropdown-menu li a div {
+    white-space: normal;
+}
+
+.navbar-top-links .dropdown-messages,
+.navbar-top-links .dropdown-tasks,
+.navbar-top-links .dropdown-alerts {
+    width: 310px;
+    min-width: 0;
+}
+
+.navbar-top-links .dropdown-messages {
+    margin-left: 5px;
+}
+
+.navbar-top-links .dropdown-tasks {
+    margin-left: -59px;
+}
+
+.navbar-top-links .dropdown-alerts {
+    margin-left: -123px;
+}
+
+.navbar-top-links .dropdown-user {
+    right: 0;
+    left: auto;
+}
+
+.dropdown-groups>li>a{
+  cursor: pointer;
+}
+
+
+
+
+
+/* Pages */
+
+/* ------------------------------- */
+
+/* Dashboard Chat */
+
+.chat {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.chat li {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted @navbar-default-border;
+}
+
+.chat li.left .chat-body {
+    margin-left: 60px;
+}
+
+.chat li.right .chat-body {
+    margin-right: 60px;
+}
+
+.chat li .chat-body p {
+    margin: 0;
+    color: @gray;
+}
+
+.panel .slidedown .glyphicon,
+.chat .glyphicon {
+    margin-right: 5px;
+}
+
+.chat-panel .panel-body {
+    height: 350px;
+    overflow-y: scroll;
+}
+
+/* Login Page */
+
+.login-panel {
+    margin-top: 25%;
+
+
+}
+
+/* Flot Chart Containers */
+
+.flot-chart {
+    display: block;
+    height: 400px;
+}
+
+.flot-chart-content {
+    width: 100%;
+    height: 100%;
+}
+
+/* Circle Buttons */
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.428571429;
+}
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    font-size: 18px;
+    line-height: 1.33;
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+.show-grid [class^="col-"] {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid @gray-light;
+    background-color: @gray-lighter !important;
+}
+
+.show-grid {
+    margin: 15px 0;
+}
+
+/** DRAGGABLE ZONES **/
+.contentEditorBox {
+  border: 1px solid black;
+  background-color: white;
+  width: 50px;
+  height: 50px; }
+
+.draggable {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  cursor: pointer; }
+
+.n-resize {
+  position: absolute;
+  top: -3px;
+  left: 0px;
+  width: 100%;
+  height: 5px;
+  cursor: n-resize; }
+
+.e-resize {
+  position: absolute;
+  top: 0px;
+  left: calc(100% - 2px);
+  width: 5px;
+  height: 100%;
+  cursor: w-resize; }
+
+.s-resize {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 0px;
+  width: 100%;
+  height: 5px;
+  cursor: s-resize; }
+
+.w-resize {
+  position: absolute;
+  top: 0px;
+  left: -3px;
+  width: 5px;
+  height: 100%;
+  cursor: e-resize; }
+
+.nw-resize {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 7px;
+  height: 7px;
+  cursor: nw-resize; }
+
+.ne-resize {
+  position: absolute;
+  top: -3px;
+  left: calc(100% - 4px);
+  width: 7px;
+  height: 7px;
+  cursor: ne-resize; }
+
+.se-resize {
+  position: absolute;
+  top: calc(100% - 4px);
+  left: calc(100% - 4px);
+  width: 7px;
+  height: 7px;
+  cursor: se-resize; }
+
+.sw-resize {
+  position: absolute;
+  top: calc(100% - 4px);
+  left: -3px;
+  width: 7px;
+  height: 7px;
+  cursor: sw-resize; }
+
+

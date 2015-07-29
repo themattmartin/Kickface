@@ -1,0 +1,72 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h5><i class="fa fa-cogs"></i> Device Command Center</h5>
+	</div>
+	<div class="panel-body">
+		<form class="form-inline" role="form">
+			<div class="form-group">
+				<label for="modelName">Device Type</label><br />
+				<select class="form-control" name="deviceType" ng-model="config.deviceType" ng-options="type as type.Name for type in deviceTypes track by type._id" ng-change="loadPointTypes(config.deviceType)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelName.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group">
+				<label for="valueProp">Point Type</label><br />
+				<select class="form-control" name="pointType" ng-model="config.pointType" ng-options="type as type.Name for type in pointTypes track by type._id">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.valueProp.$error.required" class="help-inline">*Required</span>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="panel panel-default" ng-show="config.showSettings">
+	<div class="panel-heading">
+		<h5><i class="fa fa-cube"></i> Widget Style Configuration</h5>
+	</div>
+
+	<div class="panel-body">
+		<form class="form-inline" style="margin-bottom:10px;">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="form-group" >
+						<label for="background">Background</label></br>
+						<div class="checkbox">
+							<label>
+								<input ng-model="config.showPanel" name="background" type="checkbox"/> Display
+							</label>
+						</div>
+					</div>
+					<div class="form-group col-md-offset-1" ng-if="config.showPanel" style="margin-left:60px;">
+						<label for="bgColor" style="margin-left:10px; margin-top:10px;">Color</label></br>
+						<div style="margin-left:10px;" class="btn-group">
+							<button class="btn btn-default" ng-click="config.bgColor = ''">&nbsp;</button>
+							<button class="btn gray" ng-click="config.bgColor = 'gray'">&nbsp;</button>
+							<button class="btn btn-primary" ng-click="config.bgColor = 'blue'">&nbsp;</button>
+							<button class="btn btn-success" ng-click="config.bgColor = 'green'">&nbsp;</button>
+							<button class="btn btn-info" ng-click="config.bgColor = 'lightBlue'">&nbsp;</button>
+							<button class="btn btn-warning" ng-click="config.bgColor = 'yellow'">&nbsp;</button>
+							<button class="btn btn-danger" ng-click="config.bgColor = 'red'">&nbsp;</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<form class="form-inline" role="form">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="form-group">
+						<label for="margin-top">Margin-Top</label></br>
+						<input type="text" ng-model="config.marginTop" class="form-control" id="margin-top" placeholder="10px"/>
+					</div>
+					<div class="form-group col-md-offset-1">
+						<label for="margin-bottom">Margin-Bottom</label></br>
+						<input type="text" ng-model="config.marginBottom" class="form-control" id="margin-bottom" placeholder="10px"/>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

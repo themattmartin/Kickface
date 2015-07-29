@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-md-12" style="padding-left:20px">
+        <p class="text-danger"><strong>These are the models that store your application data. Making changes here can cause irreversible damage to your Omniboard database. Proceed with caution.</strong></p>
+    </div>
+</div>
+<div class="row">
+	<div class="col-md-4" style="padding-left:20px">
+
+		<div class="input-group">
+			<input type="text" ng-model="newModelName" class="form-control" placeholder="Model Name">
+			<span ng-click="newModelCheck(newModelName)" class="input-group-addon" style="font-size:11px;cursor:pointer">
+				<i class="fa fa-plus" ng-class="{'fa-spinner fa-spin': showSpinner}"></i>
+			</span>
+		</div>
+		<br />
+		<br />
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col-md-12" style="padding-left:20px">
+
+		<div class="row" ng-repeat="(modelName,data) in modelNames" ng-show="modelName.indexOf('AuditLog') != 0">
+			<div class="col-md-2">
+				<span class="text-primary" ng-click="data.showChildren = !data.showChildren"><strong>{{modelName}}</strong></span>
+			</div>
+			<div class="col-md-2">
+				<a ui-sref="auth.admin.dataModel.list({modelName: modelName})">List</i></a>
+			</div>
+			<div class="col-md-2">
+				<a ui-sref="auth.admin.dataModel.edit({modelName: modelName})">Edit</a>
+			</div>
+			<div class="col-md-2">
+				<a ui-sref="auth.admin.dataModel.relations({modelName: modelName})">Relations</i></a>
+			</div>
+			<div class="col-md-2">
+				<a ui-sref="auth.admin.dataModel.newItem({modelName: modelName})">Add</i></a>
+			</div>
+			<div class-"col-sm-12" ng-show="data.showChildren">
+
+				<div class="" ng-repeat="(id,subData) in data" ng-if="id != 'showChildren'">
+					<div  class="col-md-2 text-muted slick">
+
+						{{id}}
+					</div>
+					<div class="col-md-2">
+						<a class="text-muted slick" ui-sref="auth.admin.dataModel.list({modelName: id})">List</i></a>
+					</div>
+					<div class="col-md-2">
+						<a class="text-muted slick" ui-sref="auth.admin.dataModel.edit({modelName: id})">Edit</a>
+					</div>
+					<div class="col-md-2">
+						<a class="text-muted slick" ui-sref="auth.admin.dataModel.relations({modelName: id})">Relations</i></a>
+					</div>
+					<div class="col-md-2">
+						<a class="text-muted slick" ui-sref="auth.admin.dataModel.newItem({modelName: id})">Add</i></a>
+					</div>
+					<div class="col-md-2">
+						
+					</div>
+					<hr class="text-muted"/>
+				</div>
+			</div>
+
+<!--
+			<h4><i class="fa fa-cube" ng-click="getChildren(modelName)"></i>&nbsp; {{modelName}}</h4>
+			<div class="btn-group pull-right">
+				<a ui-sref="auth.admin.dataModel.list({modelName: modelName})"><i class="fa fa-fw fa-table"></i></a>
+				<a ui-sref="auth.admin.dataModel.edit({modelName: modelName})"><i class="fa fa-fw fa-edit"></i></a>
+				<a ui-sref="auth.admin.dataModel.relations({modelName: modelName})"><i class="fa fa-fw fa-sitemap"></i></a>
+				<a ui-sref="auth.admin.dataModel.newItem({modelName: modelName})"><i class="fa fa-fw fa-plus-circle"></i></a>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<div class="alert alert-info" style="display:inline-block; width:200px; margin-right:10px;" ng-repeat="(childModel,id) in childList[modelName]">
+						<h4><i class="fa fa-cube"></i>&nbsp; {{childModel}}</h4>
+						<div class="btn-group pull-right">
+							<a ui-sref="auth.admin.dataModel.list({modelName: childModel})"><i class="fa fa-fw fa-table"></i></a>
+							<a ui-sref="auth.admin.dataModel.edit({modelName: childModel})"><i class="fa fa-fw fa-edit"></i></a>
+							<a ui-sref="auth.admin.dataModel.relations({modelName: childModel})"><i class="fa fa-fw fa-sitemap"></i></a>
+							<a ui-sref="auth.admin.dataModel.newItem({modelName: childModel})"><i class="fa fa-fw fa-plus-circle"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+-->			<hr/>
+		</div>
+	</div>
+</div>
+

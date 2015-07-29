@@ -1,0 +1,222 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h5><i class="fa fa-circle-o-notch fa-flip-vertical"></i> Donut Configuration</h5>
+	</div>
+	<div class="panel-body">
+		<form class="form-inline" style="margin-bottom:10px;" role="form">
+			<div class="form-group">
+				<label for="modelName">Model{{config.modelName}}</label><br />
+				<select class="form-control" name="modelName" ng-model="config.modelName" ng-options="key as key for (key,type) in modelNames" ng-change="loadModelTypes(config.modelName)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelName.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group">
+				<label for="modelType">Type</label><br />
+				<select class="form-control" name="modelType" ng-model="config.modelType" ng-options="key as type.Name for (key,type) in modelTypes" ng-change="setModelType(config.modelName, config.modelType)">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.modelType.$error.required" class="help-inline">*Required</span>
+			</div>
+		</form>
+		<form class="form-inline" style="margin-bottom:10px;">
+			<div class="form-group">
+				<label for="valueProp">Value Property</label><br />
+				<select class="form-control" name="valueProp" ng-model="config.valueProp" ng-options="getPropertyValue(prop) as prop.label for (key,prop) in valueProps">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.valueProp.$error.required" class="help-inline">*Required</span>
+			</div>
+			<div class="form-group">
+				<label for="labelProp">Label Property</label><br />
+				<select class="form-control" name="labelProp" ng-model="config.labelProp" ng-options="getPropertyValue(prop) as prop.label for (key,prop) in labelProps">
+					<option value="" selected="selected">Select</option>
+				</select>
+				<span ng-show="frm.labelProp.$error.required" class="help-inline">*Required</span>
+			</div>	
+			<div class="form-group" >
+				<label for="maxValue">Max Value</label><br/>
+				<input type="text" class="form-control" style="width:130px;" id="maxValue" ng-model="config.maxValue" placeholder="Max Value"/>
+			</div>
+			<div class="form-group" >
+				<label for="units">Units</label><br/>
+				<input type="text" class="form-control" style="width:130px;" id="units" ng-model="config.units" placeholder="Units"/>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-7 pull-left">
+				<label>Command Panel</label>
+				<p class="text-info slick">
+				This feature when clicked provides a panel to command the point's value.
+				</p>
+			</div>
+			<div class="col-md-5 pull-right">
+		      <label class="text-muted pull-right"><small>Point Command Box</small></label></br>
+		      <label class="switch-light well">
+		      <input ng-model="config.commandBox" type="checkbox">
+		      <span>
+		       
+		        <span >Off</span>
+		        <span >On</span>
+		      </span>
+
+		      <a class="btn btn-primary" ></a>
+		      </label>
+		  </div>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default" ng-show="config.showSettings">
+	<div class="panel-heading">
+		<h5><i class="fa fa-cube"></i> Widget Style Configuration</h5>
+	</div>
+	<div class="panel-body">
+		<form class="form-inline"  style="margin-bottom:10px;">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div  class="form-group" >
+						<label for="background">Background</label></br>
+						<div class="checkbox">
+					      <label>
+					        <input ng-model="config.showPanel" name="background" type="checkbox"> Display
+					      </label>
+			   			 </div>
+		   			</div>
+					<div  class="form-group col-md-offset-1" ng-if="config.showPanel" style="margin-left:60px;">
+						<label for="bgColor" style="margin-left:10px; margin-top:10px;">Color</label></br>
+						<div style="margin-left:10px;" class="btn-group">
+							<button class="btn btn-default" ng-click="config.bgColor = ''">&nbsp;</button>
+							<button class="btn darkGray" ng-click="config.bgColor = 'darkGray'">&nbsp;</button>
+							<button class="btn gray" ng-click="config.bgColor = 'gray'">&nbsp;</button>
+							<button class="btn btn-primary" ng-click="config.bgColor = 'blue'">&nbsp;</button>
+							<button class="btn btn-success" ng-click="config.bgColor = 'green'">&nbsp;</button>
+							<button class="btn btn-info" ng-click="config.bgColor = 'lightBlue'">&nbsp;</button>
+							<button class="btn btn-warning" ng-click="config.bgColor = 'yellow'">&nbsp;</button>
+							<button class="btn btn-danger" ng-click="config.bgColor = 'red'">&nbsp;</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		
+		<form class="form-inline" style="margin-bottom:10px;">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div  class="form-group" >
+						<label for="">Label</label></br>
+						<div class="checkbox">
+							<label>
+								<input ng-model="config.showLabel" name="background" type="checkbox"> Display
+							</label>
+						</div>
+					</div></br>
+					<div class="form-group" role="form" ng-show="config.showLabel">
+						<label >Label Size</label></br>
+
+						<i  class="fa fa-font text-muted"  style="font-size:12px"  ng-class="{'text-info':config.myLabelSize==''}" ng-click="config.myLabelSize=''"></i> 
+						<i  class="fa fa-font text-muted"  style="font-size:14px"  ng-class="{'text-info':config.myLabelSize=='1em'}" ng-click="config.myLabelSize='1em'"></i> 
+						<i  class="fa fa-font text-muted"  style="font-size:16px"  ng-class="{'text-info':config.myLabelSize=='1.5em'}" ng-click="config.myLabelSize='1.5em'"></i> 
+						<i  class="fa fa-font text-muted" style="font-size:18px" ng-class="{'text-info':config.myLabelSize=='2em'}" ng-click="config.myLabelSize='2em'"></i> 
+						<i  class="fa fa-font text-muted" style="font-size:20px" ng-class="{'text-info':config.myLabelSize=='3em'}" ng-click="config.myLabelSize='3em'"></i>
+						<i  class="fa fa-font text-muted" style="font-size:22px" ng-class="{'text-info':config.myLabelSize=='4em'}" ng-click="config.myLabelSize='4em'"></i>
+					</div>
+					<div  class="form-group col-md-offset-1" ng-show="config.showLabel" >
+						<label for="">Title Text</label></br>
+							<label class="radio-inline">
+		  							<input type="radio" ng-model="config.titleTextLabel" name="inlineRadioOptions" id="inlineRadio1" value="slick"> On
+							</label>
+							<label class="radio-inline">
+		  							<input type="radio" ng-model="config.titleTextLabel" name="inlineRadioOptions" id="inlineRadio1" value=""> Off
+							</label>
+					</div>
+					<div  class="form-group col-md-offset-1" ng-show="config.showLabel">
+						<label for="labColor" style="margin-top:10px;">Color</label></br>
+						<div  name="labColor" class="btn-group">
+							<button class="btn btn-default" ng-click="config.myLabelColor = ''">&nbsp;</button> 
+							<button class="btn gray-lighten" ng-click="config.myLabelColor = 'text-muted'">&nbsp;</button> 
+							<button class="btn btn-primary" ng-click="config.myLabelColor = 'text-primary'">&nbsp;</button>
+							<button class="btn btn-success" ng-click="config.myLabelColor = 'text-success'">&nbsp;</button> 
+							<button class="btn btn-info" ng-click="config.myLabelColor = 'text-info'">&nbsp;</button> 
+							<button class="btn btn-warning" ng-click="config.myLabelColor = 'text-warning'">&nbsp;</button> 
+							<button class="btn btn-danger" ng-click="config.myLabelColor = 'text-danger'">&nbsp;</button>  
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<form class="form-inline"  style="margin-bottom:10px;">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div  class="form-group" >
+						<label for="">Value</label></br>
+						<div class="checkbox">
+							<label>
+								<input ng-model="config.showValue" name="background" type="checkbox"> Display
+							</label>
+						</div>
+					</div></br>
+					<div  class="form-group" ng-show="config.showValue">
+						<label>Value Size</label></br>
+						<i  class="fa fa-font text-muted"  style="font-size:12px"  ng-class="{'text-info':config.myValueSize==''}" ng-click="config.myValueSize=''"></i> 
+						<i  class="fa fa-font text-muted"  style="font-size:14px"  ng-class="{'text-info':config.myValueSize=='1em'}" ng-click="config.myValueSize='1em'"></i> 
+						<i  class="fa fa-font text-muted"  style="font-size:16px"  ng-class="{'text-info':config.myValueSize=='1.5em'}" ng-click="config.myValueSize='1.5em'"></i> 
+						<i  class="fa fa-font text-muted" style="font-size:18px" ng-class="{'text-info':config.myValueSize=='2em'}" ng-click="config.myValueSize='2em'"></i> 
+						<i  class="fa fa-font text-muted" style="font-size:20px" ng-class="{'text-info':config.myValueSize=='3em'}" ng-click="config.myValueSize='3em'"></i>
+						<i  class="fa fa-font text-muted" style="font-size:22px" ng-class="{'text-info':config.myValueSize=='4em'}" ng-click="config.myValueSize='4em'"></i>
+					</div>
+					<div  class="form-group col-md-offset-1" ng-show="config.showValue" >
+						<label for="">Title Text</label></br>
+						<label class="radio-inline">
+							<input type="radio" ng-model="config.titleTextValue" name="inlineRadioOptions" id="inlineRadio1" value="slick"> On
+						</label>
+						<label class="radio-inline">
+							<input type="radio" ng-model="config.titleTextValue" name="inlineRadioOptions" id="inlineRadio1" value=""> Off
+						</label>
+					</div>
+					<div  class="form-group col-md-offset-1" ng-show="config.showValue">
+						<label for="valColor" style="margin-top:10px;">Color</label></br>
+						<div name="valColor" class="btn-group">
+							<button class="btn btn-default"  ng-click="config.myValueColor = ''">&nbsp;</button> 
+							<button class="btn gray-lighten"  ng-click="config.myValueColor = 'text-muted'">&nbsp;</button> 
+							<button class="btn btn-primary" ng-click="config.myValueColor = 'text-primary'">&nbsp;</button>
+							<button class="btn btn-success" ng-click="config.myValueColor = 'text-success'">&nbsp;</button> 
+							<button class="btn btn-info" ng-click="config.myValueColor = 'text-info'">&nbsp;</button> 
+							<button class="btn btn-warning" ng-click="config.myValueColor = 'text-warning'">&nbsp;</button> 
+							<button class="btn btn-danger" ng-click="config.myValueColor = 'text-danger'">&nbsp;</button>  
+						</div>
+					</div>
+					<div class="form-group" >
+						<label for="">Number Fraction Size </label></br>
+						<select class="form-control" name="fractionSize" ng-model="config.fractionSize">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</form>
+		<form class="form-inline" role="form">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					  <div class="form-group">
+					    <label  for="margin-top">Margin-Top</label></br>
+					    <input type="text" ng-model="config.marginTop" class="form-control" id="margin-top" placeholder="10px">
+					  </div>
+					  <div class="form-group col-md-offset-1">
+					    <label  for="margin-bottom">Margin-Bottom</label></br>
+					    <input type="text" ng-model="config.marginBottom" class="form-control" id="margin-bottom" placeholder="10px">
+					  </div>
+				</div>
+			</div>
+  		</form>
+	</div>
+</div>

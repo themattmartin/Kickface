@@ -1,0 +1,18 @@
+<div class="modal-header bg-warning">
+	<button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title"><i class="fa fa-refresh"></i> Confirm Delete</h4>
+</div>
+
+<div class="modal-body">
+
+<h3 class="text-warning" style="margin-top:0px;"><i class="fa fa-exclamation-triangle"></i> Warning</h3>
+	<p class="slick text-muted">You are about to delete your customized copy of the view: <span class="text-primary">{{viewName}}</span>. Once deleted, all of your changes to this view will be removed. This process cannot be undone. Are you certain you wish to proceed?</p>
+
+
+	<a class="btn btn-danger btn-sm btn-block" title="Confirm Delete" ng-click="confirm()">
+		<i class="fa fa-trash"></i> Confirm Global Replace
+	</a>
+	<a class="btn btn-default btn-sm btn-block" title="Cancel" ng-click="closeDialog()">
+		<i class="fa fa-times-circle"></i> Cancel
+	</a>
+</div>

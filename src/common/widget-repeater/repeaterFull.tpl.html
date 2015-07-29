@@ -1,0 +1,64 @@
+<div ng-if="editMode" class="dashboard" style="margin-left:20px; margin-right:20px"  ng-class="editClass">
+	<div ng-style="{width:config.itemWidth, display:'inline-block', 'margin-right':'10px'}" class='pull-left alert alert-warning'>	
+		<a href="" ng-click="saveRepeaterLayout()" class="btn btn-primary btn-xs">
+			<i class="fa fa-disk"></i> Save Repeater
+		</a>
+		<a href="" class="btn btn-default btn-xs" ng-if="editMode" title="Add New Widget" ng-click="addWidgetDialog()">
+			<i class="fa fa-plus-circle"></i> Widget
+		</a>
+		<div ng-repeat="row in model.rows" class="row" ng-class="row.styleClass">
+
+			<div ng-repeat="col in row.columns" class="column" ng-style="col.style" ng-class="col.styleClass" >
+
+				<div ng-if="editMode" class="row">
+					<div class="col-md-12" style="display:inline-block; margin-bottom:10px; padding-bottom:10px;">
+						<div class="btn-group pull-left">
+						
+							<a ng-if="editMode" href="" title="Delete Column" ng-click="dashboardScope.removeCol(row, col)" class="btn btn-danger btn-xs" ><i class="fa fa-minus-circle fa-lg"></i> </a>
+							
+							<a ng-if="editMode" href="" title="Drop Widget" ng-click="selectCell(row, col)" class="btn btn-xs darkGray" ><i class="fa fa-flag fa-lg"></i> </a>									
+					
+							<a  ng-if="editMode" href="" title="Add Column" ng-click="dashboardScope.addCol(row,col)" class="btn btn-xs darkGray" ><i class="fa fa-plus-circle fa-lg"></i> </a>
+					
+							<a href="" title="Shrink Column" ng-click="dashboardScope.setColWidth(-1, row, col)" class="btn btn-xs darkGray" ><i class="fa fa-arrow-circle-left fa-lg"></i></a>
+					
+							<a href="" title="Grow Column" ng-click="dashboardScope.setColWidth(1, row, col)" class="btn btn-xs darkGray" ><i class="fa fa-arrow-circle-right fa-lg"></i></a>
+					
+						</div>
+					</div>
+				</div>
+
+				<div class="widgetDropZoneForRepeater" ui-sortable="sortableOptions" ng-model="col.widgets">
+					<div class="" ng-if="!col.widgets || col.widgets.length == 0">&nbsp;</div>
+					<div class="widgets" ng-repeat="definition in col.widgets">
+						<adf-widget dashboard-scope="dashboardScope" definition="definition" column="col" edit-mode="editMode" collapsible="collapsible" has-map="model.hasMap" edit-allowed="isEditAllowed" />
+					</div>								
+				</div>				
+			</div>
+
+			<div ng-if="editMode" class="row">
+				<div class="col-md-12 btn-group btn-group-justified">
+					<div class="btn-group">
+						<a href="" ng-click="dashboardScope.removeRow(model.rows, row)" class="btn btn-danger btn-sm"><i class="fa fa-minus-circle"></i> Row Above</a>
+					</div>
+					<div class="btn-group">
+						<a href="" ng-click="dashboardScope.addRow(model.rows, row)" class="btn darkGray btn-sm"><i class="fa fa-plus-circle"></i> Row Below</a>
+					</div>
+				</div>		
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div ng-if="!editMode && !dataLoadedError" class="dashboard" style="margin-left:20px; margin-right:20px"  ng-class="editClass" ng-repeat="(id,data) in returnedData track by id">
+	<div ng-style="{width:config.itemWidth, display:'inline-block', 'margin-right':'10px'}" class='pull-left well well-sm col-md-12'>
+		<div ng-repeat="row in data.repeaterLayout.rows" class="row" ng-class="row.styleClass">
+			<div ng-repeat="col in row.columns" class="column" ng-class="col.styleClass" ui-sortable="sortableOptions" ng-model="col.widgets">
+				<div class="widgets" ng-repeat="definition in col.widgets">
+					<adf-widget dashboard-scope="dashboardScope" definition="definition" column="col" edit-mode="editMode" collapsible="collapsible" has-map="model.hasMap" edit-allowed="isEditAllowed" scope-model="data.modelName" scope-id="data.id" />
+				</div>								
+			</div>
+		</div>
+	</div>
+</div>

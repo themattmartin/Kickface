@@ -1,0 +1,48 @@
+<p ng-show='notify' class="text-muted pull-left slick" style="font-size:12px">Point Commanded: <strong class="text-success">{{command.value}}</strong></p>
+   <!--<div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" ng-click="save(command)"><i class="fa " ng-class="{'fa-spinner':loading == true, 'fa-arrow-circle-up': !loading, 'fa-spin': loading == true }"></i> Command</button>
+      </span>
+      <input type="text" class="form-control" id="inputname"  placeholder="" name="value" ng-model="command.value">
+    </div><!-- /input-group -->
+<div ng-repeat="(key,c) in editorOptions.binaryList">
+	
+		  <input  name="view" ng-checked="key==command.value" type="radio" ng-value="key" ng-model="command.value">
+		  <label style="margin-right:10[px">{{c}}</label>
+</div>
+<button type="button" ng-click="save(command)" style="margin-top:10px" class="btn btn-block btn-primary"><i class="fa " ng-class="{'fa-spinner':loading == true, 'fa-arrow-circle-up': !loading, 'fa-spin': loading == true }"></i> Command</button>
+	<div ng-if="timedOverride" style="padding-top: 5px;" class="form-group col-md-12" ng-class="{'has-warning':loading==true}">
+		<p style="margin:0px" class="text-warning"><strong>Timed Override Controls</strong></p>
+		<hr style="margin:0px"/>
+		<p style="font-size: 10pt; margin-top:8px" class="text-muted">Return Value (after override)</p>
+		<form class="form-inline">
+  			<div class="form-group">
+  					<label class="sr-only" for="inputOverride">Name</label>
+					<input  type="text" class="form-control input-sm" id="inputOverride" placeholder="Enter value here" name="value" ng-model="command.resetValue">
+			</div>			
+
+
+
+			<div class="form-group">
+	
+				<select id="resetAfterValue" placeholder="Value" ng-model="command.resetAfterValue" class="form-control input-sm" name="resetAfterValue" ng-options="n for n in IntervalRanges">
+				</select>
+			
+			</div>
+			<div class="form-group">
+				<select  id="resetAfterUnits" placeholder="Units" ng-model="command.resetAfterUnits" class="form-control input-sm" name="resetAfterUnits" ng-change="checkValues(command.resetAfterUnits)">
+					<option value="1">mins</option>
+					<option value="60">hrs</option>
+					<option value="1440">days</option>
+				</select>		
+	
+			</div>				
+			<div class="form-group">
+			<button type="button"  ng-click="clearOverride()" class="btn btn-sm btn-warning"><i class="fa " ng-class="{'fa-spinner':clearing == true, 'fa-exchange': !clearing, 'fa-spin': clearing == true }"></i> Clear Override</button>
+			</div>
+			</form>
+				<p>
+					<span ng-if="notify" style="font-size: 7pt" class="text-muted text-warning">Depending on network latency, the command may be off by up to two minutes. </span>					
+				</p>
+	</div>					
+

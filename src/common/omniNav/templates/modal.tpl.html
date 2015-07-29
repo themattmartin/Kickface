@@ -1,0 +1,20 @@
+<div class="modal-header bg-primary">
+    <button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title"><i class="fa fa-tachometer"></i> Add {{modalTitle}}</h4>
+</div>
+<div class="modal-body">
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	<form class="form-horizontal" name="itemForm">
+		<div ng-model="input" fb-form="default" is-editable="true" fb-default="currentItem"></div>
+	</form>
+</div>
+<div class="modal-footer">
+    <span class="pull-left"><img src="/assets/omniboard.png"></span>
+
+	<a class="btn btn-primary" ng-click="submit(currentItem,saveFiles)">
+		<i class="fa fa-arrow-circle-right"></i> Submit</btn>
+	</a>
+
+    <button type="button" class="btn btn-danger" ng-click="closeDialog()"><i class="fa fa-times-circle-o"></i> Cancel</button>
+
+</div>

@@ -1,0 +1,24 @@
+
+<!--
+	I am thinking that this needs to be alarms broken down by site with timestamps of when it occurred, 
+	when it was acknowledged and what the value was.
+-->
+<div  class="dashboardNotifier bg-primary">
+	<omni-nav-history></omni-nav-history>
+	<local-time ng-cloak class="pull-right hidden-xs"></local-time>
+</div>
+<div  class="dashboardOptions darkGray" style="height:36px;">
+  
+</div>
+
+<div class="row" style="margin-top:45px; padding-left: 38px;">
+	<!--<span class="slick text-warning" style="margin-left:20px"><i class="fa fa-info-circle"></i> Double-click on an item in the list to go to the details page for that site.</span>-->
+	<button class="btn btn-primary btn-sm pull-right" style="margin-bottom:5px"  ng-csv="itemsArray" filename="Table Data"><i class="fa fa-download"></i> Export to CSV</button>
+	
+	
+	<div class="col-md-12" style="margin-left:10px;" >
+		
+		<div class="gridStyle"  ng-grid="gridOptions"></div>
+	</div>
+
+</div>
