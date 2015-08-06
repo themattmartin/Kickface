@@ -1,8 +1,0 @@
-<div ng-show="returnedData && returnedData.length > 0" ng-class="{'panel': config.showPanel ,'panel-default': config.showPanel, 'widgetPrimary': config.bgColor == 'blue' &&  config.showPanel, 'widgetSuccess': config.bgColor == 'green' &&  config.showPanel, 'widgetInfo': config.bgColor == 'lightBlue' &&  config.showPanel, 'widgetWarning': config.bgColor == 'yellow' &&  config.showPanel, 'widgetDanger': config.bgColor == 'red' &&  config.showPanel,'widgetGray': config.bgColor == 'gray' &&  config.showPanel, 'darkGray': config.bgColor == 'darkGray' &&  config.showPanel}" ng-style="{'margin-top': config.marginTop, 'margin-bottom' : config.marginBottom, 'margin-right' : config.marginRight, 'margin-left' : config.marginLeft}" style="padding:10px">
-	<div ng-show="dataLoaded">
-		<highchart config="trendConfig"></highchart>
-	</div>
-	<div style="margin-bottom:10px"> 
-		<span style="margin-left:2px;font-size:12px;" ng-show="config.showCurrentValue" class="pull-left slick">{{ returnedData[0].Name }} : <strong class="text-primary">{{returnedData[0].Value | number:config.fractionSize}}</strong></span>
-	</div>
-</div>

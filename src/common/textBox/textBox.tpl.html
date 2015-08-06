@@ -1,8 +1,0 @@
-<div ng-class="{'panel': config.showPanel ,'panel-default': config.showPanel, 'widgetPrimary': config.bgColor == 'blue' &&  config.showPanel, 'widgetSuccess': config.bgColor == 'green' &&  config.showPanel, 'widgetInfo': config.bgColor == 'lightBlue' &&  config.showPanel, 'widgetWarning': config.bgColor == 'yellow' &&  config.showPanel, 'widgetDanger': config.bgColor == 'red' &&  config.showPanel,'widgetGray': config.bgColor == 'gray' &&  config.showPanel,'darkGray': config.bgColor == 'darkGray' &&  config.showPanel}" ng-style="{'margin-top': config.marginTop, 'margin-bottom' : config.marginBottom}">
-	<div ng-class="{'panel-body':config.showPanel}">
-		<div ng-class="{'panel-body': config.showPanel, 'text-left': config.buttonAlign =='left','text-center': config.buttonAlign=='center','text-right':config.buttonAlign=='right'}">
-			<span ng-class="[config.myLabelColor, config.titleTextLabel]"  ng-style="{'font-size':config.myLabelSize, 'font-weight': config.isBold, 'text-decoration': config.isDecorated}">{{config.content}}</span>
-		</div>
-	</div>
-</div>
-
