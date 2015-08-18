@@ -52,7 +52,7 @@ app.get('/', function (req, res) {
 });
 
 function redirectUnmatched(req, res) {
-  res.redirect("index.html#/dashboard/home/Site/");
+  res.redirect("index.html#/dashboard/home/");
 }
 
 http.createServer(app).listen(app.get('port'), function(){
