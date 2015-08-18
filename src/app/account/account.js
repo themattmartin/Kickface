@@ -1,3 +1,25 @@
+angular.module( 'kickface.account', [])
+
+
+/**
+* States (used to be Routes)
+*/
+.config(['$stateProvider', function($stateProvider) {
+	var home = {
+		name: 'auth.account',
+		url: '/account',
+		templateUrl: 'account/account.tpl.html',
+		controller: 'HomeCtrl', 
+		authRequired: true , 
+		resolve:{}
+	};
+
+	$stateProvider
+		.state(home)
+	;
+
+}])
+
 .controller('AccountCtrl', ['$scope', 'simpleLogin', 'fbutil', 'user', '$location',
     function($scope, simpleLogin, fbutil, user, $location) {
       // create a 3-way binding with the user profile object in Firebase
@@ -25,7 +47,7 @@
               $scope.msg = 'Password changed';
             }, function(err) {
               $scope.err = err;
-            })
+            });
         }
       };
 

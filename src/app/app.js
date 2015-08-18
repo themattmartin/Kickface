@@ -11,11 +11,10 @@ angular.module( 'kickface', [
   'firebase',
   'ui.bootstrap',
   'ngGrid',
-  'metisMenu',
   'mgcrea.ngStrap.affix',
   'mgcrea.ngStrap.tooltip',
   'mgcrea.ngStrap.popover',
-  'firebaseConfig',
+  //'firebaseConfig',
   'kickface.denied',
   'kickface.rootStates',
   'kickface.home',
@@ -42,8 +41,8 @@ angular.module( 'kickface', [
 
 }])
 
-.factory('loginService', ['$rootScope', 'webStorage', 'ActiveUser', '$state', function($rootScope, webStorage, ActiveUser, $state) {
-
+.factory('loginService', ['$rootScope', 'webStorage', '$state', function($rootScope, webStorage, $state) {
+	var currentUserKey = 'omniboard.user';
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
 		var state = '';
 		if(toState.parent){
@@ -229,7 +228,7 @@ return function(str, len){
 })
 
 // INITIALIZE AUTHENTICATION
-.run(['$rootScope', '$location', 'UserItem', 'ActiveUser', 'FirebaseRootRef', 'Settings', 'Locks', 'loginService', 'firebaseManager', function($rootScope, $location, UserItem, ActiveUser, FirebaseRootRef, Settings, Locks, loginService, firebaseManager) {
+.run(['$rootScope', '$location', 'loginService', 'firebaseManager', function($rootScope, $location, loginService, firebaseManager) {
 	$rootScope.loginService = loginService;
   // this ensures the timeouts are setting form the settings stored in firebase
 
