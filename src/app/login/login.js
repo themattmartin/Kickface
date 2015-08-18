@@ -1,72 +1,45 @@
-/**
-* Login Module for Omniboard
-*/
-angular.module( 'kickface.login', [])
+ .controller('LoginCtrl', ['$scope', 'simpleLogin', '$location', function($scope, simpleLogin, $location) {
+    $scope.email = null;
+    $scope.pass = null;
+    $scope.confirm = null;
+    $scope.createMode = false;
 
+    $scope.login = function(email, pass) {
+      $scope.err = null;
+      simpleLogin.login(email, pass)
+        .then(function(/* user */) {
+          $location.path('/account');
+        }, function(err) {
+          $scope.err = errMessage(err);
+        });
+    };
 
-/**
- * TO-DO: 
- *  - Refactor all firebase queries to use $firebase service (angularFire)
- *  - Move all queries into factory as a firebase wrapper
- */
+    $scope.createAccount = function() {
+      $scope.err = null;
+      if( assertValidAccountProps() ) {
+        simpleLogin.createAccount($scope.email, $scope.pass)
+          .then(function(/* user */) {
+            $location.path('/account');
+          }, function(err) {
+            $scope.err = errMessage(err);
+          });
+      }
+    };
 
-/**
- * Listen for Logout Events
- */
-.run(['$rootScope', 'FirebaseRootRef', '$state', function($rootScope, FirebaseRootRef, $state) {
+    function assertValidAccountProps() {
+      if( !$scope.email ) {
+        $scope.err = 'Please enter an email address';
+      }
+      else if( !$scope.pass || !$scope.confirm ) {
+        $scope.err = 'Please enter a password';
+      }
+      else if( $scope.createMode && $scope.pass !== $scope.confirm ) {
+        $scope.err = 'Passwords do not match';
+      }
+      return !$scope.err;
+    }
 
-	$rootScope.$on("logout:success", function(evt, stateLocation) {
-		$state.go(stateLocation);
-	});
-
-	$rootScope.logout = function() {
-		var user = $rootScope.loginService.getCurrentUser();
-		if (user) { $rootScope.$broadcast("logout:request", user.uid); }
-	};
-
-}])  
-
-
-/**
-* States (used to be Routes)
-*/
-.config(['$stateProvider', function($stateProvider) {
-	var loginState = {
-		name: 'noauth.login',
-		url: '/login',
-		templateUrl: 'login/form.tpl.html', 
-		controller: 'LoginCtrl', 
-		authRequired: false
-	};
-
-	var homeState = {
-		name: 'noauth.home',
-		url: '/',
-		templateUrl: 'login/form.tpl.html', 
-		controller: 'homeCtrl', 
-		authRequired: false
-	};
-
-	$stateProvider
-		.state(loginState)
-		.state(homeState)
-	;    
-}])
-
-
-/**
- * Controller
- */
-.controller('homeCtrl', ['$scope', '$location', '$rootScope', '$state', 'loginService', function($scope, $location, $rootScope, $state, loginService){
-	if(loginService.getCurrentUser() === null){
-		$state.transitionTo('noauth.login');
-	}else{
-		$state.go(stateLocation, { name: 'home', modelName: 'Site'});
-	}
-}])
-
-.controller('LoginCtrl', ['$scope', '$location', '$rootScope', 'FirebaseRootRef', '$cookieStore', '$firebase', 'addToDate', '$state', '$http', 'initialFirebaseChild', function($scope, $location, $rootScope, FirebaseRootRef, $cookieStores, $firebase, addToDate, $state, $http, initialFirebaseChild) {
-
-}])
-
-;
+    function errMessage(err) {
+      return angular.isObject(err) && err.code? err.code : err + '';
+    }
+  }])
