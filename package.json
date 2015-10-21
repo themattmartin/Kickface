@@ -1,0 +1,30 @@
+{
+  "author": "Kickface",
+  "name": "Kickface",
+  "version": "0.0.1",
+  "homepage": "http://www.Kickface.com",
+  "licenses": {
+    "type": "Commercial",
+    "url": "http://www.Kickface.com"
+  },  
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/themattmartin/Kickface"
+  },
+  "dependencies": {
+    "express": "4.13.3",
+    "errorhandler":"1.4.2",
+    "body-parser": "1.14.0",
+    "method-override": "2.3.5",
+    "path": "0.12.7",
+    "request" : "2.64.0",
+    "serve-favicon": "2.3.0",
+    "swig": "1.4.2"
+  },
+  "engines": {
+    "node": "4.1.2"
+  },
+  "private": true,  
+  "devDependencies": {
+  }
+}

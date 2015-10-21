@@ -1,0 +1,13 @@
+{
+  "name": "Kickface",
+  "version": "0.0.1",
+  "devDependencies": {
+    "angular": "1.4.6",
+    "angular-animate": "1.4.6",
+    "angular-ui-router": "0.2.15"
+  },
+  "dependencies": {
+  },
+  "resolutions": {
+  }
+}
